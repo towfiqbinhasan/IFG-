@@ -5,6 +5,7 @@ import Image from "next/image";
 import { format, isToday, isYesterday } from "date-fns";
 import {
   ArrowLeft,
+  AtSign,
   Copy,
   Download,
   FileText,
@@ -38,6 +39,12 @@ import {
   namePastedFile,
   otherMember,
   purgeConversationFiles,
+  EVERYONE,
+  encodeMentions,
+  mentionLabel,
+  mentionsToText,
+  mentionsUser,
+  parseMentions,
 } from "@/lib/chat";
 import { cn, formatBytes } from "@/lib/utils";
 import type { ConversationMember, ConversationSummary, Message } from "@/lib/types";
@@ -80,6 +87,10 @@ export function ChatThread({
   const [loading, setLoading] = useState(true);
   const [urls, setUrls] = useState<Record<string, string>>({});
   const [text, setText] = useState("");
+  // @mentions: the ones picked from the list, and the "@query" being typed right now.
+  const [picked, setPicked] = useState<{ label: string; id: string }[]>([]);
+  const [mention, setMention] = useState<{ start: number; query: string } | null>(null);
+  const [mentionIndex, setMentionIndex] = useState(0);
   const [files, setFiles] = useState<File[]>([]);
   const [sending, setSending] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -95,6 +106,16 @@ export function ChatThread({
   const byId = useMemo(() => Object.fromEntries(members.map((m) => [m.user_id, m.profile])), [members]);
   const peopleById = useMemo(() => Object.fromEntries(people.map((p) => [p.id, p])), [people]);
   const title = conversationTitle(conversation, members, meId);
+  const mentionables = useMemo(() => {
+    if (conversation.kind !== "group") return [];
+    const people = members
+      .filter((m) => m.user_id !== meId && m.profile)
+      .map((m) => ({ id: m.user_id, label: mentionLabel(m.profile!.full_name || m.profile!.username), hint: `@${m.profile!.username}`, avatar: m.profile!.avatar_url }));
+    return [{ id: EVERYONE, label: "everyone", hint: "Notify everyone in this group", avatar: null as string | null }, ...people];
+  }, [conversation.kind, members, meId]);
+  const mentionOptions = mention
+    ? mentionables.filter((c) => c.label.toLowerCase().includes(mention.query.toLowerCase()) || c.hint.toLowerCase().includes(mention.query.toLowerCase())).slice(0, 8)
+    : [];
   const other = conversation.kind === "direct" ? otherMember(members, meId) : null;
   const otherBlocked = conversation.kind === "direct" && other && peopleById[other.id]?.is_active === false;
   const canSend = isMember && !locked;
@@ -193,8 +214,36 @@ export function ChatThread({
     textarea.current?.focus();
   }
 
+  /** Open / update / close the @mention list from the text before the caret. */
+  function trackMention(value: string, caret: number | null) {
+    if (!mentionables.length || caret === null) return setMention(null);
+    const before = value.slice(0, caret);
+    const at = before.lastIndexOf("@");
+    if (at === -1 || (at > 0 && !/\s/.test(before[at - 1]!))) return setMention(null);
+    const query = before.slice(at + 1);
+    if (/[\s@]/.test(query) || query.length > 30) return setMention(null);
+    setMention((m) => (m && m.start === at && m.query === query ? m : { start: at, query }));
+    setMentionIndex(0);
+  }
+
+  function pickMention(c: { id: string; label: string }) {
+    if (!mention) return;
+    const el = textarea.current;
+    const caret = el?.selectionStart ?? text.length;
+    const insert = `@${c.label} `;
+    const next = text.slice(0, mention.start) + insert + text.slice(caret);
+    setText(next);
+    setPicked((p) => (p.some((x) => x.id === c.id) ? p : [...p, { label: c.label, id: c.id }]));
+    setMention(null);
+    const pos = mention.start + insert.length;
+    requestAnimationFrame(() => {
+      el?.focus();
+      el?.setSelectionRange(pos, pos);
+    });
+  }
+
   async function send() {
-    const body = text.trim();
+    const body = encodeMentions(text.trim(), picked);
     if ((!body && !files.length) || sending || !canSend) return;
     setSending(true);
     try {
@@ -224,6 +273,8 @@ export function ChatThread({
       resolveUrls(added);
       setText("");
       setFiles([]);
+      setPicked([]);
+      setMention(null);
       onChanged();
     } catch (err) {
       const e = err as { message?: string; code?: string };
@@ -368,6 +419,7 @@ export function ChatThread({
                     className={cn(
                       "max-w-[78%] rounded-2xl px-3 py-2 text-sm shadow-sm sm:max-w-[65%]",
                       mine ? "rounded-br-md bg-primary text-primary-foreground" : "rounded-bl-md bg-card",
+                      !mine && mentionsUser(m.body, meId) && "ring-2 ring-amber-400/70",
                     )}
                   >
                     {!mine && conversation.kind === "group" && !grouped && (
@@ -376,7 +428,7 @@ export function ChatThread({
                     {m.attachment_path && (
                       <Attachment m={m} url={url} mine={mine} />
                     )}
-                    {m.body && <p className="whitespace-pre-wrap break-words leading-relaxed">{m.body}</p>}
+                    {m.body && <MessageBody body={m.body} mine={mine} meId={meId} />}
                     <p className={cn("mt-0.5 text-right text-[10px]", mine ? "text-primary-foreground/70" : "text-muted-foreground")}>
                       {format(d, "HH:mm")}
                     </p>
@@ -421,10 +473,72 @@ export function ChatThread({
                 e.target.value = "";
               }}
             />
+            {mentionables.length > 0 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Mention someone"
+                title="Mention someone (@)"
+                onClick={() => {
+                  const el = textarea.current;
+                  const caret = el?.selectionStart ?? text.length;
+                  const needsSpace = caret > 0 && !/\s/.test(text[caret - 1]!);
+                  const next = text.slice(0, caret) + (needsSpace ? " @" : "@") + text.slice(caret);
+                  const pos = caret + (needsSpace ? 2 : 1);
+                  setText(next);
+                  setMention({ start: pos - 1, query: "" });
+                  setMentionIndex(0);
+                  requestAnimationFrame(() => {
+                    el?.focus();
+                    el?.setSelectionRange(pos, pos);
+                  });
+                }}
+              >
+                <AtSign />
+              </Button>
+            )}
+            <div className="relative flex-1">
+            {mention && mentionOptions.length > 0 && (
+              <ul
+                role="listbox"
+                aria-label="Mention someone"
+                className="absolute bottom-full left-0 z-20 mb-2 w-72 overflow-hidden rounded-xl border bg-popover p-1 shadow-xl"
+              >
+                <li className="px-2 pb-1 pt-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Mention</li>
+                {mentionOptions.map((c, i) => (
+                  <li key={c.id} role="option" aria-selected={i === mentionIndex}>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        pickMention(c);
+                      }}
+                      onMouseEnter={() => setMentionIndex(i)}
+                      className={cn("flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left", i === mentionIndex && "bg-accent")}
+                    >
+                      {c.id === EVERYONE ? (
+                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-forge text-white"><Users className="h-3.5 w-3.5" /></span>
+                      ) : (
+                        <UserAvatar name={c.label} src={c.avatar} className="h-7 w-7 text-[10px]" />
+                      )}
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-medium">@{c.label}</span>
+                        <span className="block truncate text-[11px] text-muted-foreground">{c.hint}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
             <Textarea
               ref={textarea}
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => {
+                setText(e.target.value);
+                trackMention(e.target.value, e.target.selectionStart);
+              }}
+              onSelect={(e) => trackMention(e.currentTarget.value, e.currentTarget.selectionStart)}
+              onBlur={() => setTimeout(() => setMention(null), 150)}
               onPaste={(e) => {
                 const pasted = Array.from(e.clipboardData.files);
                 if (pasted.length) {
@@ -433,6 +547,25 @@ export function ChatThread({
                 }
               }}
               onKeyDown={(e) => {
+                // While the @mention list is open, arrows move, Enter/Tab pick, Esc closes.
+                if (mention && mentionOptions.length) {
+                  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                    e.preventDefault();
+                    const d = e.key === "ArrowDown" ? 1 : -1;
+                    setMentionIndex((i) => (i + d + mentionOptions.length) % mentionOptions.length);
+                    return;
+                  }
+                  if ((e.key === "Enter" || e.key === "Tab") && !e.nativeEvent.isComposing) {
+                    e.preventDefault();
+                    pickMention(mentionOptions[Math.min(mentionIndex, mentionOptions.length - 1)]!);
+                    return;
+                  }
+                  if (e.key === "Escape") {
+                    e.preventDefault();
+                    setMention(null);
+                    return;
+                  }
+                }
                 // Enter sends, Shift+Enter = new line. Ignore Enter while an IME (e.g. Bangla) is composing.
                 if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
                   e.preventDefault();
@@ -441,14 +574,15 @@ export function ChatThread({
               }}
               rows={1}
               maxLength={4000}
-              placeholder="Type a message — paste or drop images and files here"
-              className="max-h-40 min-h-10 flex-1 resize-none py-2.5"
+              placeholder={mentionables.length ? "Type a message — @ to mention, paste or drop files" : "Type a message — paste or drop images and files here"}
+              className="max-h-40 min-h-10 w-full resize-none py-2.5"
             />
+            </div>
             <Button variant="forge" size="icon" onClick={send} loading={sending} disabled={!text.trim() && !files.length} aria-label="Send">
               {!sending && <SendHorizontal />}
             </Button>
           </div>
-          <p className="mt-1 hidden px-12 text-[11px] text-muted-foreground sm:block">Enter to send · Shift + Enter for a new line · up to {CHAT_MAX_MB} MB per file</p>
+          <p className="mt-1 hidden px-12 text-[11px] text-muted-foreground sm:block">Enter to send · Shift + Enter for a new line{mentionables.length ? " · @ to mention" : ""} · up to {CHAT_MAX_MB} MB per file</p>
         </div>
       ) : (
         <div className="border-t bg-card p-4 text-center text-sm text-muted-foreground">
@@ -504,6 +638,35 @@ export function ChatThread({
         />
       )}
     </section>
+  );
+}
+
+/** Message text with @mentions as highlighted chips (yours in amber). */
+function MessageBody({ body, mine, meId }: { body: string; mine: boolean; meId: string }) {
+  return (
+    <p className="whitespace-pre-wrap break-words leading-relaxed">
+      {parseMentions(body).map((part, i) =>
+        "text" in part ? (
+          <span key={i}>{part.text}</span>
+        ) : (
+          <span
+            key={i}
+            className={cn(
+              "rounded px-1 font-semibold",
+              part.id === meId || part.id === EVERYONE
+                ? mine
+                  ? "bg-white/25"
+                  : "bg-amber-400/25 text-amber-700 dark:text-amber-300"
+                : mine
+                  ? "bg-white/15"
+                  : "bg-primary/15 text-primary",
+            )}
+          >
+            @{part.mention}
+          </span>
+        ),
+      )}
+    </p>
   );
 }
 
@@ -567,7 +730,7 @@ function MessageMenu({ m, url, canDelete, onDelete }: { m: Message; url?: string
         {m.body && (
           <DropdownMenuItem
             onSelect={() => {
-              navigator.clipboard?.writeText(m.body ?? "");
+              navigator.clipboard?.writeText(mentionsToText(m.body ?? ""));
               toast.success("Copied");
             }}
           >

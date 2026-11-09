@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { differenceInCalendarDays } from "date-fns";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
-import { messagePreview } from "@/lib/chat";
+import { mentionsUser, messagePreview } from "@/lib/chat";
 import type { Message } from "@/lib/types";
 
 export interface DeadlineReminder {
@@ -138,11 +138,13 @@ export function NotificationsProvider({
         setUnread((u) => u + 1);
 
         const { data: sender } = await supabase.from("profiles").select("full_name").eq("id", m.sender_id ?? "").maybeSingle();
-        const title = sender?.full_name ?? "New message";
+        const mentioned = mentionsUser(m.body, userId);
+        const title = mentioned ? `${sender?.full_name ?? "Someone"} mentioned you` : sender?.full_name ?? "New message";
         const body = messagePreview(m);
         const open = () => router.push(`/messages?c=${m.conversation_id}`);
         if (document.visibilityState === "visible") {
-          toast(title, { description: body, action: { label: "Open", onClick: open } });
+          if (mentioned) toast.info(`@ ${title}`, { description: body, action: { label: "Open", onClick: open }, duration: 10_000 });
+          else toast(title, { description: body, action: { label: "Open", onClick: open } });
         } else {
           desktopNotify(title, body, open);
         }

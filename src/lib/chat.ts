@@ -44,13 +44,13 @@ export function otherMember(members: ConversationMember[], meId: string): Profil
 /** One-line preview of the last message. */
 export function previewText(c: Pick<ConversationSummary, "last_body" | "last_attachment_name" | "last_sender_id">, meId: string) {
   const who = c.last_sender_id === meId ? "You: " : "";
-  if (c.last_body) return who + c.last_body.replace(/\s+/g, " ");
+  if (c.last_body) return who + mentionsToText(c.last_body).replace(/\s+/g, " ");
   if (c.last_attachment_name) return `${who}📎 ${c.last_attachment_name}`;
   return "No messages yet";
 }
 
 export function messagePreview(m: Pick<Message, "body" | "attachment_name">) {
-  return m.body?.replace(/\s+/g, " ") || (m.attachment_name ? `📎 ${m.attachment_name}` : "New message");
+  return (m.body && mentionsToText(m.body).replace(/\s+/g, " ")) || (m.attachment_name ? `📎 ${m.attachment_name}` : "New message");
 }
 
 /** Safe storage object name for an uploaded chat file. */
@@ -82,4 +82,59 @@ export async function purgeConversationFiles(supabase: SupabaseClient, conversat
     for (const f of files ?? []) paths.push(`${conversationId}/${folder.name}/${f.name}`);
   }
   for (let i = 0; i < paths.length; i += 100) await bucket.remove(paths.slice(i, i + 100));
+}
+
+/* ---------------- @mentions ----------------
+ * Stored in the message body as  @[Display Name](<user uuid>)  or  @[everyone](all),
+ * so a mention keeps pointing at the right person even if they rename themselves.
+ * Everywhere text is shown, tokens render as "@Display Name".
+ */
+export const EVERYONE = "all";
+const MENTION_RE = /@\[([^\]\n]{1,80})\]\(([0-9a-f-]{36}|all)\)/g;
+
+export type BodyPart = { text: string } | { mention: string; id: string };
+
+/** Split a body into plain text and mention parts (for rendering). */
+export function parseMentions(body: string): BodyPart[] {
+  const parts: BodyPart[] = [];
+  let last = 0;
+  for (const m of body.matchAll(MENTION_RE)) {
+    if (m.index! > last) parts.push({ text: body.slice(last, m.index) });
+    parts.push({ mention: m[1]!, id: m[2]! });
+    last = m.index! + m[0].length;
+  }
+  if (last < body.length) parts.push({ text: body.slice(last) });
+  return parts;
+}
+
+/** "@[Nusrat](uuid) hi" -> "@Nusrat hi" */
+export function mentionsToText(body: string) {
+  return body.replace(MENTION_RE, (_, name) => `@${name}`);
+}
+
+/** True if the body mentions this user directly or via @everyone. */
+export function mentionsUser(body: string | null | undefined, userId: string) {
+  if (!body) return false;
+  for (const m of body.matchAll(MENTION_RE)) if (m[2] === userId || m[2] === EVERYONE) return true;
+  return false;
+}
+
+/** Name safe to put inside a token (no brackets / newlines). */
+export function mentionLabel(name: string) {
+  return name.replace(/[[\]\n]/g, "").trim().slice(0, 80) || "member";
+}
+
+/**
+ * Turn the composer's readable "@Name" text into tokens, using the mentions the
+ * user actually picked from the list (longest names first so "@Nusrat Jahan"
+ * wins over "@Nusrat").
+ */
+export function encodeMentions(text: string, picked: { label: string; id: string }[]) {
+  const unique = Array.from(new Map(picked.map((p) => [p.label, p])).values()).sort((a, b) => b.label.length - a.label.length);
+  let out = text;
+  for (const p of unique) {
+    const esc = p.label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    out = out.replace(new RegExp(`(^|[^\\w@])@${esc}(?![\\w])`, "g"), (_, pre) => `${pre}@[${p.label}](${p.id})`);
+  }
+  return out;
 }
