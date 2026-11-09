@@ -44,6 +44,8 @@ export const STATUS_STYLES: Record<string, string> = {
   Submitted: "bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-200",
   Accepted: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200",
   Rejected: "bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-200",
+  Active: "bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200",
+  Paused: "bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
 };
 
 /** Categorical series colours (validated colour-blind-safe order). Index = slot. */
@@ -57,3 +59,9 @@ export const SERIES_VARS = [
   "var(--series-7)",
   "var(--series-8)",
 ];
+
+/** Preparation (progress tracker) categories & statuses - must match migration 003. */
+export const PREP_CATEGORIES = ["Topic study", "Paper writing", "Experiment", "Exam / Course", "Skill", "Other"] as const;
+export type PrepCategory = (typeof PREP_CATEGORIES)[number];
+export const PREP_STATUSES = ["Active", "Paused", "Completed"] as const;
+export type PrepStatus = (typeof PREP_STATUSES)[number];

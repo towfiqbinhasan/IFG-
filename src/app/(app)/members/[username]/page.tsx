@@ -8,7 +8,9 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { MemberStats } from "@/components/members/member-stats";
 import { PaperList } from "@/components/papers/paper-list";
 import { getSessionProfile } from "@/lib/session";
-import { PAPER_SELECT, normalizePapers } from "@/lib/queries";
+import { PAPER_SELECT, PREP_SELECT, normalizePapers, normalizePreps } from "@/lib/queries";
+import { PrepCard } from "@/components/progress/prep-card";
+import { StaggerItem, StaggerList } from "@/components/shared/motion";
 import type { Profile, Topic } from "@/lib/types";
 
 /** Public (read-only) member profile with their dashboard and papers. */
@@ -18,10 +20,12 @@ export default async function MemberProfilePage({ params }: { params: { username
   if (!p) notFound();
   const member = p as Profile;
 
-  const [{ data: rows }, { data: topics }] = await Promise.all([
+  const [{ data: rows }, { data: topics }, { data: prepRows }] = await Promise.all([
     supabase.from("papers").select(PAPER_SELECT).eq("user_id", member.id).order("created_at", { ascending: false }),
     supabase.from("topics").select("*").order("name"),
+    supabase.from("preparations").select(PREP_SELECT).eq("user_id", member.id).order("updated_at", { ascending: false }),
   ]);
+  const preps = normalizePreps(prepRows);
   const papers = normalizePapers(rows);
   const isMe = member.id === me.id;
 
@@ -55,6 +59,17 @@ export default async function MemberProfilePage({ params }: { params: { username
       </Card>
 
       <MemberStats papers={papers} />
+
+      {preps.length > 0 && (
+        <section>
+          <h2 className="mb-3 font-display text-lg font-bold">{isMe ? "My preparations" : `${member.full_name.split(" ")[0]}'s preparations`}</h2>
+          <StaggerList className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {preps.map((p) => (
+              <StaggerItem key={p.id}><PrepCard prep={p} currentUserId={me.id} showAuthor={false} /></StaggerItem>
+            ))}
+          </StaggerList>
+        </section>
+      )}
 
       <section>
         <h2 className="mb-3 text-lg font-semibold">{isMe ? "My papers" : `${member.full_name.split(" ")[0]}'s papers`}</h2>

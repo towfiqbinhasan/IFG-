@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
-import { BookPlus, CheckCircle2, Target } from "lucide-react";
+import { BookPlus, CheckCircle2, Target, TrendingUp } from "lucide-react";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -11,17 +11,19 @@ import type { ProfileLite } from "@/lib/types";
 
 export interface ActivityItem {
   id: string;
-  kind: "paper" | "completed" | "submission";
+  kind: "paper" | "completed" | "submission" | "progress";
   at: string;
   author: ProfileLite | null;
   title: string;
   href: string;
   status?: string;
   context?: string;
+  /** Progress updates show their new percentage. */
+  percent?: number;
 }
 
-const ICON = { paper: BookPlus, completed: CheckCircle2, submission: Target };
-const VERB = { paper: "logged", completed: "finished reading", submission: "plans to submit" };
+const ICON = { paper: BookPlus, completed: CheckCircle2, submission: Target, progress: TrendingUp };
+const VERB = { paper: "logged", completed: "finished reading", submission: "plans to submit", progress: "made progress on" };
 
 /** Vertical timeline of recent lab activity. */
 export function ActivityFeed({ items }: { items: ActivityItem[] }) {
@@ -55,7 +57,11 @@ export function ActivityFeed({ items }: { items: ActivityItem[] }) {
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">{formatDistanceToNow(new Date(it.at), { addSuffix: true })}</p>
               </div>
-              {it.status && <StatusBadge status={it.status} className="hidden sm:inline-flex" />}
+              {it.percent !== undefined ? (
+                <span className="hidden shrink-0 rounded-full bg-forge px-2 py-0.5 text-xs font-bold text-white sm:inline-flex">{it.percent}%</span>
+              ) : (
+                it.status && <StatusBadge status={it.status} className="hidden sm:inline-flex" />
+              )}
             </div>
           </motion.li>
         );

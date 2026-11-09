@@ -31,9 +31,12 @@ Five stages. Do them in order:
    > file. You can also keep `ChangeMe!2024`: the app makes the admin change it on first login.
 
    > **Updating an existing project?** Also run any files in `supabase/migrations/` that you
-   > haven't run yet, in number order. For example, `002_password_reset_requests.sql` adds the
-   > "Forgot password" requests. A fresh install doesn't need them, because `schema.sql`
-   > already includes them.
+   > haven't run yet, in number order:
+   >
+   > - `002_password_reset_requests.sql` adds the "Forgot password" requests.
+   > - `003_preparations.sql` adds progress tracking.
+   >
+   > A fresh install doesn't need them, because `schema.sql` already includes them.
 
 3. **Lock down sign-ups.** Under **Authentication → Sign In / Providers**:
    - Turn **off** "Allow new users to sign up". Only admins create accounts, through the app.

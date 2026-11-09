@@ -1,4 +1,4 @@
-import type { PaperWithRelations } from "./types";
+import type { PaperWithRelations, PreparationWithRelations } from "./types";
 
 /**
  * Shared PostgREST select strings so every page joins the same shape.
@@ -22,3 +22,23 @@ export function normalizePapers(rows: unknown[] | null): PaperWithRelations[] {
     topics: (paper_topics ?? []).map((pt) => pt.topics).filter(Boolean) as PaperWithRelations["topics"],
   }));
 }
+
+export const PREP_SELECT =
+  "*, author:profiles!preparations_user_id_fkey(id, username, full_name, avatar_url), topic:topics(id, name, color), updates:preparation_updates(*)";
+
+/** Sort each preparation's updates newest-first. */
+export function normalizePreps(rows: unknown[] | null): PreparationWithRelations[] {
+  return ((rows ?? []) as PreparationWithRelations[]).map((p) => ({
+    ...p,
+    updates: [...(p.updates ?? [])].sort((a, b) => b.created_at.localeCompare(a.created_at)),
+  }));
+}
+
+/** True when a Supabase error means "table doesn't exist yet" (migration not run). */
+export function isMissingTable(error: { code?: string } | null | undefined) {
+  return error?.code === "PGRST205" || error?.code === "42P01";
+}
+
+/** Progress updates joined to their preparation + author, for feeds. */
+export const PREP_UPDATE_FEED_SELECT =
+  "*, preparation:preparations(id, title, progress, author:profiles!preparations_user_id_fkey(id, username, full_name, avatar_url), topic:topics(id, name, color))";

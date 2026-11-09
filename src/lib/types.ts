@@ -1,4 +1,4 @@
-import type { PaperStatus, PaperType, ReadMethod, SubmissionStatus, VenueType } from "./constants";
+import type { PaperStatus, PaperType, PrepCategory, PrepStatus, ReadMethod, SubmissionStatus, VenueType } from "./constants";
 
 export type Role = "admin" | "member";
 
@@ -107,4 +107,34 @@ export interface PasswordResetRequest {
   created_at: string;
   resolved_at: string | null;
   resolved_by: string | null;
+}
+
+export interface PreparationUpdate {
+  id: string;
+  preparation_id: string;
+  user_id: string;
+  progress: number;
+  note: string | null;
+  created_at: string;
+}
+
+export interface Preparation {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string | null;
+  category: PrepCategory;
+  topic_id: string | null;
+  target_date: string | null;
+  progress: number;
+  status: PrepStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Preparation as returned by PREP_SELECT (author, topic and update timeline joined). */
+export interface PreparationWithRelations extends Preparation {
+  author: ProfileLite | null;
+  topic: Pick<Topic, "id" | "name" | "color"> | null;
+  updates: PreparationUpdate[];
 }

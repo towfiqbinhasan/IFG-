@@ -12,10 +12,22 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { ChartCard } from "@/components/charts/chart-card";
 import { HorizontalBarChart } from "@/components/charts/horizontal-bar-chart";
 import { cn } from "@/lib/utils";
-import type { PaperWithRelations, Topic } from "@/lib/types";
+import type { PaperWithRelations, PreparationWithRelations, Topic } from "@/lib/types";
+import { ProgressBar } from "@/components/progress/progress-bar";
 
 /** Topics with paper counts, who is reading what, and an expandable paper list. */
-export function TopicsView({ topics, papers, initialTopic }: { topics: Topic[]; papers: PaperWithRelations[]; initialTopic?: string }) {
+export function TopicsView({
+  topics,
+  papers,
+  preps = [],
+  initialTopic,
+}: {
+  topics: Topic[];
+  papers: PaperWithRelations[];
+  /** Preparations linked to topics (progress on each topic). */
+  preps?: PreparationWithRelations[];
+  initialTopic?: string;
+}) {
   const [open, setOpen] = useState<string | null>(initialTopic ?? null);
   const [q, setQ] = useState("");
 
@@ -26,10 +38,10 @@ export function TopicsView({ topics, papers, initialTopic }: { topics: Topic[]; 
           const ps = papers.filter((p) => p.topics.some((x) => x.id === t.id));
           const readers = new Map<string, NonNullable<PaperWithRelations["author"]>>();
           ps.forEach((p) => p.author && readers.set(p.author.id, p.author));
-          return { topic: t, papers: ps, readers: Array.from(readers.values()) };
+          return { topic: t, papers: ps, readers: Array.from(readers.values()), preps: preps.filter((x) => x.topic_id === t.id) };
         })
         .sort((a, b) => b.papers.length - a.papers.length || a.topic.name.localeCompare(b.topic.name)),
-    [topics, papers],
+    [topics, papers, preps],
   );
 
   const shown = rows.filter((r) => !q || r.topic.name.toLowerCase().includes(q.toLowerCase()));
@@ -55,6 +67,7 @@ export function TopicsView({ topics, papers, initialTopic }: { topics: Topic[]; 
                     <p className="truncate font-medium">{r.topic.name}</p>
                     <p className="text-xs text-muted-foreground">
                       {r.papers.length} paper{r.papers.length === 1 ? "" : "s"} · {r.readers.length} reader{r.readers.length === 1 ? "" : "s"}
+                      {r.preps.length > 0 && ` · ${r.preps.length} in progress`}
                     </p>
                   </div>
                   <div className="hidden -space-x-2 sm:flex">
@@ -66,6 +79,23 @@ export function TopicsView({ topics, papers, initialTopic }: { topics: Topic[]; 
                   {isOpen && (
                     <motion.div initial={{ height: 0 }} animate={{ height: "auto" }} exit={{ height: 0 }} className="overflow-hidden">
                       <div className="space-y-3 border-t p-4">
+                        {r.preps.length > 0 && (
+                          <div className="space-y-2 rounded-lg bg-muted/50 p-3">
+                            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Who&apos;s working on it</p>
+                            {r.preps.map((x) => (
+                              <Link key={x.id} href={`/progress/${x.id}`} className="flex items-center gap-2 rounded-md p-1 hover:bg-accent">
+                                <UserAvatar name={x.author?.full_name} src={x.author?.avatar_url} className="h-6 w-6 text-[10px]" />
+                                <div className="min-w-0 flex-1">
+                                  <p className="truncate text-sm">
+                                    <span className="font-medium">{x.author?.full_name}</span>
+                                    <span className="text-muted-foreground"> · {x.title}</span>
+                                  </p>
+                                  <ProgressBar value={x.progress} size="sm" className="mt-1" />
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
                         {r.readers.length > 0 && (
                           <div className="flex flex-wrap gap-2">
                             {r.readers.map((a) => (

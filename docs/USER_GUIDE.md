@@ -115,6 +115,34 @@ The dashboard shows:
 | **Activity** | The latest papers and submission plans across the lab |
 | **Lab Stats** | Lab-wide counters and charts |
 
+### Track your progress (preparations)
+
+Use **Progress** to share what you're working towards. Examples:
+
+- mastering a topic
+- writing a paper
+- an experiment
+- an exam or course
+- a new skill
+
+On a phone, **Progress** is in the bottom bar. On a computer, it's in the sidebar.
+
+1. Tap **New preparation**. Fill in a title and category, and optionally a research topic, a
+   target date, a starting percentage and a description.
+2. As you work, open it and tap **Post update**. Drag the slider to your new percentage (or
+   tap 10/25/50/75/100%) and write what you did.
+3. At **100%** it's marked **Completed** automatically.
+
+**Everyone in the lab** can see your preparations and their timelines:
+
+- on the **Progress** board, filterable by member, topic and status
+- on your **profile**
+- on each **topic** under "Who's working on it"
+- in the **Activity** feed
+
+Your dashboard shows your own preparations and the latest updates from the lab. Only you can
+edit your preparations; admins can delete them if needed.
+
 ### Deadlines and submissions
 
 - **Deadlines** lists conferences and journals by their nearest deadline, with a **live

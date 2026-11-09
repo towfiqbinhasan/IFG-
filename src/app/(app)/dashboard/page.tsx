@@ -10,9 +10,12 @@ import { MemberStats } from "@/components/members/member-stats";
 import { PaperCard } from "@/components/papers/paper-card";
 import { DeadlineCard } from "@/components/venues/deadline-card";
 import { getSessionProfile } from "@/lib/session";
-import { PAPER_SELECT, SUBMISSION_SELECT, normalizePapers } from "@/lib/queries";
+import { PAPER_SELECT, PREP_SELECT, PREP_UPDATE_FEED_SELECT, SUBMISSION_SELECT, isMissingTable, normalizePapers, normalizePreps } from "@/lib/queries";
+import { PrepCard } from "@/components/progress/prep-card";
+import { PrepFormDialog } from "@/components/progress/prep-form-dialog";
+import { ProgressFeed, type FeedUpdate } from "@/components/progress/progress-feed";
 import { upcomingDeadlines } from "@/lib/deadlines";
-import type { SubmissionWithRelations, Venue } from "@/lib/types";
+import type { SubmissionWithRelations, Topic, Venue } from "@/lib/types";
 import { brand } from "@/config/brand";
 
 export const metadata = { title: "Dashboard" };
@@ -24,12 +27,17 @@ function greeting() {
 
 export default async function DashboardPage() {
   const { supabase, profile } = await getSessionProfile();
-  const [{ data: rows }, { data: venues }, { data: subs }] = await Promise.all([
+  const [{ data: rows }, { data: venues }, { data: subs }, { data: prepRows, error: prepError }, { data: labUpdates }, { data: topics }] = await Promise.all([
     supabase.from("papers").select(PAPER_SELECT).eq("user_id", profile.id).order("created_at", { ascending: false }),
     supabase.from("venues").select("*"),
     supabase.from("submissions").select(SUBMISSION_SELECT).eq("user_id", profile.id).order("updated_at", { ascending: false }),
+    supabase.from("preparations").select(PREP_SELECT).eq("user_id", profile.id).neq("status", "Completed").order("updated_at", { ascending: false }),
+    supabase.from("preparation_updates").select(PREP_UPDATE_FEED_SELECT).order("created_at", { ascending: false }).limit(6),
+    supabase.from("topics").select("id, name").order("name"),
   ]);
   const papers = normalizePapers(rows);
+  const myPreps = normalizePreps(prepRows);
+  const progressReady = !isMissingTable(prepError);
 
   // Unique venues ordered by their nearest upcoming submission deadline.
   const seen = new Set<string>();
@@ -59,6 +67,52 @@ export default async function DashboardPage() {
       />
 
       <MemberStats papers={papers} />
+
+      {progressReady && (
+        <div className="grid gap-6 lg:grid-cols-3">
+          <section className="lg:col-span-2">
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h2 className="font-display text-lg font-bold">My preparations</h2>
+              <div className="flex items-center gap-3">
+                <PrepFormDialog
+                  topics={(topics ?? []) as Pick<Topic, "id" | "name">[]}
+                  userId={profile.id}
+                  trigger={<Button size="sm" variant="outline"><Plus /> New</Button>}
+                />
+                <Link href="/progress" className="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                  Lab progress <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+            {myPreps.length ? (
+              <StaggerList className="grid gap-3 sm:grid-cols-2">
+                {myPreps.slice(0, 4).map((p) => (
+                  <StaggerItem key={p.id}><PrepCard prep={p} currentUserId={profile.id} showAuthor={false} /></StaggerItem>
+                ))}
+              </StaggerList>
+            ) : (
+              <EmptyState
+                illustration="activity"
+                title="Track what you're preparing"
+                description="Add a goal — a topic to master, a paper to write, an exam — and post progress updates. The whole lab can follow along."
+                action={
+                  <PrepFormDialog
+                    topics={(topics ?? []) as Pick<Topic, "id" | "name">[]}
+                    userId={profile.id}
+                    trigger={<Button variant="forge"><Plus /> New preparation</Button>}
+                  />
+                }
+              />
+            )}
+          </section>
+          <section>
+            <Card>
+              <CardHeader><CardTitle>Latest lab updates</CardTitle></CardHeader>
+              <CardContent><ProgressFeed updates={(labUpdates ?? []) as unknown as FeedUpdate[]} compact /></CardContent>
+            </Card>
+          </section>
+        </div>
+      )}
 
       <section>
         <div className="mb-3 flex items-center justify-between">
