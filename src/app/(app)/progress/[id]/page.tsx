@@ -9,7 +9,7 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { ProgressBar } from "@/components/progress/progress-bar";
 import { PrepTimeline } from "@/components/progress/prep-timeline";
 import { PrepActions } from "@/components/progress/prep-actions";
-import { targetLabel } from "@/components/progress/prep-card";
+import { targetLabel } from "@/lib/progress";
 import { getSessionProfile } from "@/lib/session";
 import { PREP_SELECT, normalizePreps } from "@/lib/queries";
 import type { Topic } from "@/lib/types";
