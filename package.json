@@ -12,7 +12,8 @@
     "icons": "node scripts/generate-icons.mjs",
     "cap:sync": "cap sync android",
     "cap:open": "cap open android",
-    "android:assets": "npx --yes @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#050c1b' --splashBackgroundColor '#ffffff' --splashBackgroundColorDark '#050c1b'"
+    "android:assets": "npx --yes @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#050c1b' --splashBackgroundColor '#ffffff' --splashBackgroundColorDark '#050c1b'",
+    "manual:pdf": "node scripts/build-manual-pdf.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^6.2.0",
@@ -53,6 +54,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.33",
+    "marked": "^12.0.2",
     "postcss": "^8.4.49",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.15",

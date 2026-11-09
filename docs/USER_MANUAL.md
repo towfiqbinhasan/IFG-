@@ -5,8 +5,8 @@
 🌐 **Language:** English · [বাংলা](USER_MANUAL.bn.md)
 
 This manual explains how to use the Paper Tracker on a **computer** (laptop or desktop) in a
-web browser such as Chrome, Edge or Firefox. Members should read sections 1–10. Admins should
-also read section 11.
+web browser such as Chrome, Edge or Firefox. Members should read sections 1–12. Admins should
+also read section 13.
 
 ---
 
@@ -20,10 +20,12 @@ also read section 11.
 6. [Logging a paper](#6-logging-a-paper)
 7. [Research topics: who reads what](#7-research-topics-who-reads-what)
 8. [Progress: sharing your goals](#8-progress-sharing-your-goals)
-9. [Deadlines and submissions](#9-deadlines-and-submissions)
-10. [Exploring the lab](#10-exploring-the-lab)
-11. [For admins](#11-for-admins)
-12. [Common questions](#12-common-questions)
+9. [Deadlines, submissions and posters](#9-deadlines-submissions-and-posters)
+10. [Messages: chat with the lab](#10-messages-chat-with-the-lab)
+11. [Notifications and reminders](#11-notifications-and-reminders)
+12. [Exploring the lab](#12-exploring-the-lab)
+13. [For admins](#13-for-admins)
+14. [Common questions](#14-common-questions)
 
 ---
 
@@ -38,6 +40,7 @@ The screen has two fixed parts: a **sidebar** on the left and a **top bar**.
 | **Dashboard** | Your home page: your numbers, goals, deadlines and what the lab is reading |
 | **My Papers** | Every paper you have logged |
 | **Progress** | Goals people in the lab are working towards, with progress updates |
+| **Messages** | Chat with members one-to-one or in groups. A red number shows unread messages. |
 | **Deadlines** | Conference and journal deadlines, with countdowns |
 | **Explore** | Search all papers in the lab |
 | **Members** | Everyone in the lab and what they read |
@@ -48,8 +51,9 @@ The screen has two fixed parts: a **sidebar** on the left and a **top bar**.
 
 **Top bar (top right):**
 
-- **🔔 Bell:** deadlines due in the next 7 days. Admins also see password requests here. A red
-  number shows how many items there are.
+- **🔔 Bell:** unread messages and deadlines due in the next 7 days. Admins also see password
+  requests here. A red number shows how many items there are. The bell also has **Turn on
+  desktop notifications** (see section 11).
 - **☾ / ☀:** switches between dark and light mode.
 - **Your photo or initials:** opens a menu with **Profile & settings**, **Change password** and
   **Sign out**.
@@ -140,7 +144,8 @@ first paper.
 
 **Right-hand column**
 
-- **Next deadlines:** the three nearest conference or journal deadlines, with a countdown
+- **Next deadlines:** the three nearest conference or journal deadlines, with a countdown and
+  the poster thumbnail. **+ Add** adds a new venue (see section 9).
 - **Lab pulse:** papers logged by the whole lab in the last 30 days, how many people are
   reading, and the **trending topics**. Click a topic to open its page.
 - **Latest lab updates:** recent progress updates from everyone
@@ -245,7 +250,7 @@ Your updates appear on the **Progress** board, on your profile, on the topic's p
 
 ---
 
-## 9. Deadlines and submissions
+## 9. Deadlines, submissions and posters
 
 Open **Deadlines**. Venues are sorted by their nearest deadline, with a live countdown:
 
@@ -264,11 +269,113 @@ You can:
 title and status (Planning, Writing, Submitted, Accepted or Rejected), and update it as you go.
 It appears under **My submissions** on your dashboard.
 
-If your admin allows it, you can also **add a venue**. You can edit only the venues you added.
+### Adding a conference or journal (with a poster)
+
+1. Click **Add venue** on the Deadlines page, or **+ Add** under *Next deadlines* on the
+   dashboard.
+2. Enter the **Name** (for example "BLP 2027"), **Type**, **Field / topic**, **Website** and
+   **Location**.
+3. Fill in the dates you know: **Abstract deadline**, **Full paper deadline**, **Notification
+   date** and **Camera-ready date**. Dates are in your own time zone.
+4. **Poster / image (optional):** click **Choose image** and pick the conference poster,
+   call-for-papers image or logo (PNG, JPG, WebP or GIF, up to **10 MB**). A preview appears.
+5. Add **Notes** if useful (page limit, template link, AoE time…), then click **Add venue**.
+
+The poster appears as a small picture on the deadline cards and large at the top of the venue
+page. Click it there to open it full size. To change or remove it, open the venue and click
+**Edit**.
+
+Members can add venues when the admin has switched on **"Members can add conferences &
+journals"** (it is on by default). You can edit or delete only the venues you added. Admins can
+edit or delete any venue.
 
 ---
 
-## 10. Exploring the lab
+## 10. Messages: chat with the lab
+
+**Messages** works like WhatsApp, inside the lab tracker. Open it from the sidebar.
+
+### The screen
+
+- **Left:** your chats, newest first. Each row shows the last message and its time. Bold text
+  and a blue number mean unread messages. A 🔒 means an admin has blocked that chat.
+- **Right:** the open chat. Your messages are on the right in blue; other people's are on the
+  left.
+
+### Start a chat
+
+- **One-to-one:** click the blue **✚ (New chat)** button and pick a person. Admins are listed
+  first. You can also open someone's profile from **Members** and click **Message**.
+- **Message an admin:** click **Message an admin** under the search box.
+- **Group:** click the **👥 (New group)** button, type a **Group name**, tick the members and
+  click **Create group**. You become the group's **owner**.
+
+### Send messages, images and files
+
+- Type in the box at the bottom and press **Enter** to send. **Shift + Enter** starts a new
+  line. Bangla typing works normally.
+- **Paste a screenshot or image:** copy it (for example with the Print Screen key or "Copy
+  image"), click in the message box and press **Ctrl + V**.
+- **Drag and drop:** drag files from your computer onto the chat.
+- **📎 Attach:** pick files from your computer.
+
+You can send **images** (PNG, JPG, WebP, GIF), **PDFs**, **Word, Excel and PowerPoint**
+files, **text/CSV** and **ZIP**, up to **25 MB** each and up to 10 at a time. Files are listed
+above the box before sending. Click **×** to remove one. Any text you type is sent with the
+first file.
+
+Images show inside the chat. Click one to open it full size. PDFs and documents show as a file
+card. Click it to open or download.
+
+### Message options
+
+Hover over a message and click **⋮**:
+
+- **Copy text**
+- **Open / download** (for files)
+- **Delete:** removes **your own** message for everyone. Admins can delete any message.
+
+### Group info
+
+In a group, click **ⓘ** at the top right to see the members. The **owner** (and admins) can
+**rename** the group, **Add people** and remove members. Anyone can **Leave group**. If the
+owner leaves, the longest-standing member becomes the new owner.
+
+> **Privacy:** chats are visible only to their members **and to lab admins**, who can read
+> chats for moderation. Don't share passwords or other secrets in chat.
+
+---
+
+## 11. Notifications and reminders
+
+**In the app**
+
+- The **🔔 bell** counts unread messages and deadlines in the next 7 days. Click it to see
+  them, then click an item to open it.
+- **Messages** in the sidebar shows your unread count.
+- When a message arrives while you're on another page, a small pop-up appears at the bottom of
+  the screen with an **Open** button.
+
+**Deadline reminders.** The app reminds you about abstract and full-paper deadlines **7 days,
+3 days, 1 day and on the day**. Each reminder is shown once, as a pop-up when you open the
+app.
+
+**Desktop notifications.** You can also get notifications even when the tab is in the
+background:
+
+1. Click the **🔔 bell** and choose **Turn on desktop notifications**.
+2. When the browser asks, click **Allow**.
+
+From then on, new messages and deadline reminders appear as notifications from your operating
+system.
+
+> Desktop notifications work while the Paper Tracker is open in a browser tab. It can be in
+> the background or minimised, but not closed. If you clicked **Block** by mistake, click the
+> 🔒 icon at the left of the address bar, set **Notifications** to **Allow**, and reload.
+
+---
+
+## 12. Exploring the lab
 
 | Page | How to use it |
 |---|---|
@@ -279,13 +386,13 @@ If your admin allows it, you can also **add a venue**. You can edit only the ven
 
 ---
 
-## 11. For admins
+## 13. For admins
 
 Only accounts with the **Admin** role can do the things in this section. Members don't see the
 **Admin** or **Manage users** links, can't open those pages, and the server rejects their
 requests.
 
-### 11.1 The admin overview on the dashboard
+### 13.1 The admin overview on the dashboard
 
 Admins see an extra row on the dashboard. Click any tile to jump to the admin pages.
 
@@ -296,7 +403,7 @@ Admins see an extra row on the dashboard. Click any tile to jump to the admin pa
 | **Password requests** | Turns yellow when someone is waiting for a reset |
 | **Blocked** | Blocked accounts |
 
-### 11.2 Manage users
+### 13.2 Manage users
 
 Open **Manage users** in the sidebar, or **Admin → Users**.
 
@@ -326,7 +433,7 @@ these buttons:
 > **Changing a username:** the person signs in with the **new** username from then on, and
 > their password stays the same. Tell them about the change.
 
-### 11.3 Create a user
+### 13.3 Create a user
 
 1. **Manage users → Create user**.
 2. Type the **full name**. A username like `Rahim.IFL.04` is suggested, and you can change it.
@@ -336,7 +443,7 @@ these buttons:
 5. Click **Create account**. The username and password are shown **once**. Click **Copy** and
    send them to the person privately.
 
-### 11.4 Password requests
+### 13.4 Password requests
 
 When someone uses **Forgot password?**, the request shows under the **🔔 bell** and at the top
 of **Manage users**.
@@ -347,7 +454,7 @@ of **Manage users**.
 
 You can also reset anyone's password at any time from **⋮ → Reset password**.
 
-### 11.5 Other admin pages
+### 13.5 Other admin pages
 
 Open **Admin** in the sidebar. The tabs along the top are:
 
@@ -358,10 +465,30 @@ Open **Admin** in the sidebar. The tabs along the top are:
 | **Papers** | Search every paper and delete duplicates or mistakes |
 | **Topics** | Create, rename, recolour or delete topics. Deleting a topic only removes the tag; papers stay. |
 | **Venues** | Add, edit or delete conferences and journals |
+| **Chats** | Every chat in the lab: read, block and delete (see 13.6) |
+
+### 13.6 Moderating chats
+
+Open **Admin → Chats**. Every direct chat and group in the lab is listed, with its members,
+the number of messages and the last activity. Use the search box and the **All / Direct /
+Groups / Blocked** filters to find one.
+
+| Button | What it does |
+|---|---|
+| 👁 **View** | Opens the chat so you can read it. Hover a message and use **⋮ → Delete** to remove it. |
+| 🔒 **Block** | Nobody can send new messages in that chat. Members can still read it and see that it is blocked. |
+| 🔓 **Unblock** | Allows messages again |
+| 🗑️ **Delete** | **Permanently** deletes the chat with all its messages and files, for everyone |
+
+You can do the same from inside any chat you are in, with the **⋮** menu at the top right.
+
+> **Blocking a chat vs. blocking a person:** blocking a chat only stops messages in that chat.
+> To stop someone using the app entirely, block their account in **Manage users** (13.2). A
+> blocked account can't send messages anywhere.
 
 ---
 
-## 12. Common questions
+## 14. Common questions
 
 **My charts say "No data yet".**
 You haven't logged a paper yet. Log one, set **Status = Completed** and fill in **Date read**.
@@ -381,6 +508,19 @@ Only PDF files up to **50 MB** are accepted.
 
 **I was signed out and can't sign in.**
 Your account may be blocked, or your password was reset. Contact your lab admin.
+
+**Messages doesn't appear in my sidebar.**
+Chat hasn't been set up yet. Ask your admin to run the latest database update.
+
+**I can't send messages in a chat.**
+An admin has blocked that chat (you'll see 🔒 **Blocked**), or you are no longer in the group.
+
+**My file won't send.**
+Files must be under 25 MB and be an image, PDF, Office document, text/CSV or ZIP.
+
+**I don't get desktop notifications.**
+Turn them on from the 🔔 bell, and keep the Paper Tracker open in a tab. Check that the browser
+and your computer's "Do not disturb" mode allow notifications.
 
 **Who can see my papers and notes?**
 Everyone in the lab who is signed in. Nothing is public on the internet.

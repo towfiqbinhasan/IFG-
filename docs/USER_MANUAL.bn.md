@@ -5,8 +5,8 @@
 🌐 **ভাষা:** [English](USER_MANUAL.md) · বাংলা
 
 এই নির্দেশিকায় **কম্পিউটারে** (laptop বা desktop) Chrome, Edge বা Firefox-এর মতো browser দিয়ে
-Paper Tracker কীভাবে ব্যবহার করতে হয়, তা বলা আছে। সব member ১–১০ নম্বর অংশ পড়বেন। Admin-রা
-এর সাথে ১১ নম্বর অংশও পড়বেন।
+Paper Tracker কীভাবে ব্যবহার করতে হয়, তা বলা আছে। সব member ১–১২ নম্বর অংশ পড়বেন। Admin-রা
+এর সাথে ১৩ নম্বর অংশও পড়বেন।
 
 সাইটে button আর menu-র নাম ইংরেজিতে লেখা থাকে, তাই এখানেও সেগুলো **ইংরেজিতে** রাখা হয়েছে,
 যাতে screen-এ সহজে খুঁজে পান।
@@ -23,10 +23,12 @@ Paper Tracker কীভাবে ব্যবহার করতে হয়, �
 6. [Paper log করা](#৬-paper-log-করা)
 7. [Research topics: কে কী পড়ছে](#৭-research-topics-কে-কী-পড়ছে)
 8. [Progress: আপনার লক্ষ্য সবাইকে জানানো](#৮-progress-আপনার-লক্ষ্য-সবাইকে-জানানো)
-9. [Deadlines আর submissions](#৯-deadlines-আর-submissions)
-10. [পুরো lab ঘুরে দেখা](#১০-পুরো-lab-ঘুরে-দেখা)
-11. [Admin-দের জন্য](#১১-admin-দের-জন্য)
-12. [সাধারণ প্রশ্ন](#১২-সাধারণ-প্রশ্ন)
+9. [Deadlines, submissions আর poster](#৯-deadlines-submissions-আর-poster)
+10. [Messages: lab-এর সাথে chat](#১০-messages-lab-এর-সাথে-chat)
+11. [Notification আর reminder](#১১-notification-আর-reminder)
+12. [পুরো lab ঘুরে দেখা](#১২-পুরো-lab-ঘুরে-দেখা)
+13. [Admin-দের জন্য](#১৩-admin-দের-জন্য)
+14. [সাধারণ প্রশ্ন](#১৪-সাধারণ-প্রশ্ন)
 
 ---
 
@@ -41,6 +43,7 @@ Screen-এর দুটো অংশ সবসময় থাকে: বাম 
 | **Dashboard** | আপনার home page: আপনার সংখ্যা, লক্ষ্য, deadline আর lab কী পড়ছে |
 | **My Papers** | আপনার log করা সব paper |
 | **Progress** | Lab-এর সবাই কোন লক্ষ্যে কাজ করছে, আর তার আপডেট |
+| **Messages** | কারো সাথে আলাদা করে বা group-এ chat। লাল সংখ্যা মানে না-পড়া message। |
 | **Deadlines** | Conference আর journal-এর deadline, countdown সহ |
 | **Explore** | Lab-এর সব paper খোঁজা |
 | **Members** | Lab-এর সবাই আর তারা কী পড়ছে |
@@ -51,8 +54,9 @@ Screen-এর দুটো অংশ সবসময় থাকে: বাম 
 
 **Top bar (উপরে ডান দিকে):**
 
-- **🔔 ঘণ্টা:** আগামী ৭ দিনের মধ্যে যেসব deadline আছে। Admin-রা এখানে password request-ও দেখেন।
-  লাল সংখ্যা দেখায় কয়টা আছে।
+- **🔔 ঘণ্টা:** না-পড়া message আর আগামী ৭ দিনের মধ্যে যেসব deadline আছে। Admin-রা এখানে password
+  request-ও দেখেন। লাল সংখ্যা দেখায় কয়টা আছে। ঘণ্টার ভেতরে **Turn on desktop notifications**-ও আছে
+  (১১ নম্বর অংশ দেখুন)।
 - **☾ / ☀:** dark আর light mode বদলানো।
 - **আপনার ছবি বা নামের আদ্যক্ষর:** click করলে **Profile & settings**, **Change password** আর
   **Sign out** দেখাবে।
@@ -142,7 +146,8 @@ Dashboard আপনার home page। উপর থেকে নিচে য�
 
 **ডান পাশের কলাম**
 
-- **Next deadlines:** সবচেয়ে কাছের ৩টা conference বা journal deadline, countdown সহ
+- **Next deadlines:** সবচেয়ে কাছের ৩টা conference বা journal deadline, countdown আর poster-এর ছোট
+  ছবি সহ। **+ Add** দিয়ে নতুন venue যোগ করা যায় (৯ নম্বর অংশ দেখুন)।
 - **Lab pulse:** গত ৩০ দিনে পুরো lab কয়টা paper log করেছে, কতজন পড়ছেন, আর **trending
   topics**। কোনো topic-এ click করলে সেই topic-এর page খুলবে।
 - **Latest lab updates:** সবার সাম্প্রতিক progress আপডেট
@@ -248,7 +253,7 @@ experiment চালানো বা পরীক্ষার প্রস্ত
 
 ---
 
-## ৯. Deadlines আর submissions
+## ৯. Deadlines, submissions আর poster
 
 **Deadlines** খুলুন। সবচেয়ে কাছের deadline অনুযায়ী venue সাজানো থাকে, চলমান countdown সহ:
 
@@ -267,12 +272,104 @@ experiment চালানো বা পরীক্ষার প্রস্ত
 title আর status (Planning, Writing, Submitted, Accepted বা Rejected) দিন, আর কাজ এগোলে আপডেট করুন।
 এটা আপনার Dashboard-এর **My submissions**-এ দেখাবে।
 
-Admin অনুমতি দিলে আপনি নিজেও **নতুন venue যোগ** করতে পারবেন। শুধু নিজের যোগ করা venue-ই edit করতে
-পারবেন।
+### Conference বা journal যোগ করা (poster সহ)
+
+1. Deadlines page-এ **Add venue**-এ click করুন, অথবা Dashboard-এ *Next deadlines*-এর পাশে **+ Add**।
+2. **Name** (যেমন "BLP 2027"), **Type**, **Field / topic**, **Website** আর **Location** দিন।
+3. যে তারিখগুলো জানেন সেগুলো দিন: **Abstract deadline**, **Full paper deadline**, **Notification
+   date** আর **Camera-ready date**। তারিখ আপনার নিজের time zone-এ লিখবেন।
+4. **Poster / image (optional):** **Choose image**-এ click করে conference-এর poster, call-for-papers-এর
+   ছবি বা logo বেছে নিন (PNG, JPG, WebP বা GIF, **১০ MB** পর্যন্ত)। নিচে preview দেখাবে।
+5. দরকার হলে **Notes** লিখুন (page limit, template link, AoE সময়…), তারপর **Add venue**-এ click করুন।
+
+Poster-টা deadline card-এ ছোট ছবি হিসেবে, আর venue page-এর উপরে বড় করে দেখাবে। সেখানে click করলে পুরো
+আকারে খুলবে। বদলাতে বা মুছতে venue খুলে **Edit**-এ click করুন।
+
+Admin **"Members can add conferences & journals"** চালু রাখলে member-রা venue যোগ করতে পারেন। এটা আগে
+থেকেই চালু থাকে। আপনি শুধু নিজের যোগ করা venue edit বা delete করতে পারবেন। Admin-রা যেকোনো venue edit
+বা delete করতে পারেন।
 
 ---
 
-## ১০. পুরো lab ঘুরে দেখা
+## ১০. Messages: lab-এর সাথে chat
+
+**Messages** অনেকটা WhatsApp-এর মতো, তবে lab tracker-এর ভেতরে। Sidebar থেকে খুলুন।
+
+### Screen
+
+- **বাম দিকে:** আপনার সব chat, সবচেয়ে নতুনটা উপরে। প্রতিটা সারিতে শেষ message আর তার সময় দেখায়। মোটা
+  লেখা আর নীল সংখ্যা মানে না-পড়া message আছে। 🔒 মানে admin ওই chat block করেছেন।
+- **ডান দিকে:** খোলা chat। আপনার message ডান দিকে নীল রঙে, অন্যদের message বাম দিকে।
+
+### Chat শুরু করা
+
+- **একজনের সাথে:** নীল **✚ (New chat)** button-এ click করে একজনকে বেছে নিন। Admin-দের নাম সবার উপরে
+  থাকে। **Members** থেকে কারো profile খুলে **Message**-এ click করলেও হবে।
+- **Admin-কে message:** search box-এর নিচে **Message an admin**-এ click করুন।
+- **Group:** **👥 (New group)** button-এ click করুন। **Group name** লিখুন, member-দের পাশে টিক দিন, তারপর
+  **Create group**। আপনি group-এর **owner** হবেন।
+
+### Message, ছবি আর file পাঠানো
+
+- নিচের ঘরে লিখে **Enter** চাপলে message চলে যাবে। **Shift + Enter** চাপলে নতুন লাইন হবে। বাংলায়
+  স্বাভাবিকভাবেই লেখা যায়।
+- **Screenshot বা ছবি paste করা:** ছবিটা copy করুন (যেমন Print Screen key দিয়ে, বা "Copy image"), message
+  ঘরে click করে **Ctrl + V** চাপুন।
+- **Drag and drop:** computer থেকে file টেনে এনে chat-এর উপর ছেড়ে দিন।
+- **📎 Attach:** computer থেকে file বেছে নিন।
+
+পাঠানো যায়: **ছবি** (PNG, JPG, WebP, GIF), **PDF**, **Word, Excel আর PowerPoint** file, **text/CSV** আর
+**ZIP**। প্রতিটা file **২৫ MB** পর্যন্ত, একবারে ১০টা পর্যন্ত। পাঠানোর আগে file-গুলো ঘরের উপরে দেখায়।
+কোনোটা বাদ দিতে **×**-এ click করুন। যা লিখবেন, সেটা প্রথম file-এর সাথে যাবে।
+
+ছবি chat-এর ভেতরেই দেখা যায়, click করলে পুরো আকারে খোলে। PDF আর document একটা file card হিসেবে দেখায়,
+click করলে খোলে বা download হয়।
+
+### Message-এর অপশন
+
+কোনো message-এর উপর mouse নিয়ে **⋮**-এ click করুন:
+
+- **Copy text:** লেখা copy করা
+- **Open / download:** file খোলা বা download করা
+- **Delete:** **নিজের** message সবার কাছ থেকে মুছে দেয়। Admin-রা যেকোনো message মুছতে পারেন।
+
+### Group info
+
+Group-এ উপরে ডান দিকে **ⓘ**-এ click করলে member-দের তালিকা দেখাবে। **Owner** (আর admin) group-এর **নাম
+বদলাতে**, **Add people** দিয়ে মানুষ যোগ করতে আর কাউকে বাদ দিতে পারেন। যে কেউ **Leave group** দিয়ে
+বেরিয়ে যেতে পারেন। Owner বেরিয়ে গেলে সবচেয়ে পুরনো member নতুন owner হন।
+
+> **গোপনীয়তা:** chat শুধু তার member-রা **আর lab-এর admin-রা** দেখতে পান। নিয়ম মানা হচ্ছে কিনা দেখার
+> জন্য admin chat পড়তে পারেন। Chat-এ password বা গোপন তথ্য পাঠাবেন না।
+
+---
+
+## ১১. Notification আর reminder
+
+**App-এর ভেতরে**
+
+- **🔔 ঘণ্টা** না-পড়া message আর আগামী ৭ দিনের deadline গোনে। Click করলে তালিকা দেখাবে, যেকোনোটায়
+  click করলে সেটা খুলবে।
+- Sidebar-এ **Messages**-এর পাশে না-পড়া message-এর সংখ্যা দেখায়।
+- অন্য page-এ থাকা অবস্থায় message এলে screen-এর নিচে ছোট একটা pop-up আসে, তাতে **Open** button থাকে।
+
+**Deadline reminder।** Abstract আর full-paper deadline-এর **৭ দিন, ৩ দিন, ১ দিন আগে আর ঠিক সেই দিন**
+app আপনাকে মনে করিয়ে দেয়। প্রতিটা reminder একবারই আসে, app খুললে pop-up হিসেবে।
+
+**Desktop notification।** Tab পেছনে থাকলেও notification পেতে পারেন:
+
+1. **🔔 ঘণ্টা**-য় click করে **Turn on desktop notifications** বেছে নিন।
+2. Browser অনুমতি চাইলে **Allow**-এ click করুন।
+
+এরপর থেকে নতুন message আর deadline reminder আপনার computer-এর notification হিসেবে আসবে।
+
+> Desktop notification তখনই আসে যখন Paper Tracker browser-এর কোনো tab-এ খোলা থাকে। Tab পেছনে বা
+> minimise করা থাকলেও চলবে, তবে বন্ধ করা যাবে না। ভুল করে **Block** চেপে থাকলে address bar-এর বাম দিকে
+> 🔒 চিহ্নে click করুন, **Notifications** বদলে **Allow** করুন, তারপর page reload করুন।
+
+---
+
+## ১২. পুরো lab ঘুরে দেখা
 
 | Page | কীভাবে ব্যবহার করবেন |
 |---|---|
@@ -283,12 +380,12 @@ Admin অনুমতি দিলে আপনি নিজেও **নতু�
 
 ---
 
-## ১১. Admin-দের জন্য
+## ১৩. Admin-দের জন্য
 
 এই অংশের কাজগুলো শুধু **Admin** role-এর account করতে পারে। Member-রা **Admin** বা **Manage
 users** link দেখতে পান না, ওই page খুলতে পারেন না, আর server-ও তাদের request বাতিল করে দেয়।
 
-### ১১.১ Dashboard-এর Admin overview
+### ১৩.১ Dashboard-এর Admin overview
 
 Admin-রা Dashboard-এ একটা বাড়তি সারি দেখেন। যেকোনো কার্ডে click করলে admin page-এ চলে যাবে।
 
@@ -299,7 +396,7 @@ Admin-রা Dashboard-এ একটা বাড়তি সারি দে�
 | **Password requests** | কেউ password reset-এর অপেক্ষায় থাকলে হলুদ হয়ে যায় |
 | **Blocked** | Block করা account |
 
-### ১১.২ Users পরিচালনা (Manage users)
+### ১৩.২ Users পরিচালনা (Manage users)
 
 Sidebar-এ **Manage users**-এ click করুন, অথবা **Admin → Users**।
 
@@ -329,7 +426,7 @@ button-গুলো থাকে:
 > **Username বদলালে:** ওই ব্যক্তি এরপর থেকে **নতুন** username দিয়ে login করবেন, password একই
 > থাকবে। তাকে জানিয়ে দিন।
 
-### ১১.৩ নতুন user তৈরি করা
+### ১৩.৩ নতুন user তৈরি করা
 
 1. **Manage users → Create user**।
 2. **পুরো নাম** লিখুন। `Rahim.IFL.04`-এর মতো একটা username নিজে থেকে প্রস্তাব করবে, চাইলে বদলাতে
@@ -340,7 +437,7 @@ button-গুলো থাকে:
 5. **Create account**-এ click করুন। Username আর password **একবারই** দেখাবে। **Copy** করে
    ব্যক্তিগতভাবে তাকে পাঠিয়ে দিন।
 
-### ১১.৪ Password request
+### ১৩.৪ Password request
 
 কেউ **Forgot password?** ব্যবহার করলে request-টা **🔔 ঘণ্টা**-য় আর **Manage users**-এর একদম
 উপরে দেখায়।
@@ -351,7 +448,7 @@ button-গুলো থাকে:
 
 যেকোনো সময় **⋮ → Reset password** দিয়েও যে কারো password reset করা যায়।
 
-### ১১.৫ Admin-এর অন্য page
+### ১৩.৫ Admin-এর অন্য page
 
 Sidebar-এ **Admin** খুলুন। উপরের tab-গুলো হলো:
 
@@ -362,10 +459,29 @@ Sidebar-এ **Admin** খুলুন। উপরের tab-গুলো হল
 | **Papers** | সব paper খুঁজে duplicate বা ভুল entry delete করা |
 | **Topics** | Topic তৈরি, নাম বদলানো, রং বদলানো বা delete করা। Topic delete করলে শুধু tag মুছে যায়, paper থেকে যায়। |
 | **Venues** | Conference আর journal যোগ, edit বা delete করা |
+| **Chats** | Lab-এর সব chat পড়া, block করা আর delete করা (১৩.৬ দেখুন) |
+
+### ১৩.৬ Chat পরিচালনা
+
+**Admin → Chats** খুলুন। Lab-এর সব direct chat আর group এখানে দেখায়, সাথে member, message-এর সংখ্যা আর
+শেষ কবে কথা হয়েছে। Search box আর **All / Direct / Groups / Blocked** filter দিয়ে খুঁজুন।
+
+| Button | কী করে |
+|---|---|
+| 👁 **View** | Chat খুলে পড়া যায়। কোনো message-এর উপর mouse নিয়ে **⋮ → Delete** দিয়ে সেটা মুছতে পারবেন। |
+| 🔒 **Block** | ওই chat-এ কেউ আর নতুন message পাঠাতে পারবে না। Member-রা পড়তে পারবেন, আর দেখবেন যে এটা block করা। |
+| 🔓 **Unblock** | আবার message পাঠানো চালু হয় |
+| 🗑️ **Delete** | Chat, তার সব message আর file সবার জন্য **চিরতরে** মুছে দেয় |
+
+যে chat-এ আপনি নিজেও আছেন, সেখানে উপরে ডান দিকের **⋮** menu থেকেও একই কাজ করা যায়।
+
+> **Chat block বনাম মানুষ block:** chat block করলে শুধু ওই chat-এ message বন্ধ হয়। কাউকে পুরো app থেকে
+> বন্ধ করতে **Manage users** (১৩.২)-এ তার account block করুন। Block করা account থেকে কোথাও message
+> পাঠানো যায় না।
 
 ---
 
-## ১২. সাধারণ প্রশ্ন
+## ১৪. সাধারণ প্রশ্ন
 
 **আমার chart-এ "No data yet" দেখাচ্ছে।**
 আপনি এখনো কোনো paper log করেননি। একটা paper log করুন, **Status = Completed** দিন আর **Date
@@ -386,6 +502,19 @@ Paper form-এ **Research topics** ঘরে topic-এর নাম লিখে
 
 **Sign out হয়ে গেছি, আর login করতে পারছি না।**
 আপনার account block করা হতে পারে, অথবা password reset করা হয়েছে। Lab admin-এর সাথে যোগাযোগ করুন।
+
+**Sidebar-এ Messages দেখা যাচ্ছে না।**
+Chat এখনো চালু করা হয়নি। Admin-কে সবশেষ database update চালাতে বলুন।
+
+**কোনো chat-এ message পাঠাতে পারছি না।**
+Admin ওই chat block করেছেন (🔒 **Blocked** দেখাবে), অথবা আপনি আর ওই group-এ নেই।
+
+**File পাঠানো যাচ্ছে না।**
+File ২৫ MB-এর কম হতে হবে, আর হতে হবে ছবি, PDF, Office document, text/CSV বা ZIP।
+
+**Desktop notification আসছে না।**
+🔔 ঘণ্টা থেকে চালু করুন, আর Paper Tracker একটা tab-এ খোলা রাখুন। Browser আর computer-এর "Do not
+disturb" mode notification আটকাচ্ছে কিনা দেখুন।
 
 **আমার paper আর note কারা দেখতে পায়?**
 Lab-এর যারা login করা আছেন, তারা সবাই। Internet-এ কিছুই public নয়।
