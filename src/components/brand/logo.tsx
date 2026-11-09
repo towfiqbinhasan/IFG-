@@ -6,7 +6,8 @@ import { brand } from "@/config/brand";
 import { cn } from "@/lib/utils";
 
 /**
- * The app logo: the emblem on a rounded white tile (public/logo.svg) with an
+ * The app logo: the emblem on a rounded white tile (public/logo.svg; navy
+ * public/logo-dark.svg in dark mode) with an
  * optional cyan "forge glow" and two-line wordmark. Every logo placement
  * (header, sidebar, login, splash, offline, 404) uses this component, so
  * replacing public/logo.svg changes the logo everywhere.
@@ -38,6 +39,7 @@ export function Logo({
             className="absolute -inset-[18%] animate-glow-pulse rounded-full bg-[radial-gradient(circle,rgb(34_176_240/0.55),transparent_68%)] blur-md"
           />
         )}
+        {/* White tile in light mode, navy tile with a cyan rim in dark mode. */}
         <Image
           src={brand.logoSrc}
           alt={`${brand.appName} logo`}
@@ -45,7 +47,16 @@ export function Logo({
           height={size}
           priority
           unoptimized
-          className="relative rounded-[22%] shadow-sm ring-1 ring-black/5 transition-shadow duration-300 group-hover:shadow-[0_0_22px_rgb(34_176_240/0.45)] dark:ring-white/10"
+          className="relative rounded-[22%] shadow-sm ring-1 ring-black/5 transition-shadow duration-300 group-hover:shadow-[0_0_22px_rgb(34_176_240/0.45)] dark:hidden"
+        />
+        <Image
+          src={brand.logoDarkSrc}
+          alt={`${brand.appName} logo`}
+          width={size}
+          height={size}
+          priority
+          unoptimized
+          className="relative hidden rounded-[22%] shadow-[0_0_14px_rgb(34_176_240/0.25)] transition-shadow duration-300 group-hover:shadow-[0_0_24px_rgb(34_176_240/0.55)] dark:block"
         />
       </motion.span>
       {withText && (

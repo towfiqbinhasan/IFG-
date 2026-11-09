@@ -34,15 +34,8 @@ export default function Loading() {
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <Image
-            src={brand.logoSrc}
-            alt=""
-            width={60}
-            height={60}
-            priority
-            unoptimized
-            className="rounded-[22%] shadow-lg shadow-sky-500/20 ring-1 ring-black/5 dark:ring-white/10"
-          />
+          <Image src={brand.logoSrc} alt="" width={60} height={60} priority unoptimized className="rounded-[22%] shadow-lg shadow-sky-500/20 ring-1 ring-black/5 dark:hidden" />
+          <Image src={brand.logoDarkSrc} alt="" width={60} height={60} priority unoptimized className="hidden rounded-[22%] shadow-lg shadow-sky-500/30 dark:block" />
         </div>
       </div>
       <p className="mt-5 font-display text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">Forging your workspace…</p>

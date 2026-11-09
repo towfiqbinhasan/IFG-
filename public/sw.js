@@ -6,10 +6,10 @@
  *  - Supabase API calls and /api routes are never cached (always live data).
  * Bump CACHE_VERSION when you change this file.
  */
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v2";
 const STATIC_CACHE = `rl-static-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline";
-const PRECACHE = [OFFLINE_URL, "/logo.svg", "/icons/icon-192.png"];
+const PRECACHE = [OFFLINE_URL, "/logo.svg", "/logo-dark.svg", "/icons/icon-192.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(STATIC_CACHE).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
@@ -36,7 +36,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icons/") || url.pathname === "/logo.svg") {
+  if (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icons/") || url.pathname === "/logo.svg" || url.pathname === "/logo-dark.svg") {
     event.respondWith(
       caches.match(request).then(
         (hit) =>

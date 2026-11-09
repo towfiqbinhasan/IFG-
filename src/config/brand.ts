@@ -16,6 +16,8 @@ export const brand = {
 
   /** Path (inside /public) of the logo. Replace /public/logo.svg to change it everywhere. */
   logoSrc: "/logo.svg",
+  /** Dark-mode version (emblem on a navy tile). Built by scripts/build-logo-dark.mjs. */
+  logoDarkSrc: "/logo-dark.svg",
   /** High-res emblem (no tile) used by the splash animation. Built by scripts/build-logo.mjs. */
   emblemSrc: "/brand/emblem.png",
 
