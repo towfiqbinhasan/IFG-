@@ -1,5 +1,8 @@
 # User Guide
 
+> **Using a computer?** The full, up-to-date desktop manual is in
+> [USER_MANUAL.md](USER_MANUAL.md) (English) and [USER_MANUAL.bn.md](USER_MANUAL.bn.md) (বাংলা).
+
 The web app and the Android app work the same way. On a phone, use the **bottom bar** to move
 around; **More** opens the remaining pages. On a computer, use the **sidebar**. The ☀/☾ button
 switches between light and dark mode.
@@ -31,15 +34,15 @@ On first login, the member must replace the temporary password.
 
 ### Manage accounts
 
-Use the **⋮** menu next to a user:
+Each user row has **Edit**, **Block / Unblock** and **Delete** buttons; the **⋮** menu holds the rest:
 
 | Action | Effect |
 |---|---|
 | Edit details | Change the name or research area. |
 | Reset password | Generates a new temporary password, shown once. The user must change it at next login. |
 | Make admin / Make member | Changes the role. You can't demote yourself, and you can't remove the last admin. |
-| Deactivate / Reactivate | Blocks or restores sign-in. Their papers stay visible. |
-| Delete user | Permanently removes the account, papers, submissions and files. Prefer **Deactivate** if you might need the data. |
+| Block / Unblock | Blocks or restores sign-in. Their papers stay visible. |
+| Delete user | Permanently removes the account, papers, submissions and files. Prefer **Block** if you might need the data. |
 
 ### Forgot-password requests
 

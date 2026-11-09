@@ -52,6 +52,7 @@ password right away.
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Supabase setup → GitHub → Vercel → Capacitor → debug & signed APK |
 | [docs/BRANDING.md](docs/BRANDING.md) | Replacing the logo, favicon, app icon and splash animation |
 | [docs/USER_GUIDE.md](docs/USER_GUIDE.md) | Short guides for admins and for members |
+| [docs/USER_MANUAL.md](docs/USER_MANUAL.md) · [বাংলা](docs/USER_MANUAL.bn.md) | Full desktop user manual for members and admins, in English and Bangla |
 
 ## Project structure
 
