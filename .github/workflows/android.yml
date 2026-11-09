@@ -57,6 +57,9 @@ jobs:
           java-version: "17"
 
       - uses: android-actions/setup-android@v3
+        with:
+          # The legacy "tools" package (the action's default) no longer exists.
+          packages: "platform-tools"
 
       - name: Install dependencies
         run: npm ci
