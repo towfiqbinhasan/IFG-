@@ -179,7 +179,7 @@ export default async function DashboardPage() {
           {progressReady && (
             <section>
               <SectionHeader title="My preparations" description="Goals you're working towards" href="/progress" linkLabel="Lab progress">
-                <PrepFormDialog topics={topicOptions} userId={profile.id} trigger={<Button size="sm" variant="outline"><Plus /> New</Button>} />
+                <PrepFormDialog topics={topicOptions} userId={profile.id} trigger={<Button size="pill" variant="soft"><Plus /> New</Button>} />
               </SectionHeader>
               {myPreps.length ? (
                 <StaggerList className="grid gap-3 sm:grid-cols-2">
@@ -214,7 +214,7 @@ export default async function DashboardPage() {
           <section>
             <SectionHeader title="Next deadlines" href="/venues" linkLabel="All">
               {(isAdmin || settings?.allow_member_venues) && (
-                <VenueFormDialog userId={profile.id} trigger={<Button size="sm" variant="outline"><Plus /> Add</Button>} />
+                <VenueFormDialog userId={profile.id} trigger={<Button size="pill" variant="soft"><Plus /> Add</Button>} />
               )}
             </SectionHeader>
             {upcoming.length ? (

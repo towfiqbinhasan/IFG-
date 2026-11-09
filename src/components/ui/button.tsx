@@ -18,12 +18,16 @@ const buttonVariants = cva(
         /** Brand gradient CTA (navy -> blue -> cyan) with a soft glow. */
         forge:
           "bg-forge bg-[length:200%_200%] text-white shadow-lg shadow-sky-500/20 hover:animate-gradient-x hover:shadow-sky-500/40 hover:brightness-110",
+        /** Tinted brand button for secondary actions (fills in on hover). */
+        soft: "bg-primary/10 text-primary ring-1 ring-inset ring-primary/25 hover:bg-primary hover:text-primary-foreground hover:ring-primary hover:shadow-md hover:shadow-primary/25",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        /** Compact rounded button for section headers. */
+        pill: "h-8 rounded-full px-3.5 text-xs font-semibold",
       },
     },
     defaultVariants: { variant: "default", size: "default" },

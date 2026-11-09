@@ -37,11 +37,15 @@ export function SectionHeader({
         <h2 className="font-display text-lg font-bold tracking-tight">{title}</h2>
         {description && <p className="text-xs text-muted-foreground">{description}</p>}
       </div>
-      <div className="flex shrink-0 items-center gap-3">
+      <div className="flex shrink-0 items-center gap-2">
         {children}
         {href && (
-          <Link href={href} className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
-            {linkLabel} <ArrowRight className="h-4 w-4" />
+          <Link
+            href={href}
+            className="group inline-flex h-8 items-center gap-1 rounded-full border border-border/70 bg-card px-3.5 text-xs font-semibold text-foreground/80 shadow-sm transition-all hover:border-primary/40 hover:bg-accent hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            {linkLabel}
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         )}
       </div>
