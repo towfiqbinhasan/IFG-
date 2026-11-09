@@ -11,7 +11,7 @@ import { papersPerMonth, readingStreak, topicCounts } from "@/lib/stats";
 import type { PaperWithRelations } from "@/lib/types";
 
 /** Stat tiles + charts for one member's papers (dashboard and public profile). */
-export function MemberStats({ papers }: { papers: PaperWithRelations[] }) {
+export function MemberStats({ papers, chartsOnly = false }: { papers: PaperWithRelations[]; chartsOnly?: boolean }) {
   const s = useMemo(() => {
     const completed = papers.filter((p) => p.status === "Completed");
     const topicSet = new Set(papers.flatMap((p) => p.topics.map((t) => t.id)));
@@ -30,6 +30,7 @@ export function MemberStats({ papers }: { papers: PaperWithRelations[] }) {
 
   return (
     <div className="space-y-4">
+      {!chartsOnly && (
       <StaggerList className="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <StaggerItem><StatCard label="Papers read" value={s.completed} icon={BookCheck} hint={`${s.reading} in progress`} /></StaggerItem>
         <StaggerItem><StatCard label="Logged" value={s.total} icon={Library} hint="All statuses" /></StaggerItem>
@@ -37,6 +38,7 @@ export function MemberStats({ papers }: { papers: PaperWithRelations[] }) {
         <StaggerItem><StatCard label="Streak" value={s.streak.current} suffix="days" icon={Flame} hint={`Best: ${s.streak.best} days`} /></StaggerItem>
         <StaggerItem className="col-span-2 lg:col-span-1"><StatCard label="Time reading" value={s.hours} suffix="h" icon={Clock} hint="Logged time spent" /></StaggerItem>
       </StaggerList>
+      )}
       <div className="grid gap-4 lg:grid-cols-2">
         <ChartCard title="Papers per month" description="Last 12 months, by date read" empty={!papers.length}>
           <PapersPerMonthChart data={s.monthly} />

@@ -19,6 +19,9 @@ export const brand = {
   /** High-res emblem (no tile) used by the splash animation. Built by scripts/build-logo.mjs. */
   emblemSrc: "/brand/emblem.png",
 
+  /** Lab's local time zone - used for the dashboard greeting/date (servers run in UTC). */
+  timeZone: "Asia/Dhaka",
+
   /** Theme colour used for the browser UI / Android status bar. */
   themeColor: "#0a2a5e",
 
