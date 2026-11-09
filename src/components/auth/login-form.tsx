@@ -11,6 +11,8 @@ import { Card } from "@/components/ui/card";
 import { Field } from "@/components/shared/field";
 import { Logo } from "@/components/brand/logo";
 import { PasswordInput } from "./password-input";
+import { ForgotPasswordDialog } from "./forgot-password-dialog";
+import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
 import { normalizeUsername, usernameToEmail } from "@/lib/auth";
 import { brand } from "@/config/brand";
@@ -105,7 +107,11 @@ export function LoginForm() {
                 />
               </div>
             </Field>
-            <Field label="Password" htmlFor="password">
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">Password</Label>
+                <ForgotPasswordDialog defaultUsername={username} />
+              </div>
               <PasswordInput
                 id="password"
                 autoComplete="current-password"
@@ -113,7 +119,7 @@ export function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </Field>
+            </div>
 
             {error && (
               <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-sm text-destructive" role="alert">
@@ -128,7 +134,7 @@ export function LoginForm() {
           </form>
 
           <p className="mt-6 text-center text-xs text-muted-foreground">
-            Accounts are created by your lab admin. Forgot your password? Ask the admin to reset it.
+            Accounts are created by your lab admin.
           </p>
         </Card>
         </div>

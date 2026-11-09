@@ -97,3 +97,14 @@ export interface AppSettings {
   allow_member_venues: boolean;
   lab_name: string;
 }
+
+export interface PasswordResetRequest {
+  id: string;
+  username: string;
+  user_id: string | null;
+  note: string | null;
+  status: "pending" | "resolved" | "dismissed";
+  created_at: string;
+  resolved_at: string | null;
+  resolved_by: string | null;
+}

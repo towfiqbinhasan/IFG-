@@ -30,6 +30,11 @@ Five stages. Do them in order:
    > To change the admin's starting password, edit `v_pass` in section 6a **before** you run the
    > file. You can also keep `ChangeMe!2024`: the app makes the admin change it on first login.
 
+   > **Updating an existing project?** Also run any files in `supabase/migrations/` that you
+   > haven't run yet, in number order. For example, `002_password_reset_requests.sql` adds the
+   > "Forgot password" requests. A fresh install doesn't need them, because `schema.sql`
+   > already includes them.
+
 3. **Lock down sign-ups.** Under **Authentication → Sign In / Providers**:
    - Turn **off** "Allow new users to sign up". Only admins create accounts, through the app.
    - Leave the **Email** provider **enabled**. Login uses `username@lab.local` behind the scenes.

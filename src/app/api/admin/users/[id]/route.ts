@@ -44,6 +44,12 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       const { error } = await admin.auth.admin.updateUserById(id, { password: body.password });
       if (error) return jsonError(error.message, 500);
       await admin.from("profiles").update({ must_change_password: true }).eq("id", id);
+      // Close any open "forgot password" request for this user.
+      await admin
+        .from("password_reset_requests")
+        .update({ status: "resolved", resolved_at: new Date().toISOString(), resolved_by: auth.profile.id })
+        .eq("user_id", id)
+        .eq("status", "pending");
       break;
     }
     case "set_active": {

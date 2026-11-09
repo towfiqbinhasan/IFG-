@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { format } from "date-fns";
+import { AnimatePresence, motion } from "framer-motion";
+import { format, formatDistanceToNow } from "date-fns";
 import {
   Copy,
   KeyRound,
@@ -36,7 +36,8 @@ import { Field } from "@/components/shared/field";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import { generateTempPassword } from "@/lib/utils";
 import { USERNAME_REGEX, normalizeUsername, generateIFLUsername } from "@/lib/auth";
-import type { Profile } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
+import type { PasswordResetRequest, Profile } from "@/lib/types";
 
 type Counts = Record<string, number>;
 
@@ -48,7 +49,17 @@ async function api(path: string, method: string, body?: unknown) {
 }
 
 /** Admin user management: create, reset password, (de)activate, role, edit, delete. */
-export function UsersManager({ users, paperCounts, currentUserId }: { users: Profile[]; paperCounts: Counts; currentUserId: string }) {
+export function UsersManager({
+  users,
+  paperCounts,
+  currentUserId,
+  resetRequests = [],
+}: {
+  users: Profile[];
+  paperCounts: Counts;
+  currentUserId: string;
+  resetRequests?: PasswordResetRequest[];
+}) {
   const router = useRouter();
   const [q, setQ] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
@@ -81,8 +92,70 @@ export function UsersManager({ users, paperCounts, currentUserId }: { users: Pro
     setCredentials({ username: u.username, password, title: "Temporary password reset" });
   }
 
+  async function dismissRequest(id: string) {
+    await run(
+      id,
+      async () => {
+        const { error } = await createClient()
+          .from("password_reset_requests")
+          .update({ status: "dismissed", resolved_at: new Date().toISOString(), resolved_by: currentUserId })
+          .eq("id", id);
+        if (error) throw error;
+      },
+      "Request dismissed",
+    );
+  }
+
   return (
     <div className="space-y-4">
+      {/* "Forgot password" requests from the login page */}
+      <AnimatePresence initial={false}>
+        {resetRequests.length > 0 && (
+          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, height: 0 }}>
+            <Card className="overflow-hidden border-amber-300/70 dark:border-amber-700/60">
+              <div className="flex items-center gap-2 border-b border-amber-200/70 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 dark:border-amber-800/60 dark:bg-amber-950/40 dark:text-amber-200">
+                <KeyRound className="h-4 w-4" />
+                Password reset requests
+                <span className="rounded-full bg-amber-500 px-2 py-0.5 text-xs text-white">{resetRequests.length}</span>
+              </div>
+              <div className="divide-y">
+                {resetRequests.map((r) => {
+                  const u = users.find((x) => x.id === r.user_id);
+                  return (
+                    <div key={r.id} className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center sm:p-4">
+                      <div className="flex min-w-0 flex-1 items-center gap-3">
+                        <UserAvatar name={u?.full_name ?? r.username} src={u?.avatar_url} />
+                        <div className="min-w-0">
+                          <p className="truncate font-medium">
+                            {u?.full_name ?? r.username}{" "}
+                            <span className="text-xs font-normal text-muted-foreground">@{r.username}</span>
+                            {u && !u.is_active && <Badge variant="destructive" className="ml-1.5">Deactivated</Badge>}
+                          </p>
+                          <p className="truncate text-xs text-muted-foreground">
+                            Asked {formatDistanceToNow(new Date(r.created_at), { addSuffix: true })}
+                            {r.note ? ` · “${r.note}”` : ""}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 gap-2">
+                        <Button variant="ghost" size="sm" onClick={() => dismissRequest(r.id)} disabled={busy === r.id}>
+                          Dismiss
+                        </Button>
+                        {u && (
+                          <Button size="sm" variant="forge" loading={busy === u.id} onClick={() => resetPassword(u)}>
+                            <KeyRound /> Reset password
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative sm:w-72">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />

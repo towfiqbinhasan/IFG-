@@ -2,7 +2,7 @@
 /**
  * Generates every raster icon from the single source logo (public/logo.svg):
  *   public/icons/icon-192.png, icon-512.png, icon-maskable-512.png, apple-touch-icon.png
- *   src/app/icon.svg (favicon, copied)
+ *   public/favicon.ico (16/32/48 px) + public/icons/favicon-16.png, favicon-32.png (browser tab)
  *   capacitor-www/logo.svg (Android offline fallback)
  *   assets/icon-only.png, icon-foreground.png, icon-background.png, splash.png, splash-dark.png
  *     -> consumed by `npm run android:assets` (@capacitor/assets) to create Android launcher icons & splash.
@@ -10,7 +10,7 @@
  * Usage: npm run icons            (after replacing public/logo.svg)
  * Optional: LOGO_BG="#0b1220" npm run icons   (background colour for maskable/adaptive icons)
  */
-import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
@@ -47,7 +47,32 @@ console.log("✓ assets/icon-background.png");
 await render("assets/splash.png", 2732, { padding: 0.4, background: BG });
 await render("assets/splash-dark.png", 2732, { padding: 0.4, background: BG_DARK });
 
-copyFileSync(src, join(root, "src/app/icon.svg"));
+// Browser-tab favicons: PNGs + a multi-size .ico (PNG-compressed entries).
+const icoSizes = [16, 32, 48];
+const icoPngs = [];
+for (const s of icoSizes) {
+  const buf = await sharp(svg, { density: 384 }).resize(s, s, { kernel: "lanczos3" }).png().toBuffer();
+  icoPngs.push(buf);
+  if (s !== 48) writeFileSync(join(root, `public/icons/favicon-${s}.png`), buf);
+}
+const header = Buffer.alloc(6 + icoSizes.length * 16);
+header.writeUInt16LE(0, 0); // reserved
+header.writeUInt16LE(1, 2); // type: icon
+header.writeUInt16LE(icoSizes.length, 4);
+let offset = header.length;
+icoSizes.forEach((s, i) => {
+  const e = 6 + i * 16;
+  header.writeUInt8(s, e); // width
+  header.writeUInt8(s, e + 1); // height
+  header.writeUInt16LE(1, e + 4); // colour planes
+  header.writeUInt16LE(32, e + 6); // bits per pixel
+  header.writeUInt32LE(icoPngs[i].length, e + 8);
+  header.writeUInt32LE(offset, e + 12);
+  offset += icoPngs[i].length;
+});
+writeFileSync(join(root, "public/favicon.ico"), Buffer.concat([header, ...icoPngs]));
+console.log("✓ public/favicon.ico, public/icons/favicon-16.png, favicon-32.png");
+
 copyFileSync(src, join(root, "capacitor-www/logo.svg"));
-console.log("✓ src/app/icon.svg, capacitor-www/logo.svg");
+console.log("✓ capacitor-www/logo.svg");
 console.log("\nDone. For Android run: npm run android:assets && npx cap sync android");

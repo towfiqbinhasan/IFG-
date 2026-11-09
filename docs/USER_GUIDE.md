@@ -41,6 +41,18 @@ Use the **⋮** menu next to a user:
 | Deactivate / Reactivate | Blocks or restores sign-in. Their papers stay visible. |
 | Delete user | Permanently removes the account, papers, submissions and files. Prefer **Deactivate** if you might need the data. |
 
+### Forgot-password requests
+
+When a member taps **Forgot password?** on the login page, their request appears in two
+places:
+
+- under the **🔔 bell** in the top bar, where it's included in the badge count
+- at the top of **Admin → Users**
+
+To resolve a request, click **Reset password** next to it. The app shows a new temporary
+password; send it to the member privately. The request then closes automatically. Use
+**Dismiss** for requests you don't want to act on.
+
 ### Content and settings
 
 - **Admin → Papers:** search every paper in the lab and delete inappropriate or duplicate
@@ -123,7 +135,9 @@ The dashboard shows:
 
 Open **Profile → Change password**. Enter your current password, then the new one twice.
 
-Forgot your password? Ask an admin to reset it. They'll give you a new temporary password.
+**Forgot your password?** On the login page, tap **Forgot password?** next to the Password
+field, enter your username and tap **Send request**. Your admin is notified and will give you a
+new temporary password. Sign in with it, then choose your own password.
 
 ### Install the app
 

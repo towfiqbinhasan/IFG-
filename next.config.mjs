@@ -9,6 +9,9 @@ const supabaseHost = (() => {
 
 const nextConfig = {
   reactStrictMode: true,
+  // Lets a production preview build live next to a running `npm run dev`
+  // (e.g. NEXT_DIST_DIR=.next-preview next build) without clobbering .next.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   images: {
     // Avatars are served from Supabase Storage public bucket.
     remotePatterns: [{ protocol: "https", hostname: supabaseHost }],

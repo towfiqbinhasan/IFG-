@@ -40,11 +40,21 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
   alerts.sort((a, b) => a.date.localeCompare(b.date));
 
+  // Admins also get notified about pending "forgot password" requests.
+  let resetRequestCount = 0;
+  if (profile.role === "admin") {
+    const { count } = await supabase
+      .from("password_reset_requests")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "pending");
+    resetRequestCount = count ?? 0;
+  }
+
   return (
     <div className="flex min-h-dvh">
       <Sidebar role={profile.role} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Header profile={profile} alerts={alerts} />
+        <Header profile={profile} alerts={alerts} resetRequestCount={resetRequestCount} />
         <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-28 pt-6 lg:px-8 lg:pb-12">{children}</main>
       </div>
       <BottomNav role={profile.role} />

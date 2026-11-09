@@ -25,7 +25,17 @@ export interface DeadlineAlert {
 }
 
 /** Top bar: logo (mobile), deadline bell with badge, theme toggle, user menu. */
-export function Header({ profile, alerts }: { profile: Profile; alerts: DeadlineAlert[] }) {
+export function Header({
+  profile,
+  alerts,
+  resetRequestCount = 0,
+}: {
+  profile: Profile;
+  alerts: DeadlineAlert[];
+  /** Pending "forgot password" requests (admins only). */
+  resetRequestCount?: number;
+}) {
+  const total = alerts.length + resetRequestCount;
   return (
     <header className="sticky top-0 z-30 border-b border-border/50 bg-background/70 pt-safe shadow-sm backdrop-blur-xl">
       {/* Thin forge-gradient accent line */}
@@ -42,17 +52,30 @@ export function Header({ profile, alerts }: { profile: Profile; alerts: Deadline
               variant="ghost"
               size="icon"
               className="relative rounded-xl hover:bg-accent/70 transition-transform active:scale-95"
-              aria-label={`${alerts.length} deadlines within 7 days`}
+              aria-label={`${total} notifications`}
             >
               <Bell className="h-5 w-5 transition-transform hover:rotate-12" />
-              {alerts.length > 0 && (
+              {total > 0 && (
                 <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground animate-pulse shadow-sm">
-                  {alerts.length}
+                  {total}
                 </span>
               )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80 rounded-xl p-2 shadow-xl border-border/60">
+            {resetRequestCount > 0 && (
+              <>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-lg bg-amber-50 p-2.5 dark:bg-amber-950/40">
+                  <Link href="/admin/users" className="flex items-center gap-2.5">
+                    <KeyRound className="h-4 w-4 text-amber-600 dark:text-amber-300" />
+                    <span className="text-sm font-medium">
+                      {resetRequestCount} password reset request{resetRequestCount === 1 ? "" : "s"}
+                    </span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
             <DropdownMenuLabel className="font-semibold text-xs tracking-wider uppercase text-muted-foreground px-2">
               Deadlines in the next 7 days
             </DropdownMenuLabel>
