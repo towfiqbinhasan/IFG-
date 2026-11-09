@@ -27,7 +27,9 @@ export interface DeadlineAlert {
 /** Top bar: logo (mobile), deadline bell with badge, theme toggle, user menu. */
 export function Header({ profile, alerts }: { profile: Profile; alerts: DeadlineAlert[] }) {
   return (
-    <header className="sticky top-0 z-30 border-b border-border/50 bg-background/70 pt-safe backdrop-blur-xl transition-all shadow-sm">
+    <header className="sticky top-0 z-30 border-b border-border/50 bg-background/70 pt-safe shadow-sm backdrop-blur-xl">
+      {/* Thin forge-gradient accent line */}
+      <div aria-hidden className="h-0.5 w-full bg-forge opacity-80" />
       <div className="flex h-16 items-center gap-3 px-4 lg:px-8">
         <Link href="/dashboard" className="lg:hidden transition-transform active:scale-95">
           <Logo size={34} withText />

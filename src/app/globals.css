@@ -4,25 +4,31 @@
 
 @layer base {
   :root {
-    --background: 210 40% 99%;
-    --foreground: 222 47% 11%;
+    /* Brand palette - sampled from The Intelligence Forge Lab logo. */
+    --brand-navy: #0a2a5e;
+    --brand-blue: #1565c0;
+    --brand-cyan: #22b0f0;
+    --brand-glow: #5fd0ff;
+
+    --background: 216 33% 98%;
+    --foreground: 221 60% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 221 60% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 213 67% 50%;
+    --popover-foreground: 221 60% 12%;
+    --primary: 214 82% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 95%;
-    --muted-foreground: 215 16% 42%;
-    --accent: 210 40% 94%;
-    --accent-foreground: 222 47% 11%;
+    --secondary: 214 40% 95%;
+    --secondary-foreground: 221 60% 16%;
+    --muted: 214 35% 95%;
+    --muted-foreground: 218 18% 40%;
+    --accent: 205 80% 95%;
+    --accent-foreground: 214 70% 25%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 90%;
-    --input: 214 32% 88%;
-    --ring: 213 67% 50%;
+    --border: 214 30% 89%;
+    --input: 214 30% 86%;
+    --ring: 205 90% 48%;
     --radius: 0.75rem;
 
     /* Chart tokens - validated categorical palette (light). */
@@ -40,25 +46,25 @@
   }
 
   .dark {
-    --background: 222 47% 6%;
+    --background: 222 58% 5%;
     --foreground: 210 40% 96%;
-    --card: 222 40% 9%;
+    --card: 222 48% 8%;
     --card-foreground: 210 40% 96%;
-    --popover: 222 40% 9%;
+    --popover: 222 48% 8%;
     --popover-foreground: 210 40% 96%;
-    --primary: 213 77% 56%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 217 33% 15%;
+    --primary: 202 92% 56%;
+    --primary-foreground: 222 58% 8%;
+    --secondary: 220 40% 13%;
     --secondary-foreground: 210 40% 96%;
-    --muted: 217 33% 14%;
-    --muted-foreground: 215 20% 68%;
-    --accent: 217 33% 17%;
+    --muted: 220 40% 12%;
+    --muted-foreground: 215 22% 68%;
+    --accent: 215 50% 15%;
     --accent-foreground: 210 40% 96%;
     --destructive: 0 63% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 217 33% 18%;
-    --input: 217 33% 20%;
-    --ring: 213 77% 56%;
+    --border: 218 40% 16%;
+    --input: 218 40% 18%;
+    --ring: 202 92% 56%;
 
     /* Chart tokens - same hues stepped for the dark surface. */
     --series-1: #3987e5;
@@ -71,7 +77,7 @@
     --series-8: #e66767;
     --chart-grid: #1f2937;
     --chart-axis: #c3c2b7;
-    --chart-surface: #0f172a;
+    --chart-surface: #0b1426;
   }
 
   * {
@@ -87,6 +93,27 @@
 }
 
 @layer utilities {
+  /* ---- Forge brand utilities ---- */
+  .bg-forge {
+    background-image: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-blue) 55%, var(--brand-cyan) 100%);
+  }
+  .text-forge {
+    background-image: linear-gradient(90deg, var(--brand-navy), var(--brand-blue) 50%, var(--brand-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .dark .text-forge {
+    background-image: linear-gradient(90deg, #e6f4ff, var(--brand-glow) 55%, var(--brand-cyan));
+  }
+  /* Faint hexagon grid, echoing the logo's hexagon frame. */
+  .hex-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 34V66' fill='none' stroke='%2322b0f0' stroke-opacity='0.16' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 56px 100px;
+  }
+  .glow-cyan {
+    box-shadow: 0 0 0 1px rgb(34 176 240 / 0.25), 0 10px 40px -10px rgb(34 176 240 / 0.55);
+  }
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }

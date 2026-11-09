@@ -32,7 +32,7 @@ export function StatCard({
         <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors pointer-events-none" />
         <div className="flex items-start justify-between gap-2">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/80">{label}</p>
-          <span className="rounded-xl bg-primary/10 p-2.5 text-primary shadow-sm border border-primary/20 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+          <span className="rounded-xl bg-forge p-2.5 text-white shadow-sm shadow-sky-500/30 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
             <Icon className="h-4 w-4" />
           </span>
         </div>

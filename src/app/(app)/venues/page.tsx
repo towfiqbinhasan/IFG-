@@ -28,7 +28,7 @@ export default async function VenuesPage() {
         description="Upcoming deadlines with live countdowns. Mark the ones you plan to submit to."
         actions={
           canAdd && (
-            <VenueFormDialog userId={profile.id} trigger={<Button><Plus /> Add venue</Button>} />
+            <VenueFormDialog userId={profile.id} trigger={<Button variant="forge"><Plus /> Add venue</Button>} />
           )
         }
       />

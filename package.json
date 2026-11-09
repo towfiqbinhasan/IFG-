@@ -12,7 +12,7 @@
     "icons": "node scripts/generate-icons.mjs",
     "cap:sync": "cap sync android",
     "cap:open": "cap open android",
-    "android:assets": "npx --yes @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#0b1220' --splashBackgroundColor '#ffffff' --splashBackgroundColorDark '#0b1220'"
+    "android:assets": "npx --yes @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#ffffff' --iconBackgroundColorDark '#050c1b' --splashBackgroundColor '#ffffff' --splashBackgroundColorDark '#050c1b'"
   },
   "dependencies": {
     "@capacitor/android": "^6.2.0",

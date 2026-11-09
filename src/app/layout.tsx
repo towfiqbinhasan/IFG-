@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { brand } from "@/config/brand";
 import { Providers } from "@/components/providers";
 import { SplashScreen } from "@/components/brand/splash-screen";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+// Display face for the wordmark & headings - matches the logo's geometric caps.
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-display", display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: `${brand.appName} · ${brand.tagline}`, template: `%s · ${brand.appName}` },
@@ -24,8 +26,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f9fc" },
+    { media: "(prefers-color-scheme: dark)", color: "#050c1b" },
   ],
 };
 
@@ -34,7 +36,7 @@ const splashScript = `try{if(${brand.splash.oncePerSession}&&sessionStorage.getI
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${montserrat.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: splashScript }} />
       </head>

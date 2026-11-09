@@ -19,7 +19,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const src = join(root, "public", "logo.svg");
 const svg = readFileSync(src);
 const BG = process.env.LOGO_BG || "#ffffff";
-const BG_DARK = process.env.LOGO_BG_DARK || "#0b1220";
+const BG_DARK = process.env.LOGO_BG_DARK || "#050c1b";
 
 for (const d of ["public/icons", "assets"]) mkdirSync(join(root, d), { recursive: true });
 

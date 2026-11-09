@@ -309,7 +309,7 @@ export function PaperForm({ paper, topics: initialTopics, userId }: { paper?: Pa
         <Button type="button" variant="outline" onClick={() => router.back()} disabled={saving}>
           Cancel
         </Button>
-        <Button type="submit" loading={saving}>
+        <Button type="submit" variant="forge" loading={saving}>
           {!saving && <Save />}
           {paper ? "Save changes" : "Add paper"}
         </Button>

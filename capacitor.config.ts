@@ -14,7 +14,7 @@ const serverUrl = process.env.CAP_SERVER_URL || "https://your-app.vercel.app";
 
 const config: CapacitorConfig = {
   appId: "com.researchlab.papertracker", // change before first Play Store upload; cannot change later
-  appName: "Lab Paper Tracker",
+  appName: "Forge Lab",
   // Fallback bundle shown only if the remote URL cannot be reached.
   webDir: "capacitor-www",
   server: {

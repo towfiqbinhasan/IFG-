@@ -18,7 +18,7 @@ export default async function MyPapersPage() {
   const papers = normalizePapers(rows);
 
   const addButton = (
-    <Button asChild>
+    <Button asChild variant="forge">
       <Link href="/papers/new">
         <Plus /> Add paper
       </Link>

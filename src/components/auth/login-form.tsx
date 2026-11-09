@@ -74,13 +74,18 @@ export function LoginForm() {
       className="w-full max-w-sm"
     >
       <motion.div key={shake} animate={shake ? { x: [0, -10, 10, -6, 6, 0] } : {}} transition={{ duration: 0.4 }}>
-        <Card className="border-border/60 bg-card/80 p-6 shadow-xl backdrop-blur-xl sm:p-8">
-          <div className="mb-6 flex flex-col items-center text-center">
+        {/* Gradient hairline border around a glass card */}
+        <div className="rounded-2xl bg-gradient-to-br from-[rgb(34_176_240/0.6)] via-border/40 to-[rgb(21_101_192/0.5)] p-px shadow-2xl shadow-sky-900/20">
+        <Card className="rounded-[15px] border-0 bg-card/85 p-6 backdrop-blur-xl sm:p-8">
+          <div className="mb-7 flex flex-col items-center text-center">
             <motion.div initial={{ rotate: -10, scale: 0.6 }} animate={{ rotate: 0, scale: 1 }} transition={{ type: "spring", delay: 0.1 }}>
-              <Logo size={64} />
+              <Logo size={84} glow />
             </motion.div>
-            <h1 className="mt-4 text-xl font-semibold tracking-tight">{brand.appName}</h1>
-            <p className="text-sm text-muted-foreground">Sign in to your {brand.tagline.toLowerCase()}</p>
+            <h1 className="mt-5 font-display text-lg font-extrabold uppercase leading-tight tracking-tight text-brand-navy dark:text-white">
+              {brand.wordmark.top}
+            </h1>
+            <p className="font-display text-xl font-extrabold uppercase tracking-[0.45em] pl-[0.45em] text-forge">{brand.wordmark.bottom}</p>
+            <p className="mt-3 text-sm text-muted-foreground">Sign in to the lab&apos;s {brand.tagline.toLowerCase()}</p>
           </div>
 
           <form onSubmit={onSubmit} className="space-y-4" noValidate>
@@ -116,7 +121,7 @@ export function LoginForm() {
               </motion.p>
             )}
 
-            <Button type="submit" className="w-full" size="lg" loading={loading}>
+            <Button type="submit" variant="forge" className="w-full" size="lg" loading={loading}>
               {!loading && <LogIn />}
               Sign in
             </Button>
@@ -126,6 +131,7 @@ export function LoginForm() {
             Accounts are created by your lab admin. Forgot your password? Ask the admin to reset it.
           </p>
         </Card>
+        </div>
       </motion.div>
     </motion.div>
   );

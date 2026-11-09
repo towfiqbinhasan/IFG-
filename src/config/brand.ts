@@ -8,15 +8,19 @@ export const brand = {
   /** Shown in the header, login page, browser title and PWA. */
   appName: "The Intelligence Forge Lab",
   /** Short name for the PWA/home-screen icon label. */
-  shortName: "IFL Tracker",
+  shortName: "Forge Lab",
+  /** Two-line wordmark used next to the logo (sidebar, login, splash). */
+  wordmark: { top: "The Intelligence Forge", bottom: "Lab" },
   tagline: "Paper Tracker",
   description: "Track the papers your research lab reads, the topics you cover and the deadlines you chase.",
 
   /** Path (inside /public) of the logo. Replace /public/logo.svg to change it everywhere. */
-  logoSrc: "/logo.jpg",
+  logoSrc: "/logo.svg",
+  /** High-res emblem (no tile) used by the splash animation. Built by scripts/build-logo.mjs. */
+  emblemSrc: "/brand/emblem.png",
 
   /** Theme colour used for the browser UI / Android status bar. */
-  themeColor: "#2a78d6",
+  themeColor: "#0a2a5e",
 
   /**
    * Splash / loading animation.
@@ -29,7 +33,7 @@ export const brand = {
     type: "default" as "default" | "image" | "video" | "custom",
     src: "/brand/splash.svg",
     /** Minimum time (ms) the splash stays visible on first app load. */
-    minDurationMs: 1200,
+    minDurationMs: 2600,
     /** Show the splash only once per browser session (true) or on every full reload (false). */
     oncePerSession: true,
     background: "hsl(var(--background))",

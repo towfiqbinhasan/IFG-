@@ -87,7 +87,7 @@ export function ChangePasswordForm({
           {error}
         </p>
       )}
-      <Button type="submit" className={variant === "card" ? "w-full" : ""} loading={loading}>
+      <Button type="submit" variant={variant === "card" ? "forge" : "default"} className={variant === "card" ? "w-full" : ""} loading={loading}>
         {!loading && <KeyRound />}
         {forced ? "Set password & continue" : "Update password"}
       </Button>
@@ -100,7 +100,7 @@ export function ChangePasswordForm({
     <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
       <Card className="bg-card/80 p-6 shadow-xl backdrop-blur-xl sm:p-8">
         <div className="mb-6 flex flex-col items-center text-center">
-          <Logo size={52} />
+          <Logo size={60} glow />
           <div className="mt-4 flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5" />
             <h1 className="text-lg font-semibold text-foreground">{forced ? "Choose a new password" : "Change password"}</h1>

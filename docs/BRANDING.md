@@ -1,11 +1,12 @@
 # Branding: logo, icons and splash animation
 
-Branding lives in **two places**:
+Branding lives in **three places**:
 
 | File | Controls |
 |---|---|
 | `public/logo.svg` | The logo everywhere: header, sidebar, login, splash, favicon, PWA icons and the Android app icon |
-| `src/config/brand.ts` | App name, tagline, theme colour, and which splash animation to use and for how long |
+| `src/config/brand.ts` | App name, two-line wordmark, tagline, theme colour, and which splash animation to use and for how long |
+| `src/app/globals.css` | Brand colours (`--brand-navy`, `--brand-blue`, `--brand-cyan`, `--brand-glow`) and the `bg-forge`, `text-forge` and `hex-pattern` utilities |
 
 ## Replace the logo
 
@@ -40,16 +41,22 @@ Branding lives in **two places**:
 5. Commit and push. Vercel redeploys the web app. Rebuild the APK so the new launcher icon
    appears.
 
-> **Only have a PNG?** Wrap it in an SVG so the pipeline still works:
->
-> ```xml
-> <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
->   <image href="logo.png" width="512" height="512"/>
-> </svg>
-> ```
->
-> Put `logo.png` next to the SVG in `public/`. For `npm run icons`, embed the PNG as a base64
-> `data:` URI instead, because sharp cannot load linked files.
+### Starting from a PNG/JPG (how the current logo was made)
+
+The current logo was built from a raster image with `scripts/build-logo.mjs`:
+
+```bash
+# source image, then the square crop box around the emblem: left top size (pixels)
+node scripts/build-logo.mjs assets/brand/logo-source.jpg 478 92 446
+npm run icons && npm run android:assets && npx cap sync android
+```
+
+The script crops the emblem, cleans the paper background to white, and writes:
+
+- `public/brand/emblem.png`: the 1024px emblem used by the splash
+- `public/logo.svg`: a rounded white tile with the emblem embedded
+
+With a new image, adjust the three crop numbers until the emblem fills the square.
 
 The logo is rendered by `src/components/brand/logo.tsx`. Its size is set per placement, and
 `withText` adds the app name beside it.

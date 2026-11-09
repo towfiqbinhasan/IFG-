@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Plus, Sparkles, UserPlus, Shield } from "lucide-react";
+import { ArrowRight, Plus, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/shared/empty-state";
+import { HeroBanner } from "@/components/shared/hero-banner";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { StaggerItem, StaggerList } from "@/components/shared/motion";
 import { MemberStats } from "@/components/members/member-stats";
@@ -40,55 +40,23 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Hero Welcome Banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 sm:p-8 backdrop-blur-xl shadow-sm">
-        <div className="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border-2 border-primary/20 bg-background/80 p-1 shadow-md">
-              <Image
-                src={brand.logoSrc}
-                alt={brand.appName}
-                fill
-                sizes="64px"
-                className="object-contain rounded-xl"
-                priority
-                unoptimized
-              />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                  <Sparkles className="h-3 w-3" /> {brand.appName}
-                </span>
-                {profile.role === "admin" && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground">
-                    <Shield className="h-3 w-3" /> Admin
-                  </span>
-                )}
-              </div>
-              <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">
-                {greeting()}, {profile.full_name.split(" ")[0] || profile.username}!
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Your research overview &amp; reading tracker.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
+      <HeroBanner
+        eyebrow={profile.role === "admin" ? `${brand.appName} · Admin` : brand.appName}
+        title={`${greeting()}, ${profile.full_name.split(" ")[0] || profile.username} 👋`}
+        description="Your reading at a glance — papers, topics, streaks and the deadlines coming up."
+        actions={
+          <>
             {profile.role === "admin" && (
-              <Button variant="outline" className="border-primary/30 hover:bg-primary/10" asChild>
-                <Link href="/admin/users">
-                  <UserPlus className="mr-1.5 h-4 w-4" /> Add Member
-                </Link>
+              <Button variant="outline" asChild className="border-white/40 bg-white/10 text-white backdrop-blur hover:bg-white/20 hover:text-white">
+                <Link href="/admin/users"><UserPlus /> Add member</Link>
               </Button>
             )}
-            <Button asChild className="shadow-md">
-              <Link href="/papers/new"><Plus className="mr-1.5 h-4 w-4" /> Log Paper</Link>
+            <Button asChild className="bg-white text-brand-navy shadow-lg hover:bg-sky-50">
+              <Link href="/papers/new"><Plus /> Log paper</Link>
             </Button>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
       <MemberStats papers={papers} />
 
