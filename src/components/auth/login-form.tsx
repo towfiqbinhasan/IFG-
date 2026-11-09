@@ -15,6 +15,7 @@ import { ForgotPasswordDialog } from "./forgot-password-dialog";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/client";
 import { normalizeUsername, usernameToEmail } from "@/lib/auth";
+import { AndroidDownloadLink } from "@/components/shared/android-app";
 import { brand } from "@/config/brand";
 
 const REASONS: Record<string, string> = {
@@ -127,6 +128,9 @@ export function LoginForm() {
           <p className="mt-6 text-center text-xs text-muted-foreground">
             Accounts are created by your lab admin.
           </p>
+          <div className="mt-3 flex justify-center">
+            <AndroidDownloadLink compact />
+          </div>
         </Card>
         </div>
       </motion.div>

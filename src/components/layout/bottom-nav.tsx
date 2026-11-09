@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { LogOut, Menu, UserCircle } from "lucide-react";
+import { AndroidDownloadLink } from "@/components/shared/android-app";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Logo } from "@/components/brand/logo";
 import { NAV_ITEMS, isActive } from "./nav-items";
@@ -90,6 +91,7 @@ export function BottomNav({ role }: { role: Role }) {
               Sign out
             </a>
           </div>
+          <AndroidDownloadLink className="mt-1 w-full" />
         </DialogContent>
       </Dialog>
     </>

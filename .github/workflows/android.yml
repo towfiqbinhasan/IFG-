@@ -1,14 +1,19 @@
 # Builds the Android APKs in the cloud — no local Android Studio needed.
 #
-# Required (Settings -> Secrets and variables -> Actions):
-#   Variables:  CAP_SERVER_URL              e.g. https://your-app.vercel.app
-#   Secrets (only for the signed release APK):
+# Optional (Settings -> Secrets and variables -> Actions):
+#   Variables:  CAP_SERVER_URL              defaults to https://lab-paper-tracker.vercel.app
+#   Secrets (only for the signed release APK; without them a debug APK is published):
 #               ANDROID_KEYSTORE_BASE64     base64 of your release.keystore
 #               ANDROID_KEYSTORE_PASSWORD
 #               ANDROID_KEY_ALIAS
 #               ANDROID_KEY_PASSWORD
 #
-# Trigger: Actions tab -> "Android APK" -> Run workflow, or push a tag like v1.0.0.
+# Trigger: Actions tab -> "Android APK" -> Run workflow, push a tag like v1.0.0, or push
+# changes to the Android shell / logo on main.
+#
+# Every run publishes the APK to the "android-latest" GitHub release as forge-lab.apk:
+#   https://github.com/towfiqbinhasan/IFG-/releases/download/android-latest/forge-lab.apk
+# The website's "Download the Android app" links point there.
 name: Android APK
 
 on:
@@ -20,14 +25,24 @@ on:
         default: "1.0.0"
   push:
     tags: ["v*"]
+    branches: [main]
+    paths:
+      - "android/**"
+      - "capacitor.config.ts"
+      - "capacitor-www/**"
+      - "public/logo.svg"
+      - ".github/workflows/android.yml"
+
+permissions:
+  contents: write   # publish the APK to the android-latest release
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      CAP_SERVER_URL: ${{ vars.CAP_SERVER_URL }}
+      CAP_SERVER_URL: ${{ vars.CAP_SERVER_URL || 'https://lab-paper-tracker.vercel.app' }}
       ANDROID_VERSION_CODE: ${{ github.run_number }}
-      ANDROID_VERSION_NAME: ${{ github.event.inputs.version_name || github.ref_name }}
+      ANDROID_VERSION_NAME: ${{ github.event.inputs.version_name || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || format('1.0.{0}', github.run_number) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -104,3 +119,24 @@ jobs:
           path: |
             android/app/build/outputs/apk/release/*.apk
             android/app/build/outputs/bundle/release/*.aab
+
+      - name: Publish forge-lab.apk to the android-latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f android/app/build/outputs/apk/release/app-release.apk ]; then
+            SRC=android/app/build/outputs/apk/release/app-release.apk; KIND="signed release"
+          else
+            SRC=$(ls android/app/build/outputs/apk/debug/*.apk | head -1); KIND="debug"
+          fi
+          cp "$SRC" forge-lab.apk
+          NOTES="Forge Lab for Android, version ${ANDROID_VERSION_NAME} (build ${ANDROID_VERSION_CODE}, ${KIND}). The app opens ${CAP_SERVER_URL}, so website updates appear in the app automatically.
+
+          Install: download forge-lab.apk on your phone, open it and allow \"Install unknown apps\" for your browser."
+          if gh release view android-latest >/dev/null 2>&1; then
+            gh release upload android-latest forge-lab.apk --clobber
+            gh release edit android-latest --title "Forge Lab Android app" --notes "$NOTES"
+          else
+            gh release create android-latest forge-lab.apk --title "Forge Lab Android app" --notes "$NOTES" --target "$GITHUB_SHA"
+          fi
+          echo "Published ($KIND): https://github.com/${GITHUB_REPOSITORY}/releases/download/android-latest/forge-lab.apk"

@@ -8,6 +8,7 @@ import { brand } from "@/config/brand";
 import { NAV_ITEMS, isActive } from "./nav-items";
 import { cn } from "@/lib/utils";
 import { useNotifications } from "@/components/chat/notifications-provider";
+import { AndroidDownloadLink } from "@/components/shared/android-app";
 import type { Role } from "@/lib/types";
 
 /** Desktop sidebar (lg and up): brand header, animated active indicator. */
@@ -64,6 +65,7 @@ export function Sidebar({ role }: { role: Role }) {
         })}
       </nav>
 
+      <AndroidDownloadLink className="relative mb-3 mt-4" />
       <div className="relative mt-auto border-t border-border/50 px-3 pt-3">
         <p className="truncate text-[11px] font-medium text-muted-foreground/80">
           © {new Date().getFullYear()} {brand.appName}

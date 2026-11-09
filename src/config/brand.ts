@@ -16,6 +16,11 @@ export const brand = {
 
   /** Path (inside /public) of the logo. Replace /public/logo.svg to change it everywhere. */
   logoSrc: "/logo.svg",
+  /**
+   * Android app download (built by .github/workflows/android.yml and published to the
+   * "android-latest" GitHub release). Set to "" to hide every download link.
+   */
+  androidApkUrl: "https://github.com/towfiqbinhasan/IFG-/releases/download/android-latest/forge-lab.apk",
   /** Dark-mode version (emblem on a navy tile). Built by scripts/build-logo-dark.mjs. */
   logoDarkSrc: "/logo-dark.svg",
   /** High-res emblem (no tile) used by the splash animation. Built by scripts/build-logo.mjs. */
