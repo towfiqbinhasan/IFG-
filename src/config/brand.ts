@@ -1,0 +1,37 @@
+/**
+ * ============================================================
+ *  BRANDING - the single place to customise name, logo & splash.
+ *  See docs/BRANDING.md for step-by-step instructions.
+ * ============================================================
+ */
+export const brand = {
+  /** Shown in the header, login page, browser title and PWA. */
+  appName: "The Intelligence Forge Lab",
+  /** Short name for the PWA/home-screen icon label. */
+  shortName: "IFL Tracker",
+  tagline: "Paper Tracker",
+  description: "Track the papers your research lab reads, the topics you cover and the deadlines you chase.",
+
+  /** Path (inside /public) of the logo. Replace /public/logo.svg to change it everywhere. */
+  logoSrc: "/logo.jpg",
+
+  /** Theme colour used for the browser UI / Android status bar. */
+  themeColor: "#2a78d6",
+
+  /**
+   * Splash / loading animation.
+   *  - "default": built-in animated logo (components/brand/splash-animation.tsx)
+   *  - "image":   any image/GIF/animated SVG at `src`
+   *  - "video":   an mp4/webm at `src` (muted, autoplay, plays once)
+   *  - "custom":  edit components/brand/custom-splash.tsx (e.g. Lottie)
+   */
+  splash: {
+    type: "default" as "default" | "image" | "video" | "custom",
+    src: "/brand/splash.svg",
+    /** Minimum time (ms) the splash stays visible on first app load. */
+    minDurationMs: 1200,
+    /** Show the splash only once per browser session (true) or on every full reload (false). */
+    oncePerSession: true,
+    background: "hsl(var(--background))",
+  },
+} as const;

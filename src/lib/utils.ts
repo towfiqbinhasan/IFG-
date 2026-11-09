@@ -1,0 +1,52 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+/** Merge Tailwind classes, resolving conflicts (shadcn/ui convention). */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+/** Initials for avatar fallbacks: "Ada Lovelace" -> "AL". */
+export function initials(name?: string | null) {
+  if (!name) return "?";
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]!.toUpperCase())
+    .join("");
+}
+
+/** "90" -> "1h 30m". */
+export function formatMinutes(min?: number | null) {
+  if (!min) return "—";
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  return h ? `${h}h${m ? ` ${m}m` : ""}` : `${m}m`;
+}
+
+/** Normalise a DOI or URL into a clickable link. */
+export function doiHref(value?: string | null) {
+  if (!value) return null;
+  const v = value.trim();
+  if (/^https?:\/\//i.test(v)) return v;
+  if (/^10\.\d{4,9}\//.test(v)) return `https://doi.org/${v}`;
+  return `https://${v}`;
+}
+
+/** Safe "YYYY-MM" month key. */
+export function monthKey(d: string | Date) {
+  const date = typeof d === "string" ? new Date(d) : d;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+}
+
+/** Random readable temporary password, e.g. "Lab-k7Qm-29xP". */
+export function generateTempPassword() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+  const pick = (n: number) => {
+    const arr = new Uint32Array(n);
+    crypto.getRandomValues(arr);
+    return Array.from(arr, (x) => chars[x % chars.length]).join("");
+  };
+  return `Lab-${pick(4)}-${pick(4)}`;
+}
