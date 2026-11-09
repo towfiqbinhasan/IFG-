@@ -40,13 +40,23 @@ export function monthKey(d: string | Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
 
-/** Random readable temporary password, e.g. "Lab-k7Qm-29xP". */
+/**
+ * Random readable temporary password, e.g. "Lab-k7Qm-29xP".
+ * Always contains at least one digit, so it satisfies validatePassword()
+ * (letters + numbers); ambiguous characters (0/O, 1/l/I) are excluded.
+ */
 export function generateTempPassword() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
-  const pick = (n: number) => {
+  const digits = "23456789";
+  const rand = (n: number) => {
     const arr = new Uint32Array(n);
     crypto.getRandomValues(arr);
-    return Array.from(arr, (x) => chars[x % chars.length]).join("");
+    return Array.from(arr);
   };
-  return `Lab-${pick(4)}-${pick(4)}`;
+  const body = rand(8).map((x) => chars[x % chars.length]!);
+  if (!body.some((c) => digits.includes(c))) {
+    const [pos, d] = rand(2);
+    body[pos! % body.length] = digits[d! % digits.length]!;
+  }
+  return `Lab-${body.slice(0, 4).join("")}-${body.slice(4).join("")}`;
 }

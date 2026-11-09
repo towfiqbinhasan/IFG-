@@ -76,14 +76,17 @@ export function UsersManager({
     return users.filter((u) => !s || `${u.full_name} ${u.username} ${u.research_area ?? ""}`.toLowerCase().includes(s));
   }, [users, q]);
 
-  async function run(id: string, fn: () => Promise<unknown>, success: string) {
+  /** Runs an admin action with busy state + toasts. Resolves true on success. */
+  async function run(id: string, fn: () => Promise<unknown>, success: string): Promise<boolean> {
     setBusy(id);
     try {
       await fn();
       toast.success(success);
       router.refresh();
+      return true;
     } catch (e) {
       toast.error((e as Error).message);
+      return false;
     } finally {
       setBusy(null);
     }
@@ -91,8 +94,9 @@ export function UsersManager({
 
   async function resetPassword(u: Profile) {
     const password = generateTempPassword();
-    await run(u.id, () => api(`/api/admin/users/${u.id}`, "PATCH", { action: "reset_password", password }), "Password reset");
-    setCredentials({ username: u.username, password, title: "Temporary password reset" });
+    const ok = await run(u.id, () => api(`/api/admin/users/${u.id}`, "PATCH", { action: "reset_password", password }), "Password reset");
+    // Only show credentials that were actually applied.
+    if (ok) setCredentials({ username: u.username, password, title: "Temporary password reset" });
   }
 
   async function dismissRequest(id: string) {
