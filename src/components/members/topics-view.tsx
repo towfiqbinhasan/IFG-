@@ -3,7 +3,8 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Search } from "lucide-react";
+import { ArrowRight, ChevronDown, Plus, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { UserAvatar } from "@/components/shared/user-avatar";
@@ -109,7 +110,7 @@ export function TopicsView({
                           <p className="text-sm text-muted-foreground">No papers tagged with this topic yet.</p>
                         ) : (
                           <ul className="divide-y">
-                            {r.papers.slice(0, 15).map((p) => (
+                            {r.papers.slice(0, 8).map((p) => (
                               <li key={p.id}>
                                 <Link href={`/papers/${p.id}`} className="flex items-center gap-2 py-2 hover:text-primary">
                                   <span className="min-w-0 flex-1 truncate text-sm">{p.title}</span>
@@ -120,9 +121,18 @@ export function TopicsView({
                             ))}
                           </ul>
                         )}
-                        {r.papers.length > 15 && (
-                          <Link href={`/explore?topic=${r.topic.id}`} className="text-sm text-primary hover:underline">View all {r.papers.length} in explorer →</Link>
-                        )}
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Button variant="forge" size="sm" asChild>
+                            <Link href={`/topics/${r.topic.id}`}>
+                              Open topic page <ArrowRight />
+                            </Link>
+                          </Button>
+                          <Button variant="outline" size="sm" asChild>
+                            <Link href={`/papers/new?topic=${r.topic.id}`}>
+                              <Plus /> Add a paper
+                            </Link>
+                          </Button>
+                        </div>
                       </div>
                     </motion.div>
                   )}

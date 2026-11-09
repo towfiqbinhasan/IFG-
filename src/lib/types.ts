@@ -37,12 +37,17 @@ export interface Paper {
   venue: string | null;
   doi_url: string | null;
   pdf_path: string | null;
+  /** Member's analysis uploaded as a PDF (migration 004). */
+  review_pdf_path?: string | null;
   paper_type: PaperType;
   status: PaperStatus;
   date_read: string | null;
   read_method: ReadMethod | null;
   time_spent_minutes: number | null;
   summary: string | null;
+  /** Migration 004 - undefined until it has been run. */
+  novelty?: string | null;
+  research_gap?: string | null;
   key_contributions: string | null;
   methodology: string | null;
   results: string | null;

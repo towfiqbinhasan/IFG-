@@ -9,7 +9,7 @@ import { ConfirmDialog } from "@/components/shared/confirm-dialog";
 import { createClient } from "@/lib/supabase/client";
 
 /** Opens a short-lived signed URL for the private PDF. */
-export function PdfButton({ path }: { path: string }) {
+export function PdfButton({ path, label = "PDF" }: { path: string; label?: string }) {
   async function open() {
     const { data, error } = await createClient().storage.from("papers").createSignedUrl(path, 60 * 10);
     if (error || !data) return toast.error("Could not open PDF");
@@ -17,17 +17,28 @@ export function PdfButton({ path }: { path: string }) {
   }
   return (
     <Button variant="outline" onClick={open}>
-      <Download /> PDF
+      <Download /> {label}
     </Button>
   );
 }
 
 /** Edit / delete controls (rendered only for the owner or an admin). */
-export function PaperOwnerActions({ id, pdfPath, canEdit }: { id: string; pdfPath: string | null; canEdit: boolean }) {
+export function PaperOwnerActions({
+  id,
+  pdfPath,
+  reviewPdfPath,
+  canEdit,
+}: {
+  id: string;
+  pdfPath: string | null;
+  reviewPdfPath?: string | null;
+  canEdit: boolean;
+}) {
   const router = useRouter();
   async function remove() {
     const supabase = createClient();
-    if (pdfPath) await supabase.storage.from("papers").remove([pdfPath]);
+    const files = [pdfPath, reviewPdfPath].filter(Boolean) as string[];
+    if (files.length) await supabase.storage.from("papers").remove(files);
     const { error } = await supabase.from("papers").delete().eq("id", id);
     if (error) return toast.error(error.message);
     toast.success("Paper deleted");

@@ -25,7 +25,8 @@ export function PapersModeration({ papers }: { papers: PaperWithRelations[] }) {
 
   async function remove(p: PaperWithRelations) {
     const supabase = createClient();
-    if (p.pdf_path) await supabase.storage.from("papers").remove([p.pdf_path]);
+    const files = [p.pdf_path, p.review_pdf_path].filter(Boolean) as string[];
+    if (files.length) await supabase.storage.from("papers").remove(files);
     const { error } = await supabase.from("papers").delete().eq("id", p.id);
     if (error) return toast.error(error.message);
     toast.success("Paper deleted");

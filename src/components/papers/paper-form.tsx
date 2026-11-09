@@ -32,6 +32,8 @@ type FormState = {
   hours: string;
   minutes: string;
   summary: string;
+  novelty: string;
+  research_gap: string;
   key_contributions: string;
   methodology: string;
   results: string;
@@ -41,7 +43,7 @@ type FormState = {
   topicIds: string[];
 };
 
-function toState(p?: PaperWithRelations): FormState {
+function toState(p?: PaperWithRelations, initialTopicIds: string[] = []): FormState {
   const mins = p?.time_spent_minutes ?? 0;
   return {
     title: p?.title ?? "",
@@ -56,23 +58,38 @@ function toState(p?: PaperWithRelations): FormState {
     hours: mins ? String(Math.floor(mins / 60)) : "",
     minutes: mins ? String(mins % 60) : "",
     summary: p?.summary ?? "",
+    novelty: p?.novelty ?? "",
+    research_gap: p?.research_gap ?? "",
     key_contributions: p?.key_contributions ?? "",
     methodology: p?.methodology ?? "",
     results: p?.results ?? "",
     limitations: p?.limitations ?? "",
     notes: p?.notes ?? "",
     rating: p?.rating ?? null,
-    topicIds: p?.topics.map((t) => t.id) ?? [],
+    topicIds: p?.topics.map((t) => t.id) ?? initialTopicIds,
   };
 }
 
 /** Create / edit a paper log entry, including topics and optional PDF. */
-export function PaperForm({ paper, topics: initialTopics, userId }: { paper?: PaperWithRelations; topics: Topic[]; userId: string }) {
+export function PaperForm({
+  paper,
+  topics: initialTopics,
+  userId,
+  initialTopicIds,
+}: {
+  paper?: PaperWithRelations;
+  topics: Topic[];
+  userId: string;
+  /** Pre-selected topics for a new paper (e.g. coming from a topic page). */
+  initialTopicIds?: string[];
+}) {
   const router = useRouter();
-  const [s, setS] = useState<FormState>(() => toState(paper));
+  const [s, setS] = useState<FormState>(() => toState(paper, initialTopicIds));
   const [topics, setTopics] = useState<Topic[]>(initialTopics);
   const [pdf, setPdf] = useState<File | null>(null);
   const [removePdf, setRemovePdf] = useState(false);
+  const [reviewPdf, setReviewPdf] = useState<File | null>(null);
+  const [removeReviewPdf, setRemoveReviewPdf] = useState(false);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
 
@@ -95,7 +112,7 @@ export function PaperForm({ paper, topics: initialTopics, userId }: { paper?: Pa
   async function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
     if (!validate()) return toast.error("Please fix the highlighted fields.");
-    if (pdf && pdf.size > MAX_PDF_MB * 1024 * 1024) return toast.error(`PDF must be under ${MAX_PDF_MB} MB.`);
+    if ([pdf, reviewPdf].some((f) => f && f.size > MAX_PDF_MB * 1024 * 1024)) return toast.error(`PDF must be under ${MAX_PDF_MB} MB.`);
 
     setSaving(true);
     const supabase = createClient();
@@ -112,6 +129,8 @@ export function PaperForm({ paper, topics: initialTopics, userId }: { paper?: Pa
       read_method: s.read_method === "none" ? null : s.read_method,
       time_spent_minutes: minutes || null,
       summary: s.summary.trim() || null,
+      novelty: s.novelty.trim() || null,
+      research_gap: s.research_gap.trim() || null,
       key_contributions: s.key_contributions.trim() || null,
       methodology: s.methodology.trim() || null,
       results: s.results.trim() || null,
@@ -148,24 +167,34 @@ export function PaperForm({ paper, topics: initialTopics, userId }: { paper?: Pa
 
       // 3. PDF: path is "<owner_id>/<paper_id>/<timestamp>-<name>" (storage RLS requires owner folder).
       const ownerId = paper?.user_id ?? userId;
-      if ((pdf || removePdf) && paper?.pdf_path) {
-        await supabase.storage.from("papers").remove([paper.pdf_path]);
+      async function syncPdf(column: "pdf_path" | "review_pdf_path", file: File | null, remove: boolean, prefix: string) {
+        const current = paper?.[column];
+        if ((file || remove) && current) await supabase.storage.from("papers").remove([current]);
+        if (file) {
+          const safe = file.name.replace(/[^\w.-]+/g, "_").slice(-80);
+          const path = `${ownerId}/${paperId}/${prefix}${Date.now()}-${safe}`;
+          const { error } = await supabase.storage.from("papers").upload(path, file, { contentType: "application/pdf", upsert: false });
+          if (error) throw error;
+          const { error: e2 } = await supabase.from("papers").update({ [column]: path }).eq("id", paperId!);
+          if (e2) throw e2;
+        } else if (remove) {
+          await supabase.from("papers").update({ [column]: null }).eq("id", paperId!);
+        }
       }
-      if (pdf) {
-        const safe = pdf.name.replace(/[^\w.-]+/g, "_").slice(-80);
-        const path = `${ownerId}/${paperId}/${Date.now()}-${safe}`;
-        const { error } = await supabase.storage.from("papers").upload(path, pdf, { contentType: "application/pdf", upsert: false });
-        if (error) throw error;
-        await supabase.from("papers").update({ pdf_path: path }).eq("id", paperId);
-      } else if (removePdf) {
-        await supabase.from("papers").update({ pdf_path: null }).eq("id", paperId);
-      }
+      await syncPdf("pdf_path", pdf, removePdf, "");
+      await syncPdf("review_pdf_path", reviewPdf, removeReviewPdf, "review-");
 
       toast.success(paper ? "Paper updated" : "Paper added to your log");
       router.push(`/papers/${paperId}`);
       router.refresh();
     } catch (err) {
-      toast.error((err as { message?: string }).message ?? "Could not save the paper.");
+      const e = err as { message?: string; code?: string };
+      const needsMigration = e.code === "PGRST204" || /novelty|research_gap|review_pdf_path/.test(e.message ?? "");
+      toast.error(
+        needsMigration
+          ? "Database update needed: ask the admin to run supabase/migrations/004_paper_analysis.sql in Supabase."
+          : e.message ?? "Could not save the paper.",
+      );
       setSaving(false);
     }
   }
@@ -292,15 +321,51 @@ export function PaperForm({ paper, topics: initialTopics, userId }: { paper?: Pa
         <Card>
           <CardHeader>
             <CardTitle>Notes & analysis</CardTitle>
-            <CardDescription>Your understanding of the paper. All fields optional.</CardDescription>
+            <CardDescription>
+              Your understanding of the paper — write it below, or upload your analysis as a PDF. All fields optional.
+            </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4 md:grid-cols-2">
             <Field label="Summary" className="md:col-span-2"><Textarea {...text("summary")} rows={4} placeholder="What is this paper about, in a few sentences?" /></Field>
+            <Field label="Novelty"><Textarea {...text("novelty")} placeholder="What is new here compared with prior work?" /></Field>
+            <Field label="Research gap"><Textarea {...text("research_gap")} placeholder="What problem / gap does it address? What is still open?" /></Field>
+            <Field label="Methodology"><Textarea {...text("methodology")} placeholder="How did they do it? Model, data, experiments…" /></Field>
+            <Field label="Results"><Textarea {...text("results")} placeholder="Main findings and numbers." /></Field>
             <Field label="Key contributions"><Textarea {...text("key_contributions")} /></Field>
-            <Field label="Methodology"><Textarea {...text("methodology")} /></Field>
-            <Field label="Results"><Textarea {...text("results")} /></Field>
             <Field label="Limitations"><Textarea {...text("limitations")} /></Field>
             <Field label="My notes" className="md:col-span-2"><Textarea {...text("notes")} rows={4} placeholder="Ideas, questions, links to your own work…" /></Field>
+            <Field
+              label="Analysis as PDF (optional)"
+              htmlFor="review_pdf"
+              hint={`Prefer writing elsewhere? Upload your notes / review (novelty, gap, method, results) as a PDF, up to ${MAX_PDF_MB} MB`}
+              className="md:col-span-2"
+            >
+              <div className="flex flex-wrap items-center gap-3">
+                <label
+                  htmlFor="review_pdf"
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-dashed px-4 py-2 text-sm hover:bg-accent"
+                >
+                  <FileUp className="h-4 w-4" />
+                  {reviewPdf ? reviewPdf.name : paper?.review_pdf_path && !removeReviewPdf ? "Replace analysis PDF" : "Choose analysis PDF"}
+                </label>
+                <input
+                  id="review_pdf"
+                  type="file"
+                  accept="application/pdf"
+                  className="sr-only"
+                  onChange={(e) => {
+                    setReviewPdf(e.target.files?.[0] ?? null);
+                    setRemoveReviewPdf(false);
+                  }}
+                />
+                {paper?.review_pdf_path && !reviewPdf && !removeReviewPdf && (
+                  <Button type="button" variant="ghost" size="sm" onClick={() => setRemoveReviewPdf(true)}>
+                    <Trash2 /> Remove analysis PDF
+                  </Button>
+                )}
+                {removeReviewPdf && <span className="text-xs text-muted-foreground">Analysis PDF will be removed on save.</span>}
+              </div>
+            </Field>
           </CardContent>
         </Card>
       </motion.div>

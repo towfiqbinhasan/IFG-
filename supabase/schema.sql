@@ -56,6 +56,7 @@ create table if not exists public.papers (
   venue               text,
   doi_url             text,
   pdf_path            text,                -- object path inside the 'papers' storage bucket
+  review_pdf_path     text,                -- member's written analysis as a PDF (same bucket)
   paper_type          text not null default 'Empirical'
                        check (paper_type in ('Survey','Empirical','Theoretical','Review','Case study','Dataset','Other')),
   status              text not null default 'To read'
@@ -64,6 +65,8 @@ create table if not exists public.papers (
   read_method         text check (read_method in ('full_read','skim','abstract_only','group_discussion')),
   time_spent_minutes  int check (time_spent_minutes >= 0),
   summary             text,
+  novelty             text,
+  research_gap        text,
   key_contributions   text,
   methodology         text,
   results             text,

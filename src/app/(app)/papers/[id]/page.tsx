@@ -27,9 +27,11 @@ export default async function PaperDetailPage({ params }: { params: { id: string
 
   const sections = [
     { title: "Summary", body: p.summary },
-    { title: "Key contributions", body: p.key_contributions },
+    { title: "Novelty", body: p.novelty },
+    { title: "Research gap", body: p.research_gap },
     { title: "Methodology", body: p.methodology },
     { title: "Results", body: p.results },
+    { title: "Key contributions", body: p.key_contributions },
     { title: "Limitations", body: p.limitations },
     { title: "My notes", body: p.notes },
   ].filter((s) => s.body);
@@ -63,8 +65,9 @@ export default async function PaperDetailPage({ params }: { params: { id: string
               </a>
             </Button>
           )}
-          {p.pdf_path && <PdfButton path={p.pdf_path} />}
-          {canDelete && <PaperOwnerActions id={p.id} pdfPath={p.pdf_path} canEdit={isOwner} />}
+          {p.pdf_path && <PdfButton path={p.pdf_path} label="Paper PDF" />}
+          {p.review_pdf_path && <PdfButton path={p.review_pdf_path} label="Analysis PDF" />}
+          {canDelete && <PaperOwnerActions id={p.id} pdfPath={p.pdf_path} reviewPdfPath={p.review_pdf_path} canEdit={isOwner} />}
         </div>
       </div>
 
@@ -100,6 +103,8 @@ export default async function PaperDetailPage({ params }: { params: { id: string
             </StaggerItem>
           ))}
         </StaggerList>
+      ) : p.review_pdf_path ? (
+        <p className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">The analysis for this paper was uploaded as a PDF — use “Analysis PDF” above.</p>
       ) : (
         <p className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">No notes written for this paper yet.</p>
       )}

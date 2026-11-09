@@ -5,13 +5,17 @@ import type { Topic } from "@/lib/types";
 
 export const metadata = { title: "Add paper" };
 
-export default async function NewPaperPage() {
+export default async function NewPaperPage({ searchParams }: { searchParams: { topic?: string } }) {
   const { supabase, profile } = await getSessionProfile();
   const { data: topics } = await supabase.from("topics").select("*").order("name");
   return (
     <div className="mx-auto max-w-3xl">
       <PageHeader title="Add a paper" description="Log a paper to your reading list." />
-      <PaperForm topics={(topics ?? []) as Topic[]} userId={profile.id} />
+      <PaperForm
+        topics={(topics ?? []) as Topic[]}
+        userId={profile.id}
+        initialTopicIds={(topics ?? []).some((t) => t.id === searchParams.topic) ? [searchParams.topic!] : []}
+      />
     </div>
   );
 }
