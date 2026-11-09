@@ -139,9 +139,11 @@ export function PaperForm({
       rating: s.rating,
     };
 
+    // Declared outside try so a failure after the row was created can recover.
+    let paperId = paper?.id;
+    let created = false;
     try {
       // 1. Upsert the paper row.
-      let paperId = paper?.id;
       if (paperId) {
         const { error } = await supabase.from("papers").update(payload).eq("id", paperId);
         if (error) throw error;
@@ -149,6 +151,7 @@ export function PaperForm({
         const { data, error } = await supabase.from("papers").insert({ ...payload, user_id: userId }).select("id").single();
         if (error) throw error;
         paperId = data.id as string;
+        created = true;
       }
 
       // 2. Sync topics (replace the set).
@@ -189,6 +192,14 @@ export function PaperForm({
       router.refresh();
     } catch (err) {
       const e = err as { message?: string; code?: string };
+      if (created && paperId) {
+        // The paper row exists; send the user to edit it instead of letting a
+        // second "Add paper" click create a duplicate.
+        toast.error(`Paper saved, but a later step failed: ${e.message ?? "unknown error"}. You can retry from Edit.`);
+        router.push(`/papers/${paperId}/edit`);
+        router.refresh();
+        return;
+      }
       const needsMigration = e.code === "PGRST204" || /novelty|research_gap|review_pdf_path/.test(e.message ?? "");
       toast.error(
         needsMigration
