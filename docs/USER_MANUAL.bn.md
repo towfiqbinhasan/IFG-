@@ -67,6 +67,20 @@ Screen-এর দুটো অংশ সবসময় থাকে: বাম 
 - **আপনার ছবি বা নামের আদ্যক্ষর:** click করলে **Profile & settings**, **Change password** আর
   **Sign out** দেখাবে।
 
+### Android app
+
+Android ফোনে Paper Tracker একটা app হিসেবেও ব্যবহার করা যায়।
+
+1. ফোনে website খুলুন। নিচে **Get the Forge Lab app** banner আসবে, **Download**-এ tap করুন।
+   Sidebar বা login page-এর **Android app** link, অথবা এই link-ও ব্যবহার করতে পারেন:
+   <https://github.com/towfiqbinhasan/IFG-/releases/download/android-latest/forge-lab.apk>
+2. Download হওয়া **forge-lab.apk** খুলুন। Android অনুমতি চাইলে browser-কে **Install unknown apps**-এর
+   অনুমতি দিন, তারপর **Install**-এ tap করুন।
+3. **Forge Lab** app খুলে আগের username আর password দিয়ে login করুন।
+
+App-এর ভেতরে একই website চলে, তাই নতুন feature নিজে থেকেই app-এ চলে আসে। Admin না বললে নতুন APK
+লাগবে না।
+
 ---
 
 ## ২. প্রথমবার login

@@ -64,6 +64,20 @@ The screen has two fixed parts: a **sidebar** on the left and a **top bar**.
 - **Your photo or initials:** opens a menu with **Profile & settings**, **Change password** and
   **Sign out**.
 
+### The Android app
+
+You can also use the Paper Tracker as an app on an Android phone.
+
+1. On the phone, open the website. A **Get the Forge Lab app** banner appears at the bottom;
+   tap **Download**. You can also use **Android app** in the sidebar or on the sign-in page,
+   or this link: <https://github.com/towfiqbinhasan/IFG-/releases/download/android-latest/forge-lab.apk>
+2. Open the downloaded **forge-lab.apk**. If Android asks, allow your browser to
+   **Install unknown apps**, then tap **Install**.
+3. Open **Forge Lab** and sign in with your usual username and password.
+
+The app shows the same website, so new features appear in it automatically. You only need a
+new APK when the admin says so.
+
 ---
 
 ## 2. Signing in for the first time
