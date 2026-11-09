@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { PwaRegister } from "@/components/shared/pwa-register";
+import { UpdateNotice } from "@/components/shared/update-notice";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         {children}
         <Toaster />
         <PwaRegister />
+        <UpdateNotice />
       </MotionConfig>
     </ThemeProvider>
   );
