@@ -452,9 +452,6 @@ app আপনাকে মনে করিয়ে দেয়। প্রত
 ![Members।](images/manual/19-members.png)
 *Members।*
 
-![একজন member-এর profile, Message button সহ।](images/manual/20-member-profile.png)
-*একজন member-এর profile, Message button সহ।*
-
 ![Activity।](images/manual/22-activity.png)
 *Activity।*
 

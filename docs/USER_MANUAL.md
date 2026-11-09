@@ -458,9 +458,6 @@ system.
 ![Members.](images/manual/19-members.png)
 *Members.*
 
-![A member's profile, with the Message button.](images/manual/20-member-profile.png)
-*A member's profile, with the Message button.*
-
 ![Activity.](images/manual/22-activity.png)
 *Activity.*
 
