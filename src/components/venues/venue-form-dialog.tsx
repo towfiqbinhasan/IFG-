@@ -192,7 +192,7 @@ export function VenueFormDialog({ venue, userId, trigger }: { venue?: Venue; use
           <Field label="Notes" className="sm:col-span-2">
             <Textarea value={form.notes} onChange={(e) => set("notes", e.target.value)} placeholder="Page limit, AoE time zone, template link…" />
           </Field>
-          <DialogFooter className="sm:col-span-2">
+          <DialogFooter className="sticky -bottom-5 z-10 -mx-5 -mb-5 border-t bg-background/95 px-5 py-3 backdrop-blur sm:col-span-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" loading={saving}>{venue ? "Save" : "Add venue"}</Button>
           </DialogFooter>

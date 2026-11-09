@@ -17,8 +17,8 @@ export function TopicsPieChart({ data }: { data: { name: string; value: number }
   }));
 
   return (
-    <div className="flex flex-col items-center gap-4 sm:flex-row">
-      <div className="relative h-52 w-52 shrink-0" role="img" aria-label="Topics share">
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative h-44 w-44 shrink-0" role="img" aria-label="Topics share">
         <ResponsiveContainer>
           <PieChart>
             <Pie
@@ -44,12 +44,12 @@ export function TopicsPieChart({ data }: { data: { name: string; value: number }
           <span className="text-xs text-muted-foreground">tagged</span>
         </div>
       </div>
-      <ul className="w-full space-y-1.5 text-sm">
+      <ul className="w-full min-w-0 space-y-1.5 text-sm">
         {colored.map((d) => (
-          <li key={d.name} className="flex items-center gap-2">
+          <li key={d.name} className="flex min-w-0 items-center gap-2">
             <span className="h-3 w-3 shrink-0 rounded-sm" style={{ background: d.fill }} />
-            <span className="truncate">{d.name}</span>
-            <span className="ml-auto tabular-nums text-muted-foreground">
+            <span className="min-w-0 truncate" title={d.name}>{d.name}</span>
+            <span className="ml-auto shrink-0 tabular-nums text-muted-foreground">
               {d.value} · {total ? Math.round((d.value / total) * 100) : 0}%
             </span>
           </li>
