@@ -24,7 +24,9 @@ export async function POST(request: Request) {
   if (ac.error) return ac.error;
   const admin = ac.admin;
 
-  const { data: profile } = await admin.from("profiles").select("id").eq("username", username).maybeSingle();
+  // Stored usernames keep their case (Towfiq.IFL.01); match case-insensitively, wildcards escaped.
+  const pattern = username.replace(/[\\%_]/g, (c) => `\\${c}`);
+  const { data: profile } = await admin.from("profiles").select("id").ilike("username", pattern).maybeSingle();
   if (profile) {
     const { error } = await admin
       .from("password_reset_requests")

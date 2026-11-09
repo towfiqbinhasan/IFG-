@@ -16,7 +16,10 @@ import type { Profile, Topic } from "@/lib/types";
 /** Public (read-only) member profile with their dashboard and papers. */
 export default async function MemberProfilePage({ params }: { params: { username: string } }) {
   const { supabase, profile: me } = await getSessionProfile();
-  const { data: p } = await supabase.from("profiles").select("*").eq("username", params.username.toLowerCase()).maybeSingle();
+  // Usernames keep their case (e.g. Towfiq.IFL.01) but are unique case-insensitively,
+  // so match without case. Escape LIKE wildcards so "_" / "%" match literally.
+  const username = params.username.replace(/[\\%_]/g, (c) => `\\${c}`);
+  const { data: p } = await supabase.from("profiles").select("*").ilike("username", username).maybeSingle();
   if (!p) notFound();
   const member = p as Profile;
 
