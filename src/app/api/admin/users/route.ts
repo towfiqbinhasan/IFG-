@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { jsonError, verifyAdmin } from "@/lib/api";
+import { explainAdminError } from "@/lib/supabase/admin";
+import { jsonError, verifyAdmin, getAdminClient } from "@/lib/api";
 import { USERNAME_REGEX, normalizeUsername, usernameToEmail, validatePassword } from "@/lib/auth";
 
 const CreateBody = z.object({
@@ -28,7 +28,9 @@ export async function POST(request: Request) {
   const invalid = validatePassword(password);
   if (invalid) return jsonError(invalid);
 
-  const admin = createAdminClient();
+  const ac = getAdminClient();
+  if (ac.error) return ac.error;
+  const admin = ac.admin;
 
   // Case-insensitive duplicate check.
   const { data: existing } = await admin.from("profiles").select("id").ilike("username", username).maybeSingle();
@@ -40,7 +42,7 @@ export async function POST(request: Request) {
     email_confirm: true,
     user_metadata: { username, full_name: fullName },
   });
-  if (error || !created.user) return jsonError(error?.message ?? "Could not create user", 500);
+  if (error || !created.user) return jsonError(explainAdminError(error?.message ?? "Could not create user"), 500);
 
   // The auth trigger inserted the profile as 'member'; update with correct cased username + role.
   const { data: profile, error: profErr } = await admin

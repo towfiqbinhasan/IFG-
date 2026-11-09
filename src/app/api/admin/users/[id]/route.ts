@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { jsonError, verifyAdmin } from "@/lib/api";
+import { createAdminClient, explainAdminError } from "@/lib/supabase/admin";
+import { jsonError, verifyAdmin, getAdminClient } from "@/lib/api";
 import { validatePassword } from "@/lib/auth";
 
 const PatchBody = z.discriminatedUnion("action", [
@@ -32,7 +32,9 @@ export async function PATCH(request: Request, { params }: { params: { id: string
   const parsed = PatchBody.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return jsonError("Invalid request");
   const body = parsed.data;
-  const admin = createAdminClient();
+  const ac = getAdminClient();
+  if (ac.error) return ac.error;
+  const admin = ac.admin;
 
   const { data: target } = await admin.from("profiles").select("*").eq("id", id).single();
   if (!target) return jsonError("User not found", 404);
@@ -42,7 +44,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       const invalid = validatePassword(body.password);
       if (invalid) return jsonError(invalid);
       const { error } = await admin.auth.admin.updateUserById(id, { password: body.password });
-      if (error) return jsonError(error.message, 500);
+      if (error) return jsonError(explainAdminError(error.message), 500);
       await admin.from("profiles").update({ must_change_password: true }).eq("id", id);
       // Close any open "forgot password" request for this user.
       await admin
@@ -58,7 +60,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
         return jsonError("Cannot deactivate the last active admin.");
       // Ban at the Auth level too, so a deactivated user cannot sign in or refresh tokens.
       const { error } = await admin.auth.admin.updateUserById(id, { ban_duration: body.active ? "none" : "876000h" });
-      if (error) return jsonError(error.message, 500);
+      if (error) return jsonError(explainAdminError(error.message), 500);
       await admin.from("profiles").update({ is_active: body.active }).eq("id", id);
       break;
     }
@@ -100,7 +102,9 @@ export async function DELETE(_request: Request, { params }: { params: { id: stri
   const id = params.id;
   if (id === auth.profile.id) return jsonError("You cannot delete your own account.");
 
-  const admin = createAdminClient();
+  const ac = getAdminClient();
+  if (ac.error) return ac.error;
+  const admin = ac.admin;
   const { data: target } = await admin.from("profiles").select("role").eq("id", id).single();
   if (!target) return jsonError("User not found", 404);
   if (target.role === "admin" && (await isLastActiveAdmin(admin, id))) return jsonError("Cannot delete the last admin.");
@@ -109,6 +113,6 @@ export async function DELETE(_request: Request, { params }: { params: { id: stri
 
   // Cascades: auth.users -> profiles -> papers/paper_topics/submissions.
   const { error } = await admin.auth.admin.deleteUser(id);
-  if (error) return jsonError(error.message, 500);
+  if (error) return jsonError(explainAdminError(error.message), 500);
   return NextResponse.json({ ok: true });
 }

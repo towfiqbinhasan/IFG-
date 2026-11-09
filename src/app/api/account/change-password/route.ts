@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient as createAnonClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { jsonError } from "@/lib/api";
+import { explainAdminError } from "@/lib/supabase/admin";
+import { jsonError, getAdminClient } from "@/lib/api";
 import { validatePassword } from "@/lib/auth";
 
 const Body = z.object({
@@ -45,9 +45,11 @@ export async function POST(request: Request) {
     if (error) return jsonError("Current password is incorrect", 403);
   }
 
-  const admin = createAdminClient();
+  const ac = getAdminClient();
+  if (ac.error) return ac.error;
+  const admin = ac.admin;
   const { error: updErr } = await admin.auth.admin.updateUserById(user.id, { password: newPassword });
-  if (updErr) return jsonError(updErr.message, 500);
+  if (updErr) return jsonError(explainAdminError(updErr.message), 500);
 
   const { error: flagErr } = await admin.from("profiles").update({ must_change_password: false }).eq("id", user.id);
   if (flagErr) return jsonError(flagErr.message, 500);

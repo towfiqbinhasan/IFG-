@@ -1,6 +1,7 @@
 import "server-only";
 import { NextResponse } from "next/server";
 import { createClient } from "./supabase/server";
+import { SERVER_KEY_HELP, createAdminClient, explainAdminError } from "./supabase/admin";
 import type { Profile } from "./types";
 
 export function jsonError(message: string, status = 400) {
@@ -23,4 +24,26 @@ export async function verifyAdmin(): Promise<{ profile: Profile } | { error: Nex
     return { error: jsonError("Admin access required", 403) };
   }
   return { profile: profile as Profile };
+}
+
+/** Service-role client, or a ready-to-return error response with setup help. */
+export function getAdminClient():
+  | { admin: ReturnType<typeof createAdminClient>; error?: undefined }
+  | { error: NextResponse; admin?: undefined } {
+  try {
+    return { admin: createAdminClient() };
+  } catch (e) {
+    return { error: jsonError((e as Error).message, 500) };
+  }
+}
+
+/**
+ * Checks the server's secret key actually works (admin API reachable).
+ * Returns a human-readable problem, or null when everything is fine.
+ */
+export async function serverKeyProblem(): Promise<string | null> {
+  const ac = getAdminClient();
+  if (ac.error) return SERVER_KEY_HELP;
+  const { error } = await ac.admin.auth.admin.listUsers({ page: 1, perPage: 1 });
+  return error ? explainAdminError(error.message) : null;
 }

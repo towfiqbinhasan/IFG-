@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { jsonError } from "@/lib/api";
+import { jsonError, getAdminClient } from "@/lib/api";
 import { normalizeUsername } from "@/lib/auth";
 
 const Body = z.object({
@@ -21,7 +20,9 @@ export async function POST(request: Request) {
   if (!parsed.success) return jsonError("Enter your username.");
 
   const username = normalizeUsername(parsed.data.username);
-  const admin = createAdminClient();
+  const ac = getAdminClient();
+  if (ac.error) return ac.error;
+  const admin = ac.admin;
 
   const { data: profile } = await admin.from("profiles").select("id").eq("username", username).maybeSingle();
   if (profile) {
