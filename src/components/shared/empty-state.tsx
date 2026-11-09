@@ -37,7 +37,15 @@ export function EmptyState({
 
 function IllustrationSvg({ kind }: { kind: Illustration }) {
   const common = "h-24 w-24";
-  const bg = <circle cx="48" cy="48" r="44" className="fill-primary/10" />;
+  // Hexagon backdrop echoing the logo frame.
+  const bg = (
+    <path
+      d="M48 4 L86 26 L86 70 L48 92 L10 70 L10 26 Z"
+      className="fill-primary/10 stroke-primary/25"
+      strokeWidth="2"
+      strokeLinejoin="round"
+    />
+  );
   switch (kind) {
     case "search":
       return (

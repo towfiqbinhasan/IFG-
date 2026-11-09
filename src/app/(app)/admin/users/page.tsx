@@ -6,7 +6,7 @@ export const metadata = { title: "Admin · Users" };
 
 export default async function AdminUsersPage() {
   const { supabase, profile } = await requireAdmin();
-  const [{ data: users }, { data: papers }, { data: requests }] = await Promise.all([
+  const [{ data: users }, { data: papers }, { data: requests, error: requestsError }] = await Promise.all([
     supabase.from("profiles").select("*").order("created_at", { ascending: true }),
     supabase.from("papers").select("user_id"),
     // Table comes from migration 002; if it isn't applied yet this just returns no rows.
@@ -20,6 +20,7 @@ export default async function AdminUsersPage() {
       paperCounts={counts}
       currentUserId={profile.id}
       resetRequests={(requests ?? []) as PasswordResetRequest[]}
+      resetSetupMissing={requestsError?.code === "PGRST205" || requestsError?.code === "42P01"}
     />
   );
 }

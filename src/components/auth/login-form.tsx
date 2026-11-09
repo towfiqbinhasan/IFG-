@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Field } from "@/components/shared/field";
-import { Logo } from "@/components/brand/logo";
+import { BrandLockup } from "@/components/brand/brand-lockup";
 import { PasswordInput } from "./password-input";
 import { ForgotPasswordDialog } from "./forgot-password-dialog";
 import { Label } from "@/components/ui/label";
@@ -79,16 +79,7 @@ export function LoginForm() {
         {/* Gradient hairline border around a glass card */}
         <div className="rounded-2xl bg-gradient-to-br from-[rgb(34_176_240/0.6)] via-border/40 to-[rgb(21_101_192/0.5)] p-px shadow-2xl shadow-sky-900/20">
         <Card className="rounded-[15px] border-0 bg-card/85 p-6 backdrop-blur-xl sm:p-8">
-          <div className="mb-7 flex flex-col items-center text-center">
-            <motion.div initial={{ rotate: -10, scale: 0.6 }} animate={{ rotate: 0, scale: 1 }} transition={{ type: "spring", delay: 0.1 }}>
-              <Logo size={84} glow />
-            </motion.div>
-            <h1 className="mt-5 font-display text-lg font-extrabold uppercase leading-tight tracking-tight text-brand-navy dark:text-white">
-              {brand.wordmark.top}
-            </h1>
-            <p className="font-display text-xl font-extrabold uppercase tracking-[0.45em] pl-[0.45em] text-forge">{brand.wordmark.bottom}</p>
-            <p className="mt-3 text-sm text-muted-foreground">Sign in to the lab&apos;s {brand.tagline.toLowerCase()}</p>
-          </div>
+          <BrandLockup size={84} className="mb-7" tagline={<>Sign in to the lab&apos;s {brand.tagline.toLowerCase()}</>} />
 
           <form onSubmit={onSubmit} className="space-y-4" noValidate>
             <Field label="Username" htmlFor="username">

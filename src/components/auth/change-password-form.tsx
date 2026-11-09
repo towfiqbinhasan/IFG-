@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field } from "@/components/shared/field";
-import { Logo } from "@/components/brand/logo";
+import { BrandLockup } from "@/components/brand/brand-lockup";
 import { PasswordInput } from "./password-input";
 import { createClient } from "@/lib/supabase/client";
 import { usernameToEmail, validatePassword } from "@/lib/auth";
@@ -98,10 +98,11 @@ export function ChangePasswordForm({
 
   return (
     <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-sm">
-      <Card className="bg-card/80 p-6 shadow-xl backdrop-blur-xl sm:p-8">
+      <div className="rounded-2xl bg-gradient-to-br from-[rgb(34_176_240/0.6)] via-border/40 to-[rgb(21_101_192/0.5)] p-px shadow-2xl shadow-sky-900/20">
+      <Card className="rounded-[15px] border-0 bg-card/85 p-6 backdrop-blur-xl sm:p-8">
         <div className="mb-6 flex flex-col items-center text-center">
-          <Logo size={60} glow />
-          <div className="mt-4 flex items-center gap-2 text-primary">
+          <BrandLockup size={64} />
+          <div className="mt-5 flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5" />
             <h1 className="text-lg font-semibold text-foreground">{forced ? "Choose a new password" : "Change password"}</h1>
           </div>
@@ -118,6 +119,7 @@ export function ChangePasswordForm({
           </a>
         </div>
       </Card>
+      </div>
     </motion.div>
   );
 }

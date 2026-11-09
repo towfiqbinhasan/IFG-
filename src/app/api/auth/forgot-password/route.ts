@@ -29,6 +29,11 @@ export async function POST(request: Request) {
       .from("password_reset_requests")
       .insert({ username, user_id: profile.id, note: parsed.data.note || null });
     // 23505 = a pending request already exists -> fine, admin already notified.
+    // PGRST205 / 42P01 = table missing: supabase/migrations/002 hasn't been run yet.
+    if (error && (error.code === "PGRST205" || error.code === "42P01")) {
+      console.error("forgot-password: run supabase/migrations/002_password_reset_requests.sql");
+      return jsonError("Password reset requests aren't set up yet. Please contact your lab admin directly.", 503);
+    }
     if (error && error.code !== "23505") {
       console.error("forgot-password insert failed", error);
       return jsonError("Could not send the request. Please try again or contact your admin.", 500);

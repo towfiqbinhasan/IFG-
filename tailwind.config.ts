@@ -31,11 +31,13 @@ const config: Config = {
         shimmer: { "100%": { transform: "translateX(100%)" } },
         "glow-pulse": { "0%,100%": { opacity: "0.55", transform: "scale(1)" }, "50%": { opacity: "1", transform: "scale(1.08)" } },
         "gradient-x": { "0%,100%": { backgroundPosition: "0% 50%" }, "50%": { backgroundPosition: "100% 50%" } },
+        "hex-trace": { to: { strokeDashoffset: "-312" } },
       },
       animation: {
         shimmer: "shimmer 1.6s infinite",
         "glow-pulse": "glow-pulse 2.8s ease-in-out infinite",
         "gradient-x": "gradient-x 6s ease infinite",
+        "hex-trace": "hex-trace 1.4s linear infinite",
       },
     },
   },

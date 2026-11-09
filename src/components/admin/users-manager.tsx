@@ -54,11 +54,14 @@ export function UsersManager({
   paperCounts,
   currentUserId,
   resetRequests = [],
+  resetSetupMissing = false,
 }: {
   users: Profile[];
   paperCounts: Counts;
   currentUserId: string;
   resetRequests?: PasswordResetRequest[];
+  /** True when supabase/migrations/002 hasn't been run (table missing). */
+  resetSetupMissing?: boolean;
 }) {
   const router = useRouter();
   const [q, setQ] = useState("");
@@ -108,6 +111,17 @@ export function UsersManager({
 
   return (
     <div className="space-y-4">
+      {resetSetupMissing && (
+        <div className="flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
+          <KeyRound className="mt-0.5 h-4 w-4 shrink-0" />
+          <p>
+            <strong>“Forgot password” isn&apos;t set up yet.</strong> Run{" "}
+            <code className="rounded bg-amber-100 px-1 dark:bg-amber-900/60">supabase/migrations/002_password_reset_requests.sql</code>{" "}
+            once in the Supabase SQL Editor so members&apos; reset requests can reach you.
+          </p>
+        </div>
+      )}
+
       {/* "Forgot password" requests from the login page */}
       <AnimatePresence initial={false}>
         {resetRequests.length > 0 && (

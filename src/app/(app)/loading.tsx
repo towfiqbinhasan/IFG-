@@ -1,52 +1,52 @@
 import Image from "next/image";
 import { brand } from "@/config/brand";
 
+// Pointy-top hexagon (the logo frame), radius 52 around (60, 60). Perimeter = 6 * 52 = 312.
+const HEX = "M60 8 L105 34 L105 86 L60 112 L15 86 L15 34 Z";
+
 /**
- * Animated Logo-centric loading screen shown while pages/data are streaming in.
- * Matches the Intelligence Forge Lab brand and style.
+ * Branded loading state shown while a page streams in: a light pulse travels
+ * around the logo's hexagon frame while the emblem glows. Pure CSS (no JS),
+ * so it renders instantly from the server.
  */
 export default function Loading() {
   return (
-    <div
-      className="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center"
-      aria-busy="true"
-      aria-label="Loading page"
-    >
-      <div className="relative flex items-center justify-center">
-        {/* Pulsing ambient aura */}
-        <div className="absolute h-28 w-28 rounded-full bg-primary/20 blur-2xl animate-pulse" />
-
-        {/* Rotating cybernetic glowing border */}
-        <div className="absolute h-24 w-24 rounded-2xl border-2 border-primary/30 border-t-primary border-r-cyan-400 animate-spin transition-all" />
-
-        {/* Central Logo Container */}
-        <div className="relative z-10 flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl border border-primary/40 bg-card p-1 shadow-lg shadow-primary/20">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center" aria-busy="true" aria-label="Loading">
+      <div className="relative h-32 w-32">
+        <div className="absolute inset-4 animate-glow-pulse rounded-full bg-[radial-gradient(circle,rgb(34_176_240/0.45),transparent_70%)] blur-md" />
+        <svg viewBox="0 0 120 120" className="absolute inset-0 h-full w-full" aria-hidden>
+          <defs>
+            <linearGradient id="loading-stroke" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="var(--brand-navy)" />
+              <stop offset="100%" stopColor="var(--brand-cyan)" />
+            </linearGradient>
+          </defs>
+          <path d={HEX} fill="none" stroke="hsl(var(--border))" strokeWidth="3" strokeLinejoin="round" />
+          <path
+            d={HEX}
+            fill="none"
+            stroke="url(#loading-stroke)"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="90 222"
+            className="animate-hex-trace"
+          />
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
           <Image
             src={brand.logoSrc}
-            alt={brand.appName}
-            width={56}
-            height={56}
-            className="rounded-xl object-contain animate-pulse"
+            alt=""
+            width={60}
+            height={60}
             priority
             unoptimized
+            className="rounded-[22%] shadow-lg shadow-sky-500/20 ring-1 ring-black/5 dark:ring-white/10"
           />
         </div>
       </div>
-
-      {/* Lab Brand Text with Gradient */}
-      <div className="mt-5 space-y-1">
-        <h3 className="text-base font-semibold tracking-tight text-foreground">
-          {brand.appName}
-        </h3>
-        <p className="text-xs font-medium text-muted-foreground animate-pulse">
-          Loading lab data...
-        </p>
-      </div>
-
-      {/* Smooth Loading Indicator bar */}
-      <div className="mt-4 h-1 w-32 overflow-hidden rounded-full bg-muted">
-        <div className="h-full w-1/2 rounded-full bg-gradient-to-r from-primary to-cyan-400 animate-pulse" />
-      </div>
+      <p className="mt-5 font-display text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">Forging your workspace…</p>
+      <span className="sr-only">Loading {brand.appName}</span>
     </div>
   );
 }
