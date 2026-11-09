@@ -8,6 +8,7 @@ import {
   Shield,
   Tags,
   TrendingUp,
+  UserCog,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -32,8 +33,15 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/activity", label: "Activity", icon: Activity },
   { href: "/stats", label: "Lab Stats", icon: BarChart3 },
   { href: "/admin", label: "Admin", icon: Shield, adminOnly: true },
+  { href: "/admin/users", label: "Manage users", icon: UserCog, adminOnly: true },
 ];
 
+/** Nav hrefs that have their own, more specific entry (so the parent isn't highlighted too). */
+const SPECIFIC = NAV_ITEMS.map((i) => i.href);
+
 export function isActive(pathname: string, href: string) {
-  return pathname === href || pathname.startsWith(`${href}/`);
+  if (pathname === href) return true;
+  if (!pathname.startsWith(`${href}/`)) return false;
+  // e.g. /admin/users belongs to "Manage users", not "Admin".
+  return !SPECIFIC.some((h) => h !== href && h.startsWith(`${href}/`) && (pathname === h || pathname.startsWith(`${h}/`)));
 }

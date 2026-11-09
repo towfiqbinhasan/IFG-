@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createAdminClient, explainAdminError } from "@/lib/supabase/admin";
 import { jsonError, verifyAdmin, getAdminClient } from "@/lib/api";
-import { validatePassword } from "@/lib/auth";
+import { USERNAME_REGEX, usernameToEmail, validatePassword } from "@/lib/auth";
 
 const PatchBody = z.discriminatedUnion("action", [
   z.object({ action: z.literal("reset_password"), password: z.string().min(1) }),
@@ -11,7 +11,9 @@ const PatchBody = z.discriminatedUnion("action", [
   z.object({
     action: z.literal("update_profile"),
     fullName: z.string().trim().min(1).max(120),
+    username: z.string().trim().optional(),
     researchArea: z.string().trim().max(200).nullable().optional(),
+    bio: z.string().trim().max(1000).nullable().optional(),
   }),
 ]);
 
@@ -71,7 +73,32 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       break;
     }
     case "update_profile": {
-      await admin.from("profiles").update({ full_name: body.fullName, research_area: body.researchArea || null }).eq("id", id);
+      const updates: Record<string, string | null> = { full_name: body.fullName, research_area: body.researchArea || null };
+      if (body.bio !== undefined) updates.bio = body.bio || null;
+
+      // Username change: the login email is derived from it, so update Auth too.
+      const newUsername = body.username;
+      const usernameChanged = !!newUsername && newUsername !== target.username;
+      if (usernameChanged) {
+        if (!USERNAME_REGEX.test(newUsername))
+          return jsonError("Username must be 3-32 characters: letters, numbers, dot, dash or underscore.");
+        // Case-insensitive duplicate check (escape LIKE wildcards).
+        const pattern = newUsername.replace(/[\\%_]/g, (c) => `\\${c}`);
+        const { data: clash } = await admin.from("profiles").select("id").ilike("username", pattern).neq("id", id).maybeSingle();
+        if (clash) return jsonError("That username is already taken.", 409);
+        if (usernameToEmail(newUsername) !== usernameToEmail(target.username)) {
+          const { error } = await admin.auth.admin.updateUserById(id, { email: usernameToEmail(newUsername), email_confirm: true });
+          if (error) return jsonError(explainAdminError(error.message), 500);
+        }
+        updates.username = newUsername;
+      }
+
+      const { error } = await admin.from("profiles").update(updates).eq("id", id);
+      if (error) {
+        // Keep login and profile in sync if the profile write failed.
+        if (usernameChanged) await admin.auth.admin.updateUserById(id, { email: usernameToEmail(target.username), email_confirm: true });
+        return jsonError(error.message, 500);
+      }
       break;
     }
   }
