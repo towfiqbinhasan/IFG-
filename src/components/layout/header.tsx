@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, KeyRound, LogOut, Shield, UserCircle } from "lucide-react";
+import { Bell, BellRing, KeyRound, LogOut, MessageCircle, Shield, UserCircle } from "lucide-react";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import type { Profile } from "@/lib/types";
+import { useNotifications } from "@/components/chat/notifications-provider";
 
 export interface DeadlineAlert {
   venueId: string;
@@ -35,7 +36,8 @@ export function Header({
   /** Pending "forgot password" requests (admins only). */
   resetRequestCount?: number;
 }) {
-  const total = alerts.length + resetRequestCount;
+  const { unread, permission, enableDesktop, chatReady } = useNotifications();
+  const total = alerts.length + resetRequestCount + (chatReady ? unread : 0);
   return (
     <header className="sticky top-0 z-30 border-b border-border/50 bg-background/70 pt-safe shadow-sm backdrop-blur-xl">
       {/* Thin forge-gradient accent line */}
@@ -63,6 +65,19 @@ export function Header({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80 rounded-xl p-2 shadow-xl border-border/60">
+            {chatReady && unread > 0 && (
+              <>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-lg bg-primary/10 p-2.5">
+                  <Link href="/messages" className="flex items-center gap-2.5">
+                    <MessageCircle className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium">
+                      {unread} unread message{unread === 1 ? "" : "s"}
+                    </span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
             {resetRequestCount > 0 && (
               <>
                 <DropdownMenuItem asChild className="cursor-pointer rounded-lg bg-amber-50 p-2.5 dark:bg-amber-950/40">
@@ -93,6 +108,18 @@ export function Header({
                   </Link>
                 </DropdownMenuItem>
               ))
+            )}
+            {permission !== "granted" && permission !== "unsupported" && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={() => enableDesktop()} className="cursor-pointer rounded-lg p-2.5">
+                  <BellRing className="mr-2 h-4 w-4 text-primary" />
+                  <span className="text-sm">
+                    <span className="font-medium">Turn on desktop notifications</span>
+                    <span className="block text-xs text-muted-foreground">New messages and deadline reminders</span>
+                  </span>
+                </DropdownMenuItem>
+              </>
             )}
           </DropdownMenuContent>
         </DropdownMenu>

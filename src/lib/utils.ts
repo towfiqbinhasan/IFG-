@@ -60,3 +60,24 @@ export function generateTempPassword() {
   }
   return `Lab-${body.slice(0, 4).join("")}-${body.slice(4).join("")}`;
 }
+
+/** Public URL of a venue poster (public 'venue-posters' bucket), or null. */
+export function posterUrl(path?: string | null) {
+  if (!path) return null;
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!base) return null;
+  return `${base}/storage/v1/object/public/venue-posters/${path.split("/").map(encodeURIComponent).join("/")}`;
+}
+
+/** 1536 -> "1.5 KB" */
+export function formatBytes(n?: number | null) {
+  if (!n) return "";
+  const units = ["B", "KB", "MB", "GB"];
+  let i = 0;
+  let v = n;
+  while (v >= 1024 && i < units.length - 1) {
+    v /= 1024;
+    i++;
+  }
+  return `${v < 10 && i ? v.toFixed(1) : Math.round(v)} ${units[i]}`;
+}

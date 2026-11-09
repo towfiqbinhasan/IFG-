@@ -9,6 +9,7 @@ import { StaggerItem, StaggerList } from "@/components/shared/motion";
 import { MemberStats } from "@/components/members/member-stats";
 import { PaperCard } from "@/components/papers/paper-card";
 import { DeadlineCard } from "@/components/venues/deadline-card";
+import { VenueFormDialog } from "@/components/venues/venue-form-dialog";
 import { DashboardHero } from "@/components/dashboard/dashboard-hero";
 import {
   AdminOverview,
@@ -55,6 +56,7 @@ export default async function DashboardPage() {
     { data: labUpdates },
     { data: topics },
     { data: pulseRows },
+    { data: settings },
     adminData,
   ] = await Promise.all([
     supabase.from("papers").select(PAPER_SELECT).eq("user_id", profile.id).order("created_at", { ascending: false }),
@@ -64,6 +66,7 @@ export default async function DashboardPage() {
     supabase.from("preparation_updates").select(PREP_UPDATE_FEED_SELECT).order("created_at", { ascending: false }).limit(6),
     supabase.from("topics").select("id, name").order("name"),
     supabase.from("papers").select("user_id, paper_topics(topics(id, name, color))").gte("created_at", since),
+    supabase.from("app_settings").select("allow_member_venues").eq("id", 1).maybeSingle(),
     isAdmin
       ? Promise.all([
           supabase.from("profiles").select("is_active"),
@@ -209,7 +212,11 @@ export default async function DashboardPage() {
         {/* Side rail */}
         <aside className="min-w-0 space-y-6">
           <section>
-            <SectionHeader title="Next deadlines" href="/venues" linkLabel="All" />
+            <SectionHeader title="Next deadlines" href="/venues" linkLabel="All">
+              {(isAdmin || settings?.allow_member_venues) && (
+                <VenueFormDialog userId={profile.id} trigger={<Button size="sm" variant="outline"><Plus /> Add</Button>} />
+              )}
+            </SectionHeader>
             {upcoming.length ? (
               <div className="space-y-3">
                 {upcoming.map((e) => <DeadlineCard key={e.venue.id} venue={e.venue} />)}

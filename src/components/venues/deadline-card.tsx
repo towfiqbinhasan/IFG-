@@ -1,25 +1,32 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { Globe, MapPin, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Countdown } from "./countdown";
 import { URGENCY_STYLES, nextDeadline, urgencyOf } from "@/lib/deadlines";
-import { cn } from "@/lib/utils";
+import { cn, posterUrl } from "@/lib/utils";
 import type { Venue } from "@/lib/types";
 
 /** One venue with its next deadline + live countdown; left border carries urgency colour. */
 export function DeadlineCard({ venue, submitters = 0 }: { venue: Venue; submitters?: number }) {
   const next = nextDeadline(venue);
   const urgency = next ? urgencyOf(next.date) : "passed";
+  const poster = posterUrl(venue.poster_path);
 
   return (
     <motion.div whileHover={{ y: -3 }} transition={{ duration: 0.15 }}>
       <Card className={cn("relative border-l-4 p-4 transition-shadow hover:shadow-md", URGENCY_STYLES[urgency].ring)}>
         <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
+          {poster && (
+            <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded-md border bg-muted">
+              <Image src={poster} alt={`${venue.name} poster`} fill unoptimized sizes="48px" className="object-cover" />
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
             <Link href={`/venues/${venue.id}`} className="after:absolute after:inset-0">
               <h3 className="truncate font-semibold hover:text-primary">{venue.name}</h3>
             </Link>

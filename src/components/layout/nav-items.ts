@@ -4,6 +4,7 @@ import {
   CalendarClock,
   FileText,
   LayoutDashboard,
+  MessageCircle,
   Search,
   Shield,
   Tags,
@@ -20,12 +21,15 @@ export interface NavItem {
   adminOnly?: boolean;
   /** Shown in the mobile bottom bar (max 4; the 5th slot is "More"). */
   mobile?: boolean;
+  /** Live counter shown next to the label. */
+  badge?: "unread";
 }
 
 export const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, mobile: true },
   { href: "/papers", label: "My Papers", icon: FileText, mobile: true },
   { href: "/progress", label: "Progress", icon: TrendingUp, mobile: true },
+  { href: "/messages", label: "Messages", icon: MessageCircle, badge: "unread" },
   { href: "/venues", label: "Deadlines", icon: CalendarClock, mobile: true },
   { href: "/explore", label: "Explore", icon: Search },
   { href: "/members", label: "Members", icon: Users },

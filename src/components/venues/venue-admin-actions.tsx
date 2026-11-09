@@ -13,7 +13,9 @@ import type { Venue } from "@/lib/types";
 export function VenueManageActions({ venue, userId, redirectTo }: { venue: Venue; userId: string; redirectTo?: string }) {
   const router = useRouter();
   async function remove() {
-    const { error } = await createClient().from("venues").delete().eq("id", venue.id);
+    const supabase = createClient();
+    if (venue.poster_path) await supabase.storage.from("venue-posters").remove([venue.poster_path]);
+    const { error } = await supabase.from("venues").delete().eq("id", venue.id);
     if (error) return toast.error(error.message);
     toast.success("Venue deleted");
     if (redirectTo) router.push(redirectTo);

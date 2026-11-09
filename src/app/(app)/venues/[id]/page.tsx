@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { ArrowLeft, ExternalLink, MapPin, Pencil, Target } from "lucide-react";
@@ -14,7 +15,7 @@ import { VenueManageActions } from "@/components/venues/venue-admin-actions";
 import { getSessionProfile } from "@/lib/session";
 import { SUBMISSION_SELECT } from "@/lib/queries";
 import { DEADLINE_FIELDS } from "@/lib/constants";
-import { doiHref } from "@/lib/utils";
+import { doiHref, posterUrl } from "@/lib/utils";
 import type { SubmissionWithRelations, Venue } from "@/lib/types";
 
 export default async function VenueDetailPage({ params }: { params: { id: string } }) {
@@ -29,6 +30,7 @@ export default async function VenueDetailPage({ params }: { params: { id: string
   const mine = submissions.filter((s) => s.user_id === profile.id);
   const canManage = profile.role === "admin" || venue.created_by === profile.id;
   const site = doiHref(venue.website);
+  const poster = posterUrl(venue.poster_path);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -57,6 +59,19 @@ export default async function VenueDetailPage({ params }: { params: { id: string
           {canManage && <VenueManageActions venue={venue} userId={profile.id} redirectTo="/venues" />}
         </div>
       </div>
+
+      {poster && (
+        <a href={poster} target="_blank" rel="noopener noreferrer" className="group block overflow-hidden rounded-2xl border bg-muted" title="Open full size">
+          <Image
+            src={poster}
+            alt={`${venue.name} poster`}
+            width={1200}
+            height={800}
+            unoptimized
+            className="mx-auto max-h-[520px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+          />
+        </a>
+      )}
 
       <StaggerList className="grid gap-3 sm:grid-cols-2">
         {DEADLINE_FIELDS.map((f) => {

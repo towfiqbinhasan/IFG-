@@ -7,12 +7,14 @@ import { Logo } from "@/components/brand/logo";
 import { brand } from "@/config/brand";
 import { NAV_ITEMS, isActive } from "./nav-items";
 import { cn } from "@/lib/utils";
+import { useNotifications } from "@/components/chat/notifications-provider";
 import type { Role } from "@/lib/types";
 
 /** Desktop sidebar (lg and up): brand header, animated active indicator. */
 export function Sidebar({ role }: { role: Role }) {
   const pathname = usePathname();
-  const items = NAV_ITEMS.filter((i) => !i.adminOnly || role === "admin");
+  const { unread, chatReady } = useNotifications();
+  const items = NAV_ITEMS.filter((i) => (!i.adminOnly || role === "admin") && (i.href !== "/messages" || chatReady));
 
   return (
     <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col overflow-hidden border-r border-border/60 bg-card/60 px-3 py-5 backdrop-blur-xl lg:flex">
@@ -51,7 +53,12 @@ export function Sidebar({ role }: { role: Role }) {
                   active ? "text-primary" : "text-muted-foreground group-hover:text-foreground",
                 )}
               />
-              <span className="relative">{item.label}</span>
+              <span className="relative flex-1">{item.label}</span>
+              {item.badge === "unread" && unread > 0 && (
+                <span className="relative min-w-5 rounded-full bg-destructive px-1.5 py-0.5 text-center text-[10px] font-bold leading-none text-destructive-foreground">
+                  {unread > 99 ? "99+" : unread}
+                </span>
+              )}
             </Link>
           );
         })}

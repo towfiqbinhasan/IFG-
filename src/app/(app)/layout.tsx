@@ -3,7 +3,9 @@ import { getSessionProfile } from "@/lib/session";
 import { Sidebar } from "@/components/layout/sidebar";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { Header, type DeadlineAlert } from "@/components/layout/header";
+import { NotificationsProvider } from "@/components/chat/notifications-provider";
 import { DEADLINE_FIELDS } from "@/lib/constants";
+import { isMissingTable } from "@/lib/queries";
 import type { Venue } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -41,6 +43,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   alerts.sort((a, b) => a.date.localeCompare(b.date));
 
   // Admins also get notified about pending "forgot password" requests.
+  // Unread chat messages (migration 005; chat is hidden until it has been run).
+  const { data: unreadData, error: unreadError } = await supabase.rpc("unread_message_count");
+  const chatReady = !unreadError || !(isMissingTable(unreadError) || unreadError.code === "PGRST202" || unreadError.code === "42883");
+  const initialUnread = typeof unreadData === "number" ? unreadData : 0;
+
   let resetRequestCount = 0;
   if (profile.role === "admin") {
     const { count } = await supabase
@@ -51,13 +58,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex min-h-dvh">
-      <Sidebar role={profile.role} />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <Header profile={profile} alerts={alerts} resetRequestCount={resetRequestCount} />
-        <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-28 pt-6 lg:px-8 lg:pb-12">{children}</main>
+    <NotificationsProvider userId={profile.id} initialUnread={initialUnread} chatReady={chatReady} reminders={alerts}>
+      <div className="flex min-h-dvh">
+        <Sidebar role={profile.role} />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <Header profile={profile} alerts={alerts} resetRequestCount={resetRequestCount} />
+          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-28 pt-6 lg:px-8 lg:pb-12">{children}</main>
+        </div>
+        <BottomNav role={profile.role} />
       </div>
-      <BottomNav role={profile.role} />
-    </div>
+    </NotificationsProvider>
   );
 }

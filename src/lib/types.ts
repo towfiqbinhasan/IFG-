@@ -76,6 +76,8 @@ export interface Venue {
   notification_date: string | null;
   camera_ready_date: string | null;
   notes: string | null;
+  /** Poster / image path in the public 'venue-posters' bucket (migration 005). */
+  poster_path?: string | null;
   created_by: string | null;
   created_at: string;
   updated_at: string;
@@ -142,4 +144,44 @@ export interface PreparationWithRelations extends Preparation {
   author: ProfileLite | null;
   topic: Pick<Topic, "id" | "name" | "color"> | null;
   updates: PreparationUpdate[];
+}
+
+/* ---------------- Chat (migration 005) ---------------- */
+
+export interface Conversation {
+  id: string;
+  kind: "direct" | "group";
+  name: string | null;
+  created_by: string | null;
+  is_locked: boolean;
+  last_message_at: string;
+  created_at?: string;
+}
+
+/** Row returned by the my_conversations() RPC. */
+export interface ConversationSummary extends Conversation {
+  last_body: string | null;
+  last_attachment_name: string | null;
+  last_sender_id: string | null;
+  unread: number;
+}
+
+export interface ConversationMember {
+  conversation_id: string;
+  user_id: string;
+  role: "owner" | "member";
+  last_read_at: string;
+  profile?: (ProfileLite & { is_active?: boolean; role?: Role }) | null;
+}
+
+export interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string | null;
+  body: string | null;
+  attachment_path: string | null;
+  attachment_name: string | null;
+  attachment_type: string | null;
+  attachment_size: number | null;
+  created_at: string;
 }

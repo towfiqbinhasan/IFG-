@@ -36,6 +36,7 @@ Five stages. Do them in order:
    > - `002_password_reset_requests.sql` adds the "Forgot password" requests.
    > - `003_preparations.sql` adds progress tracking.
    > - `004_paper_analysis.sql` adds novelty, research gap and an "analysis PDF" to papers (topic pages).
+   > - `005_posters_and_chat.sql` adds venue posters and lab chat (messages, groups, file sharing, realtime).
    >
    > A fresh install doesn't need them, because `schema.sql` already includes them.
 

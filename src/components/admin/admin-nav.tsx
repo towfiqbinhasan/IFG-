@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { CalendarClock, FileText, LayoutGrid, Tags, Users } from "lucide-react";
+import { CalendarClock, FileText, LayoutGrid, MessagesSquare, Tags, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const TABS = [
@@ -12,6 +12,7 @@ const TABS = [
   { href: "/admin/papers", label: "Papers", icon: FileText },
   { href: "/admin/topics", label: "Topics", icon: Tags },
   { href: "/admin/venues", label: "Venues", icon: CalendarClock },
+  { href: "/admin/chats", label: "Chats", icon: MessagesSquare },
 ];
 
 export function AdminNav() {

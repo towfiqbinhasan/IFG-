@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { ArrowLeft, CalendarDays, Pencil, Shield } from "lucide-react";
+import { ArrowLeft, CalendarDays, MessageCircle, Pencil, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { UserAvatar } from "@/components/shared/user-avatar";
@@ -49,10 +49,16 @@ export default async function MemberProfilePage({ params }: { params: { username
               <CalendarDays className="h-3.5 w-3.5" /> Joined {format(new Date(member.joined_at), "MMMM yyyy")}
             </p>
           </div>
-          {isMe && (
+          {isMe ? (
             <Button variant="outline" asChild>
               <Link href="/profile"><Pencil /> Edit profile</Link>
             </Button>
+          ) : (
+            member.is_active && (
+              <Button variant="forge" asChild>
+                <Link href={`/messages?to=${member.id}`}><MessageCircle /> Message</Link>
+              </Button>
+            )
           )}
         </div>
         {member.bio && <p className="relative mt-4 max-w-3xl whitespace-pre-wrap text-sm leading-relaxed">{member.bio}</p>}
