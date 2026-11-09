@@ -38,6 +38,9 @@ Screen-এর দুটো অংশ সবসময় থাকে: বাম 
 
 **Sidebar:** যেকোনো নামে click করলে সেই page খুলবে।
 
+![Screen: বাম দিকে sidebar, উপরে ঘণ্টা, theme switch আর আপনার ছবি।](images/manual/29-reminder-toast.png)
+*Screen: বাম দিকে sidebar; উপরে ঘণ্টা, theme switch আর আপনার ছবি। হলুদ pop-up-টা একটা deadline reminder।*
+
 | নাম | কী কাজে লাগে |
 |---|---|
 | **Dashboard** | আপনার home page: আপনার সংখ্যা, লক্ষ্য, deadline আর lab কী পড়ছে |
@@ -54,6 +57,9 @@ Screen-এর দুটো অংশ সবসময় থাকে: বাম 
 
 **Top bar (উপরে ডান দিকে):**
 
+![ছবিতে click করলে Profile & settings, Change password আর Sign out।](images/manual/05-account-menu.png)
+*ছবিতে click করলে Profile & settings, Change password আর Sign out।*
+
 - **🔔 ঘণ্টা:** না-পড়া message আর আগামী ৭ দিনের মধ্যে যেসব deadline আছে। Admin-রা এখানে password
   request-ও দেখেন। লাল সংখ্যা দেখায় কয়টা আছে। ঘণ্টার ভেতরে **Turn on desktop notifications**-ও আছে
   (১১ নম্বর অংশ দেখুন)।
@@ -65,6 +71,9 @@ Screen-এর দুটো অংশ সবসময় থাকে: বাম 
 
 ## ২. প্রথমবার login
 
+![Login page।](images/manual/01-login.png)
+*Login page।*
+
 Admin আপনার account বানিয়ে আপনাকে একটা **username** (যেমন `Rahim.IFL.03`) আর একটা
 **temporary password** পাঠাবেন।
 
@@ -72,6 +81,10 @@ Admin আপনার account বানিয়ে আপনাকে একট
 2. **Username** আর **temporary password** লিখে **Sign in**-এ click করুন।
 3. এরপর একটা **নতুন password** বেছে নিতে বলবে। Password-এ **কমপক্ষে ৮টা অক্ষর** থাকতে হবে, আর
    **অক্ষর ও সংখ্যা দুটোই** লাগবে। দুইবার লিখে save করুন।
+
+![প্রথম login: নিজের password বেছে নিন।](images/manual/30-change-password.png)
+*প্রথম login: নিজের password বেছে নিন।*
+
 4. এরপর **Dashboard** খুলবে।
 
 > **টিপ:** login করবেন username দিয়ে, email দিয়ে নয়।
@@ -79,6 +92,9 @@ Admin আপনার account বানিয়ে আপনাকে একট
 ---
 
 ## ৩. Password ভুলে গেলে
+
+![Forgot password? দিলে admin-এর কাছে request যায়।](images/manual/02-forgot-password.png)
+*Forgot password? দিলে admin-এর কাছে request যায়।*
 
 1. Login page-এ Password ঘরের পাশে **Forgot password?**-এ click করুন।
 2. আপনার **username** লিখুন। চাইলে ছোট একটা note দিন। তারপর **Send request**-এ click করুন।
@@ -91,6 +107,9 @@ password** বেছে নিন। আগের password দিন, তার�
 ---
 
 ## ৪. আপনার profile
+
+![Profile & settings।](images/manual/24-profile.png)
+*Profile & settings।*
 
 উপরে ডান দিকে আপনার ছবিতে click করে **Profile & settings** বেছে নিন। এখানে আপনি:
 
@@ -106,6 +125,9 @@ password** বেছে নিন। আগের password দিন, তার�
 ---
 
 ## ৫. Dashboard
+
+![পুরো Dashboard।](images/manual/03-dashboard.png)
+*পুরো Dashboard, উপরের banner থেকে Recently logged পর্যন্ত।*
 
 Dashboard আপনার home page। উপর থেকে নিচে যা যা আছে:
 
@@ -157,10 +179,16 @@ Dashboard আপনার home page। উপর থেকে নিচে য�
 
 ## ৬. Paper log করা
 
+![My Papers: আপনার log করা সব paper, search আর filter সহ।](images/manual/06-my-papers.png)
+*My Papers: আপনার log করা সব paper, search আর filter সহ।*
+
 Dashboard-এ **Log paper**-এ click করুন, অথবা **My Papers → Add paper**। Form-এ তিনটা অংশ আছে।
 শুধু **Title** দেওয়া বাধ্যতামূলক।
 
 ### অংশ ১: Bibliographic details (paper-এর পরিচয়)
+
+![Add paper form (তিনটা অংশ)।](images/manual/07-paper-form.png)
+*Add paper form (তিনটা অংশ)।*
 
 - **Title**, **Authors** (কমা দিয়ে আলাদা করে), **Year**, **Venue** (conference বা journal),
   **DOI / URL**
@@ -197,6 +225,9 @@ Save করতে **Add paper**-এ click করুন।
 
 ### Edit আর delete
 
+![Novelty, research gap, methodology আর results সহ একটা paper-এর page।](images/manual/08-paper-detail.png)
+*Novelty, research gap, methodology আর results সহ একটা paper-এর page।*
+
 **My Papers** থেকে paper খুলুন, তারপর **Edit** বা **Delete**-এ click করুন। নিজের paper শুধু
 আপনি নিজেই edit করতে পারবেন। Admin-রা যেকোনো paper delete করতে পারেন।
 
@@ -207,6 +238,9 @@ Save করতে **Add paper**-এ click করুন।
 
 ## ৭. Research topics: কে কী পড়ছে
 
+![Topics, একটা topic খোলা অবস্থায়।](images/manual/09-topics.png)
+*Topics, একটা topic খোলা অবস্থায়।*
+
 Sidebar-এ **Topics**-এ click করুন। প্রতিটা topic-এর পাশে কয়টা paper আর কতজন পাঠক আছে, তা
 দেখায়।
 
@@ -215,6 +249,9 @@ Sidebar-এ **Topics**-এ click করুন। প্রতিটা topic-এ
 - পুরোটা দেখতে **Open topic page**-এ click করুন।
 
 ### Topic page
+
+![Topic page: প্রতিটা paper তার বিশ্লেষণ সহ, আর কে কে পড়ছেন।](images/manual/10-topic-page.png)
+*Topic page: প্রতিটা paper তার বিশ্লেষণ সহ, আর কে কে পড়ছেন।*
 
 **বাম দিকে: এই topic-এর সব paper।** প্রতিটা কার্ডে আছে:
 
@@ -238,6 +275,9 @@ select করা থাকবে।
 
 ## ৮. Progress: আপনার লক্ষ্য সবাইকে জানানো
 
+![Progress board।](images/manual/11-progress.png)
+*Progress board।*
+
 **Preparation** মানে এমন কিছু যার দিকে আপনি কাজ করছেন, যেমন কোনো topic শেখা, paper লেখা,
 experiment চালানো বা পরীক্ষার প্রস্তুতি। পুরো lab এটা দেখতে পায়।
 
@@ -248,12 +288,18 @@ experiment চালানো বা পরীক্ষার প্রস্ত
    নতুন শতাংশ ঠিক করুন, আর কী করেছেন লিখুন।
 4. **100%** হলে এটা নিজে থেকে **Completed** হয়ে যায়।
 
+![New preparation।](images/manual/12-new-preparation.png)
+*New preparation।*
+
 আপনার আপডেট দেখা যাবে **Progress** board-এ, আপনার profile-এ, topic-এর page-এ, **Activity**-তে,
 আর সবার Dashboard-এর **Latest lab updates**-এ।
 
 ---
 
 ## ৯. Deadlines, submissions আর poster
+
+![চলমান countdown আর poster সহ Deadlines।](images/manual/13-deadlines.png)
+*চলমান countdown আর poster সহ Deadlines।*
 
 **Deadlines** খুলুন। সবচেয়ে কাছের deadline অনুযায়ী venue সাজানো থাকে, চলমান countdown সহ:
 
@@ -274,6 +320,9 @@ title আর status (Planning, Writing, Submitted, Accepted বা Rejected) দ
 
 ### Conference বা journal যোগ করা (poster সহ)
 
+![Add conference / journal, একটা poster বেছে নেওয়া অবস্থায়।](images/manual/14-venue-form.png)
+*Add conference / journal, একটা poster বেছে নেওয়া অবস্থায়।*
+
 1. Deadlines page-এ **Add venue**-এ click করুন, অথবা Dashboard-এ *Next deadlines*-এর পাশে **+ Add**।
 2. **Name** (যেমন "BLP 2027"), **Type**, **Field / topic**, **Website** আর **Location** দিন।
 3. যে তারিখগুলো জানেন সেগুলো দিন: **Abstract deadline**, **Full paper deadline**, **Notification
@@ -283,6 +332,10 @@ title আর status (Planning, Writing, Submitted, Accepted বা Rejected) দ
 5. দরকার হলে **Notes** লিখুন (page limit, template link, AoE সময়…), তারপর **Add venue**-এ click করুন।
 
 Poster-টা deadline card-এ ছোট ছবি হিসেবে, আর venue page-এর উপরে বড় করে দেখাবে। সেখানে click করলে পুরো
+
+![Venue page: poster, সব তারিখ আর কে কে submit করবেন।](images/manual/15-venue-detail.png)
+*Venue page: poster, সব তারিখ আর কে কে submit করবেন।*
+
 আকারে খুলবে। বদলাতে বা মুছতে venue খুলে **Edit**-এ click করুন।
 
 Admin **"Members can add conferences & journals"** চালু রাখলে member-রা venue যোগ করতে পারেন। এটা আগে
@@ -297,11 +350,17 @@ Admin **"Members can add conferences & journals"** চালু রাখলে 
 
 ### Screen
 
+![Messages: বাম দিকে chat-এর তালিকা, ডান দিকে খোলা group chat (PDF আর ছবি সহ)।](images/manual/16-messages.png)
+*Messages: বাম দিকে chat-এর তালিকা, ডান দিকে খোলা group chat (PDF আর ছবি সহ)।*
+
 - **বাম দিকে:** আপনার সব chat, সবচেয়ে নতুনটা উপরে। প্রতিটা সারিতে শেষ message আর তার সময় দেখায়। মোটা
   লেখা আর নীল সংখ্যা মানে না-পড়া message আছে। 🔒 মানে admin ওই chat block করেছেন।
 - **ডান দিকে:** খোলা chat। আপনার message ডান দিকে নীল রঙে, অন্যদের message বাম দিকে।
 
 ### Chat শুরু করা
+
+![Member-এর চোখে: New chat, New group আর Message an admin।](images/manual/31-messages-member.png)
+*Member-এর চোখে: New chat, New group আর Message an admin।*
 
 - **একজনের সাথে:** নীল **✚ (New chat)** button-এ click করে একজনকে বেছে নিন। Admin-দের নাম সবার উপরে
   থাকে। **Members** থেকে কারো profile খুলে **Message**-এ click করলেও হবে।
@@ -310,6 +369,9 @@ Admin **"Members can add conferences & journals"** চালু রাখলে 
   **Create group**। আপনি group-এর **owner** হবেন।
 
 ### Message, ছবি আর file পাঠানো
+
+![New group: নাম দিন, member-দের পাশে টিক দিন।](images/manual/17-new-group.png)
+*New group: নাম দিন, member-দের পাশে টিক দিন।*
 
 - নিচের ঘরে লিখে **Enter** চাপলে message চলে যাবে। **Shift + Enter** চাপলে নতুন লাইন হবে। বাংলায়
   স্বাভাবিকভাবেই লেখা যায়।
@@ -335,6 +397,9 @@ click করলে খোলে বা download হয়।
 
 ### Group info
 
+![Group info: member, নাম বদলানো, যোগ বা বাদ দেওয়া, বেরিয়ে যাওয়া।](images/manual/18-group-info.png)
+*Group info: member, নাম বদলানো, যোগ বা বাদ দেওয়া, বেরিয়ে যাওয়া।*
+
 Group-এ উপরে ডান দিকে **ⓘ**-এ click করলে member-দের তালিকা দেখাবে। **Owner** (আর admin) group-এর **নাম
 বদলাতে**, **Add people** দিয়ে মানুষ যোগ করতে আর কাউকে বাদ দিতে পারেন। যে কেউ **Leave group** দিয়ে
 বেরিয়ে যেতে পারেন। Owner বেরিয়ে গেলে সবচেয়ে পুরনো member নতুন owner হন।
@@ -345,6 +410,9 @@ Group-এ উপরে ডান দিকে **ⓘ**-এ click করলে mem
 ---
 
 ## ১১. Notification আর reminder
+
+![ঘণ্টা: না-পড়া message, deadline আর Turn on desktop notifications।](images/manual/04-bell.png)
+*ঘণ্টা: না-পড়া message, deadline আর Turn on desktop notifications।*
 
 **App-এর ভেতরে**
 
@@ -371,12 +439,27 @@ app আপনাকে মনে করিয়ে দেয়। প্রত
 
 ## ১২. পুরো lab ঘুরে দেখা
 
+![Explore: lab-এর সব paper।](images/manual/21-explore.png)
+*Explore: lab-এর সব paper।*
+
 | Page | কীভাবে ব্যবহার করবেন |
 |---|---|
 | **Explore** | Lab-এর সব paper খুঁজুন। **topic, type, status, year বা member** দিয়ে filter করুন, আর সাজানোর ক্রম বদলান। Paper-এ click করলে তার note পড়া যাবে। |
 | **Members** | Lab-এর সবাই। কারো নামে click করলে তার profile, সংখ্যা, chart আর paper দেখা যাবে। অন্যের paper আপনি শুধু পড়তে পারবেন, বদলাতে পারবেন না। |
 | **Activity** | নতুন paper, submission আর progress আপডেটের timeline |
 | **Lab Stats** | পুরো lab-এর chart: মাস অনুযায়ী paper, topic, paper type আর top readers |
+
+![Members।](images/manual/19-members.png)
+*Members।*
+
+![একজন member-এর profile, Message button সহ।](images/manual/20-member-profile.png)
+*একজন member-এর profile, Message button সহ।*
+
+![Activity।](images/manual/22-activity.png)
+*Activity।*
+
+![Lab Stats।](images/manual/23-lab-stats.png)
+*Lab Stats।*
 
 ---
 
@@ -386,6 +469,9 @@ app আপনাকে মনে করিয়ে দেয়। প্রত
 users** link দেখতে পান না, ওই page খুলতে পারেন না, আর server-ও তাদের request বাতিল করে দেয়।
 
 ### ১৩.১ Dashboard-এর Admin overview
+
+![Admin → Overview।](images/manual/28-admin-overview.png)
+*Admin → Overview।*
 
 Admin-রা Dashboard-এ একটা বাড়তি সারি দেখেন। যেকোনো কার্ডে click করলে admin page-এ চলে যাবে।
 
@@ -397,6 +483,9 @@ Admin-রা Dashboard-এ একটা বাড়তি সারি দে�
 | **Blocked** | Block করা account |
 
 ### ১৩.২ Users পরিচালনা (Manage users)
+
+![Manage users: সারাংশ, filter, আর প্রতিটা সারিতে Edit / Block / Delete।](images/manual/25-admin-users.png)
+*Manage users: সারাংশ, filter, আর প্রতিটা সারিতে Edit / Block / Delete।*
 
 Sidebar-এ **Manage users**-এ click করুন, অথবা **Admin → Users**।
 
@@ -427,6 +516,9 @@ button-গুলো থাকে:
 > থাকবে। তাকে জানিয়ে দিন।
 
 ### ১৩.৩ নতুন user তৈরি করা
+
+![Create user।](images/manual/26-admin-create-user.png)
+*Create user।*
 
 1. **Manage users → Create user**।
 2. **পুরো নাম** লিখুন। `Rahim.IFL.04`-এর মতো একটা username নিজে থেকে প্রস্তাব করবে, চাইলে বদলাতে
@@ -462,6 +554,9 @@ Sidebar-এ **Admin** খুলুন। উপরের tab-গুলো হল
 | **Chats** | Lab-এর সব chat পড়া, block করা আর delete করা (১৩.৬ দেখুন) |
 
 ### ১৩.৬ Chat পরিচালনা
+
+![Admin → Chats: প্রতিটা chat-এ View, Block আর Delete।](images/manual/27-admin-chats.png)
+*Admin → Chats: প্রতিটা chat-এ View, Block আর Delete।*
 
 **Admin → Chats** খুলুন। Lab-এর সব direct chat আর group এখানে দেখায়, সাথে member, message-এর সংখ্যা আর
 শেষ কবে কথা হয়েছে। Search box আর **All / Direct / Groups / Blocked** filter দিয়ে খুঁজুন।

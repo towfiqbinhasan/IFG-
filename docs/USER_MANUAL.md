@@ -35,6 +35,9 @@ The screen has two fixed parts: a **sidebar** on the left and a **top bar**.
 
 **Sidebar:** click any item to open that page.
 
+![The screen: sidebar on the left, top bar with the bell, theme switch and your photo.](images/manual/29-reminder-toast.png)
+*The screen: sidebar on the left; top bar with the bell, theme switch and your photo. The yellow pop-up is a deadline reminder.*
+
 | Item | What it is for |
 |---|---|
 | **Dashboard** | Your home page: your numbers, goals, deadlines and what the lab is reading |
@@ -51,6 +54,9 @@ The screen has two fixed parts: a **sidebar** on the left and a **top bar**.
 
 **Top bar (top right):**
 
+![Click your photo for Profile & settings, Change password and Sign out.](images/manual/05-account-menu.png)
+*Click your photo for Profile & settings, Change password and Sign out.*
+
 - **🔔 Bell:** unread messages and deadlines due in the next 7 days. Admins also see password
   requests here. A red number shows how many items there are. The bell also has **Turn on
   desktop notifications** (see section 11).
@@ -62,6 +68,9 @@ The screen has two fixed parts: a **sidebar** on the left and a **top bar**.
 
 ## 2. Signing in for the first time
 
+![The sign-in page.](images/manual/01-login.png)
+*The sign-in page.*
+
 Your admin creates your account and sends you a **username** (for example `Rahim.IFL.03`) and a
 **temporary password**.
 
@@ -69,6 +78,10 @@ Your admin creates your account and sends you a **username** (for example `Rahim
 2. Type your **username** and **temporary password**, then click **Sign in**.
 3. You are asked to choose a **new password**. It needs **at least 8 characters**, with both
    **letters and numbers**. Type it twice and save.
+
+![First sign-in: choose your own password.](images/manual/30-change-password.png)
+*First sign-in: choose your own password.*
+
 4. You land on the **Dashboard**.
 
 > **Tip:** sign in with your username, not an email address.
@@ -76,6 +89,9 @@ Your admin creates your account and sends you a **username** (for example `Rahim
 ---
 
 ## 3. Forgot your password
+
+![Forgot password? sends a request to your admin.](images/manual/02-forgot-password.png)
+*Forgot password? sends a request to your admin.*
 
 1. On the sign-in page, click **Forgot password?**, next to the Password field.
 2. Enter your **username** and, if you like, a short note. Then click **Send request**.
@@ -88,6 +104,9 @@ password**. Enter your current password, then the new one twice.
 ---
 
 ## 4. Your profile
+
+![Profile & settings.](images/manual/24-profile.png)
+*Profile & settings.*
 
 Click your photo (top right) and choose **Profile & settings**. You can:
 
@@ -103,6 +122,9 @@ Click **Save**. Other members see this on the **Members** page and next to your 
 ---
 
 ## 5. The dashboard
+
+![The whole dashboard.](images/manual/03-dashboard.png)
+*The whole dashboard, from the banner down to Recently logged.*
 
 The dashboard is your home page. From top to bottom:
 
@@ -155,10 +177,16 @@ first paper.
 
 ## 6. Logging a paper
 
+![My Papers: everything you have logged, with search and filters.](images/manual/06-my-papers.png)
+*My Papers: everything you have logged, with search and filters.*
+
 Click **Log paper** on the dashboard, or **My Papers → Add paper**. The form has three parts.
 Only the **Title** is required.
 
 ### Part 1: Bibliographic details
+
+![The Add paper form (all three parts).](images/manual/07-paper-form.png)
+*The Add paper form (all three parts).*
 
 - **Title**, **Authors** (comma-separated), **Year**, **Venue** (conference or journal),
   **DOI / URL**
@@ -195,6 +223,9 @@ Click **Add paper** to save.
 
 ### Editing and deleting
 
+![A paper page with novelty, research gap, methodology and results.](images/manual/08-paper-detail.png)
+*A paper page with novelty, research gap, methodology and results.*
+
 Open the paper from **My Papers**, then click **Edit** or **Delete**. Only you can edit your own
 papers. Admins can delete any paper.
 
@@ -205,6 +236,9 @@ papers. Admins can delete any paper.
 
 ## 7. Research topics: who reads what
 
+![Topics, with one topic opened.](images/manual/09-topics.png)
+*Topics, with one topic opened.*
+
 Click **Topics** in the sidebar. Every topic shows how many papers and readers it has.
 
 - Click a topic to expand it. You see who is reading it, the latest papers, and anyone
@@ -212,6 +246,9 @@ Click **Topics** in the sidebar. Every topic shows how many papers and readers i
 - Click **Open topic page** for the full view.
 
 ### The topic page
+
+![A topic page: every paper with its analysis, and who is reading it.](images/manual/10-topic-page.png)
+*A topic page: every paper with its analysis, and who is reading it.*
 
 **Left: every paper on this topic.** Each card shows:
 
@@ -235,6 +272,9 @@ selected.
 
 ## 8. Progress: sharing your goals
 
+![The Progress board.](images/manual/11-progress.png)
+*The Progress board.*
+
 A **preparation** is something you are working towards, for example learning a topic, writing
 a paper, running an experiment or preparing for an exam. The whole lab can see it.
 
@@ -245,12 +285,18 @@ a paper, running an experiment or preparing for an exam. The whole lab can see i
    percentage with the slider or the 10/25/50/75/100% buttons, and write what you did.
 4. At **100%** it is marked **Completed** automatically.
 
+![New preparation.](images/manual/12-new-preparation.png)
+*New preparation.*
+
 Your updates appear on the **Progress** board, on your profile, on the topic's page, in
 **Activity**, and in **Latest lab updates** on everyone's dashboard.
 
 ---
 
 ## 9. Deadlines, submissions and posters
+
+![Deadlines with live countdowns and posters.](images/manual/13-deadlines.png)
+*Deadlines with live countdowns and posters.*
 
 Open **Deadlines**. Venues are sorted by their nearest deadline, with a live countdown:
 
@@ -271,6 +317,9 @@ It appears under **My submissions** on your dashboard.
 
 ### Adding a conference or journal (with a poster)
 
+![Add conference / journal, with a poster chosen.](images/manual/14-venue-form.png)
+*Add conference / journal, with a poster chosen.*
+
 1. Click **Add venue** on the Deadlines page, or **+ Add** under *Next deadlines* on the
    dashboard.
 2. Enter the **Name** (for example "BLP 2027"), **Type**, **Field / topic**, **Website** and
@@ -282,6 +331,10 @@ It appears under **My submissions** on your dashboard.
 5. Add **Notes** if useful (page limit, template link, AoE time…), then click **Add venue**.
 
 The poster appears as a small picture on the deadline cards and large at the top of the venue
+
+![A venue page: poster, all dates and who plans to submit.](images/manual/15-venue-detail.png)
+*A venue page: poster, all dates and who plans to submit.*
+
 page. Click it there to open it full size. To change or remove it, open the venue and click
 **Edit**.
 
@@ -297,12 +350,18 @@ edit or delete any venue.
 
 ### The screen
 
+![Messages: chats on the left, the open group chat on the right (with a PDF and an image).](images/manual/16-messages.png)
+*Messages: chats on the left, the open group chat on the right (with a PDF and an image).*
+
 - **Left:** your chats, newest first. Each row shows the last message and its time. Bold text
   and a blue number mean unread messages. A 🔒 means an admin has blocked that chat.
 - **Right:** the open chat. Your messages are on the right in blue; other people's are on the
   left.
 
 ### Start a chat
+
+![A member's view, with New chat, New group and Message an admin.](images/manual/31-messages-member.png)
+*A member's view, with New chat, New group and Message an admin.*
 
 - **One-to-one:** click the blue **✚ (New chat)** button and pick a person. Admins are listed
   first. You can also open someone's profile from **Members** and click **Message**.
@@ -311,6 +370,9 @@ edit or delete any venue.
   click **Create group**. You become the group's **owner**.
 
 ### Send messages, images and files
+
+![New group: name it and tick the members.](images/manual/17-new-group.png)
+*New group: name it and tick the members.*
 
 - Type in the box at the bottom and press **Enter** to send. **Shift + Enter** starts a new
   line. Bangla typing works normally.
@@ -337,6 +399,9 @@ Hover over a message and click **⋮**:
 
 ### Group info
 
+![Group info: members, rename, add or remove people, leave.](images/manual/18-group-info.png)
+*Group info: members, rename, add or remove people, leave.*
+
 In a group, click **ⓘ** at the top right to see the members. The **owner** (and admins) can
 **rename** the group, **Add people** and remove members. Anyone can **Leave group**. If the
 owner leaves, the longest-standing member becomes the new owner.
@@ -347,6 +412,9 @@ owner leaves, the longest-standing member becomes the new owner.
 ---
 
 ## 11. Notifications and reminders
+
+![The bell: unread messages, deadlines and Turn on desktop notifications.](images/manual/04-bell.png)
+*The bell: unread messages, deadlines and Turn on desktop notifications.*
 
 **In the app**
 
@@ -377,12 +445,27 @@ system.
 
 ## 12. Exploring the lab
 
+![Explore: every paper in the lab.](images/manual/21-explore.png)
+*Explore: every paper in the lab.*
+
 | Page | How to use it |
 |---|---|
 | **Explore** | Search every paper in the lab. Filter by **topic, type, status, year or member**, and change the sort order. Click a paper to read its notes. |
 | **Members** | Everyone in the lab. Click a person to see their profile, numbers, charts and papers. Their papers are read-only for you. |
 | **Activity** | A timeline of new papers, submissions and progress updates |
 | **Lab Stats** | Lab-wide charts: papers per month, topics, paper types and top readers |
+
+![Members.](images/manual/19-members.png)
+*Members.*
+
+![A member's profile, with the Message button.](images/manual/20-member-profile.png)
+*A member's profile, with the Message button.*
+
+![Activity.](images/manual/22-activity.png)
+*Activity.*
+
+![Lab Stats.](images/manual/23-lab-stats.png)
+*Lab Stats.*
 
 ---
 
@@ -394,6 +477,9 @@ requests.
 
 ### 13.1 The admin overview on the dashboard
 
+![Admin → Overview.](images/manual/28-admin-overview.png)
+*Admin → Overview.*
+
 Admins see an extra row on the dashboard. Click any tile to jump to the admin pages.
 
 | Tile | Meaning |
@@ -404,6 +490,9 @@ Admins see an extra row on the dashboard. Click any tile to jump to the admin pa
 | **Blocked** | Blocked accounts |
 
 ### 13.2 Manage users
+
+![Manage users: summary, filters, and Edit / Block / Delete on every row.](images/manual/25-admin-users.png)
+*Manage users: summary, filters, and Edit / Block / Delete on every row.*
 
 Open **Manage users** in the sidebar, or **Admin → Users**.
 
@@ -434,6 +523,9 @@ these buttons:
 > their password stays the same. Tell them about the change.
 
 ### 13.3 Create a user
+
+![Create user.](images/manual/26-admin-create-user.png)
+*Create user.*
 
 1. **Manage users → Create user**.
 2. Type the **full name**. A username like `Rahim.IFL.04` is suggested, and you can change it.
@@ -468,6 +560,9 @@ Open **Admin** in the sidebar. The tabs along the top are:
 | **Chats** | Every chat in the lab: read, block and delete (see 13.6) |
 
 ### 13.6 Moderating chats
+
+![Admin → Chats: View, Block and Delete for every chat.](images/manual/27-admin-chats.png)
+*Admin → Chats: View, Block and Delete for every chat.*
 
 Open **Admin → Chats**. Every direct chat and group in the lab is listed, with its members,
 the number of messages and the last activity. Use the search box and the **All / Direct /

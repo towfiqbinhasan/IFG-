@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Builds docs/USER_MANUAL.pdf (English) and docs/USER_MANUAL.bn.pdf (Bangla)
- * from the Markdown manuals, using headless Google Chrome.
+ * from the Markdown manuals (with their screenshots in docs/images/manual/),
+ * using headless Google Chrome.
  *
  *   npm run manual:pdf
  *
@@ -69,6 +70,11 @@ const css = (font) => `
   blockquote { margin: 10pt 0; padding: 7pt 11pt; border-left: 3.5pt solid #22b0f0; background: #eef8fe; border-radius: 0 6pt 6pt 0; break-inside: avoid; }
   blockquote p { margin: 0; }
   ul, ol { padding-left: 18pt; }
+  /* Screenshots: centred, framed, never split across pages; caption underneath. */
+  p:has(> img) { text-align: center; font-size: 8.8pt; color: #64748b; break-inside: avoid; margin: 10pt 0 12pt; }
+  p:has(> img) em { font-style: normal; }
+  img { display: block; margin: 0 auto 4pt; max-width: 100%; max-height: 225mm; width: auto; height: auto;
+        border: 0.8pt solid #cbd5e1; border-radius: 6pt; box-shadow: 0 2pt 8pt rgb(15 23 42 / 0.12); }
   .cover { background: linear-gradient(135deg, #0a2a5e, #1565c0 55%, #22b0f0); color: #fff; border-radius: 12pt; padding: 22pt 24pt; margin-bottom: 14pt; }
   .cover h1 { color: #fff; }
   .cover p, .cover strong, .cover a { color: #e6f4ff; }
@@ -80,7 +86,9 @@ for (const m of MANUALS) {
   // Wrap the title, subtitle and language line in a branded cover block.
   const firstHr = body.indexOf("<hr");
   const [cover, rest] = firstHr > 0 ? [body.slice(0, firstHr), body.slice(firstHr)] : ["", body];
-  const html = `<!doctype html><html lang="${m.lang}"><head><meta charset="utf-8"><title>User Manual</title>
+  // <base> so relative image paths (images/manual/...) resolve from docs/.
+  const base = pathToFileURL(join(root, "docs") + "/").href;
+  const html = `<!doctype html><html lang="${m.lang}"><head><meta charset="utf-8"><base href="${base}"><title>User Manual</title>
     <style>${css(m.font)}</style></head><body><div class="cover">${cover}</div>${rest}</body></html>`;
 
   const dir = mkdtempSync(join(tmpdir(), "manual-"));
@@ -89,7 +97,7 @@ for (const m of MANUALS) {
   const out = join(root, m.out);
   execFileSync(
     chrome,
-    ["--headless=new", "--disable-gpu", "--no-pdf-header-footer", `--print-to-pdf=${out}`, pathToFileURL(htmlPath).href],
+    ["--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--allow-file-access-from-files", "--virtual-time-budget=15000", `--print-to-pdf=${out}`, pathToFileURL(htmlPath).href],
     { stdio: ["ignore", "ignore", "pipe"] },
   );
   console.log(`✓ ${m.out}`);
